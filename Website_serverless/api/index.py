@@ -425,7 +425,7 @@ def record_payment():
                 "company_address": company_address,
                 "start_date": start_date_str,
                 "end_date": end_date_str
-            }).execute()
+            }, returning="minimal").execute()
             print("Successfully recorded payment to billing_transactions table.")
             db_success = True
         except Exception as db_err:
@@ -438,7 +438,7 @@ def record_payment():
                     "name": "Payment Record",
                     "email": email,
                     "message": message_body
-                }).execute()
+                }, returning="minimal").execute()
                 print("Successfully recorded payment to contact_messages fallback.")
                 db_success = True
             except Exception as fallback_err:
@@ -450,13 +450,21 @@ def record_payment():
                 existing_teams = supabase.table("company_teams").select("ct_id").eq("admin_email", email).execute()
                 if not existing_teams.data:
                     comp_code = random.randint(100000, 999999)
+                    
+                    # Query current max ct_id because company_teams does not auto-generate ct_id
+                    max_id_res = supabase.table("company_teams").select("ct_id").order("ct_id", desc=True).limit(1).execute()
+                    next_ct_id = 100
+                    if max_id_res.data:
+                        next_ct_id = max_id_res.data[0]["ct_id"] + 1
+                    
                     supabase.table("company_teams").insert({
+                        "ct_id": next_ct_id,
                         "company_name": company_name,
                         "team_name": "Default Team",
                         "company_code": comp_code,
                         "admin_email": email
-                    }).execute()
-                    print(f"Created default company team for {email} with code {comp_code}")
+                    }, returning="minimal").execute()
+                    print(f"Created default company team for {email} with code {comp_code} (ct_id: {next_ct_id})")
             except Exception as team_err:
                 print(f"Could not create default company team: {team_err}")
 
