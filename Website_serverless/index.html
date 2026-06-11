@@ -1689,12 +1689,12 @@
                             <thead>
                                 <tr class="border-b" style="border-color:var(--border-glass);">
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Payment Date</th>
-                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-center" style="color:var(--text-tertiary);">Users</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-center" style="color:var(--text-tertiary);">User</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-center" style="color:var(--text-tertiary);">Months</th>
-                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Paid</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Paid (₹)</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Starting</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Ending</th>
-                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Status (X)</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="profile-modal-tx-tbody">
@@ -1758,7 +1758,9 @@
 
     <!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
     <script>
-        const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:5601' : '';
+        const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') 
+            ? (window.location.port === '5601' ? '' : 'http://127.0.0.1:5601') 
+            : '';
 
         // ── Pricing Logic (fully preserved) ──
         const btnMonthly = document.getElementById('btn-monthly');
@@ -2210,16 +2212,16 @@
                                 const amount = calculateProfilePaymentPrice(tx.plan, tx.users_count, tx.months);
                                 const startStr = formatDateDDMMYYYY(tx.start_date);
                                 const endStr = formatDateDDMMYYYY(tx.end_date);
-                                const createdStr = formatDateDDMMYYYY(tx.start_date);
+                                const createdStr = formatDateDDMMYYYY(tx.created_at || tx.start_date);
                                 
                                 let statusBadge = '';
-                                const status = tx.approved || 'pending';
-                                if (status === 'approved') {
+                                const status = (tx.Approved || tx.approved || 'pending').toLowerCase();
+                                if (status === 'approved' || status === 'yes') {
                                     statusBadge = '<span class="text-green-400 font-bold">Approved ✅</span>';
-                                } else if (status === 'rejected') {
+                                } else if (status === 'rejected' || status === 'no') {
                                     statusBadge = '<span class="text-red-400 font-bold">Rejected ❌</span>';
                                 } else {
-                                    statusBadge = '<span class="text-yellow-400 font-bold">Pending ⏳</span>';
+                                    statusBadge = '<span class="text-yellow-400 font-bold">In Progress ⏳</span>';
                                 }
 
                                 tr.innerHTML = `
