@@ -424,7 +424,8 @@ def record_payment():
                 "company_name": company_name,
                 "company_address": company_address,
                 "start_date": start_date_str,
-                "end_date": end_date_str
+                "end_date": end_date_str,
+                "Approved": "pending"
             }, returning="minimal").execute()
             print("Successfully recorded payment to billing_transactions table.")
             db_success = True
@@ -478,6 +479,42 @@ def record_payment():
 
     except Exception as e:
         print("RECORD PAYMENT ERROR:", e, flush=True)
+        return jsonify({"success": False, "error": "Internal server error"}), 500
+
+# 6. Get User Profile & Transaction Details
+@app.route("/api/user/profile", methods=["POST"])
+def get_user_profile():
+    data = request.get_json(silent=True) or {}
+    email = data.get("email")
+    if not email:
+        return jsonify({"success": False, "error": "Email is required"}), 400
+
+    try:
+        # 1. Fetch user name from web_users
+        user_res = supabase.table("web_users").select("name").eq("email", email).execute()
+        name = user_res.data[0].get("name", "User") if user_res.data else "User"
+
+        # 2. Fetch all transactions for this user
+        tx_res = supabase.table("billing_transactions").select("*").eq("user_email", email).order("created_at", desc=True).execute()
+        transactions = tx_res.data or []
+
+        # 3. Get company details from latest transaction
+        company_name = ""
+        company_address = ""
+        if transactions:
+            company_name = transactions[0].get("company_name", "")
+            company_address = transactions[0].get("company_address", "")
+
+        return jsonify({
+            "success": True,
+            "name": name,
+            "email": email,
+            "company_name": company_name,
+            "company_address": company_address,
+            "transactions": transactions
+        })
+    except Exception as e:
+        print("GET PROFILE ERROR:", e, flush=True)
         return jsonify({"success": False, "error": "Internal server error"}), 500
 
 if __name__ == "__main__":
