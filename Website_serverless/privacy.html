@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Privacy Policy - ProSync</title>
+    <meta name="description" content="ProSync Privacy Policy. Learn how we collect, use, and protect your data with our privacy-first employee productivity platform."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255,255,255,0.82);
+            --bg-footer: #0f172a;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --accent-1: #6366f1;
+            --accent-2: #14b8a6;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #14b8a6);
+            --accent-gradient-text: linear-gradient(135deg, #6366f1, #14b8a6);
+            --accent-glow: rgba(99,102,241,0.12);
+        }
+        .dark {
+            --bg-primary: #0a0f1e;
+            --bg-secondary: #0f1629;
+            --bg-tertiary: #151d35;
+            --bg-card: rgba(21,29,53,0.70);
+            --bg-nav: rgba(10,15,30,0.85);
+            --bg-footer: #060a14;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --border-primary: rgba(99,102,241,0.12);
+            --border-secondary: rgba(148,163,184,0.15);
+            --accent-glow: rgba(99,102,241,0.18);
+        }
+
+        body { background: var(--bg-primary); color: var(--text-primary); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 4px; }
+        .gradient-text { background: var(--accent-gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-glass { background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-primary); transition: box-shadow 0.3s ease; }
+        .nav-glass.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .nav-link { position: relative; color: var(--text-tertiary); font-weight: 500; font-size: 14px; transition: color 0.25s ease; text-decoration: none; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--accent-gradient); border-radius: 1px; transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .btn-primary { background: var(--accent-gradient); color: #fff; font-weight: 600; padding: 12px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px rgba(99,102,241,0.30); text-decoration: none; display: inline-block; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.40); }
+        .theme-btn { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--bg-tertiary); border: 1px solid var(--border-primary); color: var(--text-tertiary); cursor: pointer; transition: all 0.25s ease; }
+        .theme-btn:hover { color: var(--accent-1); border-color: var(--accent-1); background: var(--accent-glow); }
+        .site-footer { background: var(--bg-footer); color: #94a3b8; }
+        .dark .site-footer { background: #060a14; border-top: 1px solid rgba(99,102,241,0.10); }
+        html { scroll-behavior: smooth; }
+
+        /* Legal page styles */
+        .legal-content { max-width: 800px; margin: 0 auto; }
+        .legal-content h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        .legal-content h3 {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        .legal-content p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+        .legal-content li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .legal-content strong { color: var(--text-primary); }
+        .legal-content a { color: var(--accent-1); text-decoration: underline; transition: opacity 0.2s; }
+        .legal-content a:hover { opacity: 0.8; }
+        .legal-content a.btn-primary { color: #ffffff !important; text-decoration: none !important; }
+        .legal-content a.btn-primary:hover { color: #ffffff !important; opacity: 0.9 !important; }
+        .legal-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+            border-radius: 100px; background: rgba(99,102,241,0.08); color: var(--accent-1);
+            border: 1px solid rgba(99,102,241,0.18); font-size: 13px; font-weight: 600;
+        }
+        .toc-link {
+            display: block; padding: 8px 0; font-size: 14px; color: var(--text-tertiary);
+            text-decoration: none; transition: color 0.2s; border-bottom: 1px solid var(--border-primary);
+        }
+        .toc-link:hover { color: var(--accent-1); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="main-nav" class="nav-glass fixed top-0 w-full z-50">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between h-[64px] px-6">
+            <a href="index.html" class="font-display text-[22px] font-extrabold gradient-text tracking-tight">ProSync</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link" href="index.html#home">Home</a>
+                <a class="nav-link" href="index.html#features">Features</a>
+                <a class="nav-link" href="index.html#pricing">Pricing</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a id="nav-dashboard" class="nav-link hidden" href="index.html#product">Product</a>
+            </div>
+            <div class="flex items-center gap-3 relative">
+                <button id="theme-toggle" class="theme-btn" type="button" title="Toggle Light/Dark Mode">
+                    <span class="material-symbols-outlined text-[20px]" id="theme-toggle-icon">dark_mode</span>
+                </button>
+                <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="index.html#login" style="text-decoration:none;">Get Started</a>
+                
+                <!-- Profile dropdown (hidden until logged in) -->
+                <div id="nav-profile" class="hidden relative">
+                    <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
+                        <div class="px-4 py-3 border-b flex flex-col" style="border-color:var(--border-primary);">
+                            <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
+                            <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
+                        </div>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER -->
+    <section class="pt-[140px] pb-[60px] px-6" style="background:var(--bg-secondary);">
+        <div class="legal-content text-center">
+            <div class="legal-badge mb-4">
+                <span class="material-symbols-outlined text-[16px]">shield</span>
+                Legal
+            </div>
+            <h1 class="font-display text-[40px] md:text-[52px] font-extrabold leading-tight mb-4" style="color:var(--text-primary);">Privacy Policy</h1>
+            <p class="text-[17px] mb-2" style="color:var(--text-tertiary);">Your privacy matters to us. This policy explains how ProSync collects, uses, and safeguards your information.</p>
+            <p class="text-[14px]" style="color:var(--text-tertiary);">Last Updated: <strong style="color:var(--text-secondary);">June 8, 2026</strong> &middot; Effective Date: <strong style="color:var(--text-secondary);">June 8, 2026</strong></p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="py-[60px] px-6" style="background:var(--bg-primary);">
+        <div class="legal-content">
+
+            <!-- Table of Contents -->
+            <div class="mb-12 p-6 rounded-2xl" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <h3 class="text-[16px] font-bold mb-4" style="color:var(--text-primary);">Table of Contents</h3>
+                <a href="#introduction" class="toc-link">1. Introduction</a>
+                <a href="#info-collect" class="toc-link">2. Information We Collect</a>
+                <a href="#info-not-collect" class="toc-link">3. Information We Do NOT Collect</a>
+                <a href="#how-use" class="toc-link">4. How We Use Your Information</a>
+                <a href="#data-sharing" class="toc-link">5. Data Sharing & Third Parties</a>
+                <a href="#data-storage" class="toc-link">6. Data Storage & Retention</a>
+                <a href="#cookies" class="toc-link">7. Cookies & Local Storage</a>
+                <a href="#your-rights" class="toc-link">8. Your Rights</a>
+                <a href="#children" class="toc-link">9. Children's Privacy</a>
+                <a href="#international" class="toc-link">10. International Data Transfers</a>
+                <a href="#changes" class="toc-link">11. Changes to This Policy</a>
+                <a href="#contact" class="toc-link" style="border:none;">12. Contact Us</a>
+            </div>
+
+            <!-- Section 1 -->
+            <h2 id="introduction">1. Introduction</h2>
+            <p>Welcome to ProSync ("we," "our," or "us"). ProSync is an employee productivity monitoring platform designed to help organizations track, analyze, and optimize workforce performance in a privacy-conscious manner. We are committed to protecting the privacy and security of all individuals whose data we process.</p>
+            <p>This Privacy Policy describes our practices regarding the collection, use, storage, and disclosure of information when you use the ProSync platform, including our website, desktop agents, cloud dashboard, and any associated services (collectively, the "Service"). By accessing or using our Service, you acknowledge that you have read, understood, and agree to be bound by the terms of this Privacy Policy.</p>
+            <p>We believe that privacy and productivity are not mutually exclusive. Our platform is built on the principle of <strong>minimal data collection</strong>  &mdash; we gather only what is strictly necessary to deliver meaningful productivity insights to your organization, and nothing more.</p>
+
+            <!-- Section 2 -->
+            <h2 id="info-collect">2. Information We Collect</h2>
+            <p>We collect information in several categories, each serving a specific and limited purpose within the platform. Below is a comprehensive breakdown of the types of data we collect:</p>
+
+            <h3>2.1 Account Information</h3>
+            <p>When you register for a ProSync account, we collect the following:</p>
+            <ul>
+                <li><strong>Full Name</strong>  &mdash; Used for display purposes within the dashboard and reports.</li>
+                <li><strong>Email Address</strong>  &mdash; Used for authentication, OTP verification, account recovery, and essential service communications.</li>
+                <li><strong>Password</strong>  &mdash; Stored in hashed form (SHA-256 or equivalent) and never in plaintext. We cannot and do not read your password.</li>
+                <li><strong>Organization/Company Name</strong>  &mdash; Used for team management and administrative purposes (if applicable).</li>
+            </ul>
+
+            <h3>2.2 Productivity Data</h3>
+            <p>The core of our service involves collecting productivity-related metrics from enrolled devices. This data is strictly limited to:</p>
+            <ul>
+                <li><strong>Active Application Names</strong>  &mdash; The name of the application currently in the foreground (e.g., "Google Chrome," "Microsoft Word," "Visual Studio Code"). We record only the application name, not the content within the application.</li>
+                <li><strong>Active Tab/Window Titles</strong>  &mdash; The title of the active tab or window (e.g., "Q4 Budget Report - Google Sheets"). This helps categorize work activities into productive and non-productive categories.</li>
+                <li><strong>Blurred Screenshots</strong>  &mdash; Periodic screen captures that are <strong>automatically blurred locally on the device</strong> with a 15% Gaussian blur filter <strong>before</strong> any upload occurs. This ensures that sensitive information such as passwords, personal messages, financial details, or private documents are not readable in the captured images. The blurring process happens entirely on the client device  &mdash; our servers never receive an unblurred screenshot.</li>
+                <li><strong>Focus & Idle Time Metrics</strong>  &mdash; Duration of active focus periods, idle periods, and break times. These are calculated from mouse movement, keyboard activity, and application switching patterns.</li>
+                <li><strong>Keyboard & Mouse Activity Density</strong>  &mdash; We measure the <em>density</em> (frequency of actions per time interval) of keyboard and mouse interactions. <strong>We do NOT log individual keystrokes, key names, mouse coordinates, or any input content.</strong> This data is used solely for our anti-jiggler detection system, which identifies artificially generated input patterns.</li>
+                <li><strong>Clock In/Clock Out Timestamps</strong>  &mdash; If shift tracking is enabled, we record the times when a user starts and ends their work session.</li>
+                <li><strong>Break Durations</strong>  &mdash; The start and end time of detected or manually logged breaks during a shift.</li>
+            </ul>
+
+            <h3>2.3 Device Information</h3>
+            <p>We collect limited device metadata to support multi-device management and troubleshooting:</p>
+            <ul>
+                <li><strong>Operating System Name & Version</strong> (e.g., "Windows 11 23H2")</li>
+                <li><strong>Device Hostname</strong></li>
+                <li><strong>ProSync Agent Version Number</strong></li>
+                <li><strong>Network connectivity status</strong> (online/offline  &mdash; not IP address or network details)</li>
+            </ul>
+
+            <h3>2.4 Usage Data</h3>
+            <p>We automatically collect certain technical data when you interact with our web dashboard:</p>
+            <ul>
+                <li>Pages visited within the ProSync dashboard</li>
+                <li>Feature usage patterns (e.g., which reports are generated most frequently)</li>
+                <li>Browser type and version</li>
+                <li>Session duration</li>
+            </ul>
+
+            <!-- Section 3 -->
+            <h2 id="info-not-collect">3. Information We Do NOT Collect</h2>
+            <p>We want to be explicitly clear about the types of data our platform <strong>does not</strong> collect, process, or store under any circumstances:</p>
+            <ul>
+                <li><strong>Keystrokes or key names</strong>  &mdash; We never log what you type. Our keyboard activity measurement is limited to density metrics (actions per minute) for anti-jiggler detection only.</li>
+                <li><strong>Unblurred screenshots</strong>  &mdash; All screenshots are blurred locally on the device before upload. Our servers never see clear screen captures.</li>
+                <li><strong>Email content, messages, or chat logs</strong>  &mdash; We do not read, scan, or process the content of your emails, instant messages, Slack messages, or any private communications.</li>
+                <li><strong>File contents or documents</strong>  &mdash; We do not access, read, copy, or transmit the contents of any files on the user's device.</li>
+                <li><strong>Browsing history or URLs</strong>  &mdash; We record active tab titles for categorization, but we do not log full URLs, browsing history, or web navigation patterns.</li>
+                <li><strong>Personal photos, videos, or media</strong>  &mdash; We do not access, scan, or transmit any personal media files from the device.</li>
+                <li><strong>Location data or GPS coordinates</strong>  &mdash; ProSync does not track physical location.</li>
+                <li><strong>Biometric data</strong>  &mdash; We do not collect fingerprints, facial recognition data, voice prints, or any biometric identifiers.</li>
+                <li><strong>Social media activity</strong>  &mdash; We do not monitor, track, or collect data from personal social media accounts.</li>
+                <li><strong>Financial or banking information</strong>  &mdash; We do not collect credit card numbers, bank account details, or financial records (payment processing, if any, is handled by third-party payment processors).</li>
+                <li><strong>Health or medical information</strong>  &mdash; We do not collect any health-related data.</li>
+            </ul>
+            <p>In summary: <strong>other than a blurred screenshot, an application name, and a tab/window title, we do not take any type of private or personal data from the monitored device.</strong> Our platform is designed to measure productivity patterns, not to surveil individual behavior.</p>
+
+            <!-- Section 4 -->
+            <h2 id="how-use">4. How We Use Your Information</h2>
+            <p>The information we collect is used exclusively for the following purposes:</p>
+            <ul>
+                <li><strong>Delivering the Service</strong>  &mdash; Generating productivity reports, focus analytics, shift tracking summaries, and dashboard visualizations for authorized administrators.</li>
+                <li><strong>Authentication & Security</strong>  &mdash; Verifying user identity through email/password authentication and OTP verification to prevent unauthorized access.</li>
+                <li><strong>Anti-Jiggler Detection</strong>  &mdash; Analyzing keyboard and mouse activity density patterns to identify and flag artificially generated input, ensuring the accuracy and integrity of productivity data.</li>
+                <li><strong>Product Improvement</strong>  &mdash; Analyzing aggregated, anonymized usage patterns to improve the platform's features, performance, and user experience. Individual user data is never used for this purpose.</li>
+                <li><strong>Customer Support</strong>  &mdash; Accessing account information and technical logs (with your permission) to diagnose and resolve issues you report.</li>
+                <li><strong>Service Communications</strong>  &mdash; Sending essential notifications such as OTP codes, password reset links, scheduled report deliveries, and critical service announcements.</li>
+                <li><strong>Compliance & Legal Obligations</strong>  &mdash; Processing data as required by applicable laws, regulations, or valid legal processes.</li>
+            </ul>
+            <p>We do <strong>not</strong> use your data for advertising, profiling for marketing purposes, selling to data brokers, or any purpose unrelated to the core functionality of the ProSync platform.</p>
+
+            <!-- Section 5 -->
+            <h2 id="data-sharing">5. Data Sharing & Third Parties</h2>
+            <p><strong>ProSync does not sell, rent, lease, or trade your personal data or productivity data to any third party, under any circumstances.</strong></p>
+            <p>We may share limited data only in the following narrowly defined situations:</p>
+            <ul>
+                <li><strong>With Your Organization's Administrators</strong>  &mdash; Productivity data, reports, and analytics are shared with the authorized administrators of the organization that has enrolled the user in ProSync. This is the core purpose of the platform.</li>
+                <li><strong>Infrastructure Providers</strong>  &mdash; We use trusted cloud infrastructure providers (such as Supabase, AWS, or similar) to host our databases and services. These providers are bound by strict data processing agreements and do not have independent access to use your data. They act solely as data processors under our instruction.</li>
+                <li><strong>Legal Requirements</strong>  &mdash; We may disclose data if required by law, regulation, court order, subpoena, or other valid legal process. We will make reasonable efforts to notify the affected organization before disclosing data, unless prohibited by law from doing so.</li>
+                <li><strong>Business Transfers</strong>  &mdash; In the event of a merger, acquisition, or sale of assets, user data may be transferred to the successor entity. We will provide notice before data is transferred and becomes subject to a different privacy policy.</li>
+                <li><strong>With Your Explicit Consent</strong>  &mdash; We may share data with third parties if you or your organization's authorized administrator provides explicit, informed consent.</li>
+            </ul>
+            <p>We do <strong>not</strong> share data with advertising networks, analytics companies (beyond basic website analytics for our own dashboard), social media platforms, or any entity that would use the data for purposes unrelated to delivering the ProSync service.</p>
+
+            <!-- Section 6 -->
+            <h2 id="data-storage">6. Data Storage & Retention</h2>
+            <p>We store your data securely using industry-standard encryption and access controls. The following retention periods apply:</p>
+            <ul>
+                <li><strong>Account Information</strong>  &mdash; Retained for as long as the account is active. Upon account deletion, personal data is permanently removed within 30 days.</li>
+                <li><strong>Blurred Screenshots</strong>  &mdash; Stored in encrypted cloud storage. For Lite plans, screenshots are retained for up to 60 days. For Pro plans, screenshots are automatically purged after 91 days. Local copies on the device are purged according to the same schedule. Enterprise customers may configure custom retention periods.</li>
+                <li><strong>Productivity Logs & Analytics</strong>  &mdash; Retained based on the subscription plan: 60 days for Lite, up to 1 year (365 days) for Pro, and configurable for Enterprise.</li>
+                <li><strong>System Logs & Audit Trails</strong>  &mdash; Administrative action logs and security audit trails are retained for up to 2 years for compliance and forensic purposes.</li>
+            </ul>
+            <p>After the applicable retention period expires, data is permanently and irreversibly deleted from our systems, including all backups, within 30 days of the expiration date.</p>
+
+            <!-- Section 7 -->
+            <h2 id="cookies">7. Cookies & Local Storage</h2>
+            <p>Our web dashboard uses the following client-side storage mechanisms:</p>
+            <ul>
+                <li><strong>Session Cookies</strong>  &mdash; Essential cookies required for authentication and maintaining your logged-in session. These are strictly necessary for the platform to function and cannot be disabled.</li>
+                <li><strong>Local Storage</strong>  &mdash; We use the browser's localStorage to save your theme preference (light/dark mode), session tokens, and display name for a seamless user experience. This data remains on your device and is not transmitted to our servers.</li>
+            </ul>
+            <p>We do <strong>not</strong> use tracking cookies, advertising cookies, or third-party analytics cookies. We do not participate in cross-site tracking or behavioral advertising of any kind.</p>
+
+            <!-- Section 8 -->
+            <h2 id="your-rights">8. Your Rights</h2>
+            <p>Depending on your jurisdiction and your subscription plan type, you may have the following rights regarding your personal data:</p>
+
+            <h3>8.1 Individual Plan (Lite) Users</h3>
+            <p>If you are subscribed to an <strong>Individual (Lite) plan</strong>, you are both the account owner and the sole user. You have <strong>full and direct rights</strong> over your data, including:</p>
+            <ul>
+                <li><strong>Right to Access</strong> &mdash; You can view and export all personal data and productivity data associated with your account at any time through the dashboard.</li>
+                <li><strong>Right to Correction</strong> &mdash; You can directly update and correct your account information (name, email, password) through your account settings.</li>
+                <li><strong>Right to Deletion</strong> &mdash; You can request complete deletion of your account and all associated data. Upon confirmation, your data will be permanently removed within 30 days.</li>
+                <li><strong>Right to Data Portability</strong> &mdash; You can export your data in a structured, commonly used, machine-readable format (CSV/JSON) through the dashboard export feature.</li>
+                <li><strong>Right to Object</strong> &mdash; You can disable specific monitoring features or deactivate the desktop agent at any time.</li>
+                <li><strong>Right to Withdraw Consent</strong> &mdash; You may withdraw consent and terminate your account at any time without penalty.</li>
+            </ul>
+
+            <h3>8.2 Team Plan (Pro) Users</h3>
+            <p>If your account is part of a <strong>Team (Pro) plan</strong>, your organization's designated <strong>administrator</strong> is the primary data controller. The following applies:</p>
+            <ul>
+                <li><strong>Administrator Rights</strong> &mdash; Only the team administrator has the authority to manage user accounts, modify settings, export team-wide data, request data corrections, and initiate data deletion for the team. The administrator controls all data management decisions for the organization.</li>
+                <li><strong>Individual Team Members</strong> &mdash; Individual team members enrolled in a Pro plan can view their own productivity summary through the dashboard, but cannot independently modify, export, or delete team-level data. Requests for data access, correction, or deletion must be submitted through the team administrator.</li>
+                <li><strong>Administrator Accountability</strong> &mdash; The team administrator is responsible for ensuring that all monitoring activities comply with applicable employment laws and that proper employee notification and consent procedures are followed within their organization.</li>
+            </ul>
+            <p>To exercise any of these rights, Individual plan users can manage their data directly through the ProSync dashboard. Team plan members should contact their organization's ProSync administrator. For any unresolved requests, you may reach out to us directly at the contact information provided below. We will respond to all valid requests within 30 business days.</p>
+
+            <!-- Section 9 -->
+            <h2 id="children">9. Children's Privacy</h2>
+            <p>ProSync is an enterprise software platform designed exclusively for use by organizations and their employees. Our Service is not intended for use by individuals under the age of 18. We do not knowingly collect, process, or store personal data from children under 18 years of age.</p>
+            <p>If we become aware that we have inadvertently collected personal data from a minor, we will take immediate steps to delete such data from our systems. If you believe that a minor's data has been processed through our platform, please contact us immediately at the information provided below.</p>
+
+            <!-- Section 10 -->
+            <h2 id="international">10. International Data Transfers</h2>
+            <p>ProSync may process and store data in servers located in different geographic regions, including but not limited to India, the United States, and the European Economic Area (EEA). When we transfer data across borders, we ensure that appropriate safeguards are in place to protect your data in accordance with applicable data protection laws.</p>
+            <p>These safeguards may include standard contractual clauses, data processing agreements with our infrastructure providers, and compliance with regional data protection frameworks. By using our Service, you acknowledge and consent to the transfer and processing of your data in these jurisdictions.</p>
+
+            <!-- Section 11 -->
+            <h2 id="changes">11. Changes to This Policy</h2>
+            <p><strong>ProSync reserves the right to update, modify, or replace this Privacy Policy at any time, at our sole discretion, without prior notice.</strong> We may make changes to reflect new features, changes in applicable law, regulatory requirements, or improvements to our data practices.</p>
+            <p>When we make material changes to this policy, we will update the "Last Updated" date at the top of this page. For significant changes that materially affect your rights or the way we process your data, we may also provide additional notice through the ProSync dashboard or via email to registered account holders.</p>
+            <p>Your continued use of the Service after any changes to this Privacy Policy constitutes your acceptance of the updated terms. We encourage you to review this page periodically to stay informed about how we are protecting your information.</p>
+            <p>It is your responsibility to check this Privacy Policy periodically for changes. If you do not agree with the updated policy, you should discontinue use of the Service and contact your organization's administrator to request account deactivation.</p>
+
+            <!-- Section 12 -->
+            <h2 id="contact">12. Contact Us</h2>
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us through one of the following channels:</p>
+            <ul>
+                <li><strong>Contact:</strong> Through our <a href="contact.html">Contact Page</a></li>
+                <li><strong>Support Portal:</strong> Through the ProSync dashboard under Help & Support</li>
+                <li><strong>Mailing Address:</strong> ProSync Systems Inc., Privacy Department</li>
+            </ul>
+            <p>We aim to respond to all privacy-related inquiries within 5 business days. For complex requests involving data access or deletion, we may require up to 30 business days to process your request fully.</p>
+
+            <div class="mt-16 p-6 rounded-2xl text-center" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <p class="text-[14px] mb-3" style="color:var(--text-tertiary);">Related Legal Documents</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="terms.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Terms of Service</a>
+                    <a href="security.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Security Policy</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="max-w-[1200px] mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="font-display text-[22px] font-extrabold text-white mb-4">ProSync</div>
+                    <p class="text-[14px] leading-relaxed" style="color:#64748b;">The modern productivity suite for high-performance teams.</p>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Product</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="index.html#features" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Features</a></li>
+                        <li><a href="index.html#pricing" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="about.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">About</a></li>
+                        <li><a href="blog.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Blog</a></li>
+                        <li><a href="contact.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="privacy.html" class="text-[14px] hover:text-white transition-colors text-white font-semibold">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Terms of Service</a></li>
+                        <li><a href="security.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:rgba(148,163,184,0.15);">
+                <p class="text-[13px]" style="color:#475569;">&copy; 2026 ProSync Systems Inc. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">Twitter</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">LinkedIn</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        function setTheme(t) {
+            if (t==='dark') { document.documentElement.classList.add('dark'); if(themeToggleIcon) themeToggleIcon.textContent='light_mode'; localStorage.setItem('prosync_theme','dark'); }
+            else { document.documentElement.classList.remove('dark'); if(themeToggleIcon) themeToggleIcon.textContent='dark_mode'; localStorage.setItem('prosync_theme','light'); }
+        }
+        setTheme(localStorage.getItem('prosync_theme') || 'light');
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+        // Nav scroll
+        const mainNav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => { mainNav.classList.toggle('scrolled', window.scrollY > 10); });
+    
+        // Navbar session check
+        function updateNavbarSessionState() {
+            const savedSession = localStorage.getItem('prosync_session');
+            const savedName = localStorage.getItem('prosync_name') || '';
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navLogin = document.getElementById('nav-login');
+            const navProfile = document.getElementById('nav-profile');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownEmail = document.getElementById('dropdown-email');
+            const profileBtn = document.getElementById('profile-dropdown-btn');
+
+            if (savedSession) {
+                if (navDashboard) navDashboard.classList.remove('hidden');
+                if (navLogin) navLogin.classList.add('hidden');
+                if (navProfile) {
+                    navProfile.classList.remove('hidden');
+                    const displayName = savedName || savedSession;
+                    if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
+                    if (dropdownName) dropdownName.textContent = displayName;
+                    if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+            } else {
+                if (navDashboard) navDashboard.classList.add('hidden');
+                if (navLogin) { navLogin.classList.remove('hidden'); }
+                if (navProfile) navProfile.classList.add('hidden');
+            }
+        }
+
+        // Profile dropdown toggling
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        if (profileDropdownBtn && profileDropdownMenu) {
+            profileDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
+        }
+
+        // Logout handling
+        const dropdownLogout = document.getElementById('dropdown-logout');
+        if (dropdownLogout) {
+            dropdownLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('prosync_session');
+                localStorage.removeItem('prosync_name');
+                updateNavbarSessionState();
+                window.location.href = 'index.html#home';
+            });
+        }
+
+        // Run session check on load
+        updateNavbarSessionState();
+</script>
+</body>
+</html>

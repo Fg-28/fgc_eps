@@ -1,0 +1,3037 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ProSync — Employee Productivity Suite</title>
+    <meta name="description" content="The modern productivity suite for high-performance teams. Track, analyze, and optimize employee performance in real-time with privacy-first design."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ── Light Mode (default) ── */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --bg-nav: rgba(255,255,255,0.82);
+            --bg-footer: #0f172a;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --text-inverse: #f8fafc;
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --accent-1: #6366f1;
+            --accent-2: #14b8a6;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #14b8a6);
+            --accent-gradient-text: linear-gradient(135deg, #6366f1, #14b8a6);
+            --accent-glow: rgba(99,102,241,0.12);
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+            --card-shadow-hover: 0 8px 32px rgba(99,102,241,0.10), 0 2px 8px rgba(0,0,0,0.06);
+            --hero-mesh: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.08) 0%, transparent 70%),
+                         radial-gradient(ellipse 60% 50% at 80% 50%, rgba(20,184,166,0.06) 0%, transparent 70%);
+            --stats-bg: #0f172a;
+            --stats-text: #f8fafc;
+            --cta-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --modal-backdrop: rgba(15,23,42,0.60);
+            --badge-bg: rgba(99,102,241,0.08);
+            --badge-text: #6366f1;
+            --badge-border: rgba(99,102,241,0.18);
+            --pricing-popular-border: #6366f1;
+            --pricing-popular-bg: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(20,184,166,0.04));
+            --input-bg: #f8fafc;
+            --input-border: #e2e8f0;
+            --scrollbar-track: #f1f5f9;
+            --scrollbar-thumb: #cbd5e1;
+        }
+
+        /* ── Dark Mode ── */
+        .dark {
+            --bg-primary: #0a0f1e;
+            --bg-secondary: #0f1629;
+            --bg-tertiary: #151d35;
+            --bg-card: rgba(21,29,53,0.70);
+            --bg-card-hover: rgba(30,41,70,0.80);
+            --bg-nav: rgba(10,15,30,0.85);
+            --bg-footer: #060a14;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-inverse: #0f172a;
+            --border-primary: rgba(99,102,241,0.12);
+            --border-secondary: rgba(148,163,184,0.15);
+            --accent-glow: rgba(99,102,241,0.18);
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.30), 0 0 1px rgba(99,102,241,0.10);
+            --card-shadow-hover: 0 8px 40px rgba(99,102,241,0.18), 0 0 1px rgba(99,102,241,0.30);
+            --hero-mesh: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.14) 0%, transparent 70%),
+                         radial-gradient(ellipse 60% 50% at 80% 50%, rgba(20,184,166,0.08) 0%, transparent 70%);
+            --stats-bg: rgba(21,29,53,0.50);
+            --stats-text: #f1f5f9;
+            --cta-bg: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(20,184,166,0.08) 100%);
+            --modal-backdrop: rgba(0,0,0,0.70);
+            --badge-bg: rgba(99,102,241,0.12);
+            --badge-text: #a5b4fc;
+            --badge-border: rgba(99,102,241,0.25);
+            --pricing-popular-border: #818cf8;
+            --pricing-popular-bg: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(20,184,166,0.05));
+            --input-bg: rgba(21,29,53,0.60);
+            --input-border: rgba(99,102,241,0.18);
+            --scrollbar-track: #0f1629;
+            --scrollbar-thumb: #1e293b;
+        }
+
+        /* ── Global Styles ── */
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+        /* Gradient Text Utility */
+        .gradient-text {
+            background: var(--accent-gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--accent-1);
+            transform: translateY(-4px);
+        }
+
+        /* Nav glass */
+        .nav-glass {
+            background: var(--bg-nav);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-primary);
+            transition: box-shadow 0.3s ease;
+        }
+        .nav-glass.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Nav link underline animation */
+        .nav-link {
+            position: relative;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.01em;
+            transition: color 0.25s ease;
+            text-decoration: none;
+            padding-bottom: 2px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            border-radius: 1px;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent-1); }
+        .nav-link.active::after { width: 100%; }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(99,102,241,0.30);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(99,102,241,0.40);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            border: 1px solid var(--border-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-1);
+            transform: translateY(-2px);
+        }
+
+        /* Badge Pill */
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            border: 1px solid var(--badge-border);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        /* Hero mesh BG */
+        .hero-mesh {
+            background: var(--hero-mesh);
+        }
+
+        /* Dashboard mockup image wrapper */
+        .dashboard-mockup {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px var(--border-primary);
+            position: relative;
+        }
+        .dark .dashboard-mockup {
+            box-shadow: 0 20px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(99,102,241,0.15);
+        }
+
+        /* Floating stat card */
+        .floating-stat {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+            backdrop-filter: blur(12px);
+            animation: float 6s ease-in-out infinite;
+        }
+        .dark .floating-stat {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.40);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating-stat:nth-child(2) { animation-delay: -2s; }
+        .floating-stat:nth-child(3) { animation-delay: -4s; }
+
+        /* Rotating cycle stat cards */
+        .floating-stat-cycle {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+            backdrop-filter: blur(12px);
+            animation: cycle-card 32s ease-in-out infinite;
+            opacity: 0;
+            width: max-content;
+            min-width: 180px;
+            white-space: nowrap;
+        }
+        .dark .floating-stat-cycle {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.40);
+        }
+
+        /* Blinking cursor for typing effect */
+        .typing-cursor {
+            color: var(--accent-1);
+            font-weight: 300;
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        @keyframes cycle-card {
+            0% { opacity: 0; transform: translateY(20px); pointer-events: none; }
+            3.125% { opacity: 1; transform: translateY(0); pointer-events: auto; }
+            21.875% { opacity: 1; transform: translateY(0); pointer-events: auto; }
+            25% { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+            100% { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+        }
+
+        /* Feature icon container */
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .feature-icon.indigo {
+            background: rgba(99,102,241,0.10);
+            color: #6366f1;
+        }
+        .feature-icon.teal {
+            background: rgba(20,184,166,0.10);
+            color: #14b8a6;
+        }
+        .feature-icon.violet {
+            background: rgba(139,92,246,0.10);
+            color: #8b5cf6;
+        }
+        .feature-icon.amber {
+            background: rgba(245,158,11,0.10);
+            color: #f59e0b;
+        }
+        .feature-icon.rose {
+            background: rgba(244,63,94,0.10);
+            color: #f43f5e;
+        }
+        .feature-icon.sky {
+            background: rgba(14,165,233,0.10);
+            color: #0ea5e9;
+        }
+
+        /* Stats section */
+        .stats-section {
+            background: var(--stats-bg);
+            color: var(--stats-text);
+        }
+        .dark .stats-section {
+            border-top: 1px solid var(--border-primary);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        /* Pricing toggle */
+        .pricing-toggle {
+            display: inline-flex;
+            padding: 4px;
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+        }
+        .pricing-toggle button {
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: transparent;
+            color: var(--text-tertiary);
+        }
+        .pricing-toggle button.active {
+            background: var(--accent-1);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.30);
+        }
+
+        /* Pricing card popular */
+        .pricing-popular {
+            border: 2px solid var(--pricing-popular-border) !important;
+            background: var(--pricing-popular-bg) !important;
+            position: relative;
+        }
+        .pricing-popular::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: var(--accent-gradient);
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        /* CTA section */
+        .cta-section {
+            background: var(--cta-bg);
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--bg-footer);
+            color: #94a3b8;
+        }
+        .dark .site-footer {
+            background: #060a14;
+            border-top: 1px solid rgba(99,102,241,0.10);
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal.from-left {
+            transform: translateX(-50px) translateY(0);
+        }
+        .reveal.from-right {
+            transform: translateX(50px) translateY(0);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
+
+        /* Staggered Reveal Group for Child elements */
+        .reveal-group .reveal-child {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-group.visible .reveal-child {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .reveal-group.visible .reveal-child.from-left {
+            transform: translateX(0) translateY(0) scale(1);
+        }
+        .reveal-group.visible .reveal-child.from-right {
+            transform: translateX(0) translateY(0) scale(1);
+        }
+        /* Delays for staggered entrance of elements in mockup */
+        .reveal-group.visible .reveal-child:nth-child(1) { transition-delay: 100ms; } /* Person 1 */
+        .reveal-group.visible .reveal-child:nth-child(2) { transition-delay: 250ms; } /* Person 2 */
+        .reveal-group.visible .reveal-child:nth-child(3) { transition-delay: 400ms; } /* Amit S. */
+        .reveal-group.visible .reveal-child:nth-child(4) { transition-delay: 550ms; } /* Priya K. */
+        .reveal-group.visible .reveal-child:nth-child(5) { transition-delay: 700ms; } /* Agent status */
+        .reveal-group.visible .reveal-child:nth-child(6) { transition-delay: 850ms; } /* RAM speed */
+        .reveal-group.visible .reveal-child:nth-child(7) { transition-delay: 1000ms; } /* Offline Sync */
+
+        /* Input style */
+        .form-input {
+            background-color: var(--input-bg) !important;
+            background: var(--input-bg) !important;
+            border: 1px solid var(--input-border) !important;
+            color: var(--text-primary) !important;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .form-input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        }
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        /* Prevent autofill styling from overriding the theme styles */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+            -webkit-text-fill-color: var(--text-primary) !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            background: var(--modal-backdrop);
+            backdrop-filter: blur(6px);
+        }
+
+        /* Theme toggle button */
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .theme-btn:hover {
+            color: var(--accent-1);
+            border-color: var(--accent-1);
+            background: var(--accent-glow);
+        }
+
+        /* Trust logos */
+        .trust-logo {
+            opacity: 0.4;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+            height: 28px;
+        }
+        .trust-logo:hover {
+            opacity: 0.7;
+            filter: grayscale(0%);
+        }
+
+        /* Misc */
+        .section-label {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-1);
+        }
+        .section-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.15;
+        }
+        .section-subheading {
+            color: var(--text-tertiary);
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+
+        /* Star rating */
+        .star { color: #f59e0b; font-size: 16px; }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Pulse dot for badge */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            position: relative;
+        }
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: rgba(34,197,94,0.30);
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Message banner */
+        .msg-error { background: rgba(239,68,68,0.10); color: #ef4444; }
+        .msg-success { background: rgba(34,197,94,0.10); color: #22c55e; }
+
+        /* Pricing check icon */
+        .check-icon {
+            color: var(--accent-2);
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Card Flip styles */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            height: 280px;
+            cursor: pointer;
+        }
+        .feature-icon-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .feature-icon-mini.indigo { background: rgba(99, 102, 241, 0.12); color: #6366f1; }
+        .feature-icon-mini.teal { background: rgba(20, 184, 166, 0.12); color: #14b8a6; }
+        .feature-icon-mini.violet { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
+        .feature-icon-mini.amber { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+        .feature-icon-mini.rose { background: rgba(244, 63, 94, 0.12); color: #f43f5e; }
+        .feature-icon-mini.sky { background: rgba(14, 165, 233, 0.12); color: #0ea5e9; }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden !important;
+            backface-visibility: hidden !important;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            overflow: hidden;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            background: var(--bg-secondary) !important;
+        }
+        .flip-card-front {
+            z-index: 2;
+            transform: rotateY(0deg);
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+        .flip-card-front.glass-card:hover {
+            transform: rotateY(0deg) !important;
+        }
+        .flip-card-back.glass-card:hover {
+            transform: rotateY(180deg) !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <nav id="main-nav" class="nav-glass fixed top-0 w-full z-50">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between h-[64px] px-6">
+            <!-- Logo -->
+            <a href="#home" class="font-display text-[22px] font-extrabold gradient-text tracking-tight">ProSync</a>
+
+            <!-- Center links (desktop) -->
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link active" href="#home">Home</a>
+                <a class="nav-link" href="#features">Features</a>
+                <a class="nav-link" href="#pricing">Pricing</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a id="nav-dashboard" class="nav-link hidden" href="#product">Product</a>
+            </div>
+
+            <!-- Right side -->
+            <div class="flex items-center gap-3 relative">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="theme-btn" type="button" title="Toggle Light/Dark Mode">
+                    <span class="material-symbols-outlined text-[20px]" id="theme-toggle-icon">dark_mode</span>
+                </button>
+
+                <!-- Login link -->
+                <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="#login" style="text-decoration:none;">Get Started</a>
+
+                <!-- Profile dropdown (hidden until logged in) -->
+                <div id="nav-profile" class="hidden relative">
+                    <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
+                        <div class="px-4 py-3 border-b flex flex-col" style="border-color:var(--border-primary);">
+                            <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
+                            <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
+                        </div>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════ HERO SECTION ═══════════════════ -->
+    <section class="hero-mesh pt-[140px] pb-[80px] md:pt-[160px] md:pb-[100px] px-6" id="home">
+        <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center gap-16">
+            <!-- Left content -->
+            <div class="md:w-[55%] flex flex-col gap-6 reveal from-left">
+
+                <h1 class="font-display text-[42px] md:text-[56px] font-extrabold leading-[1.08] tracking-tight" style="color:var(--text-primary);">
+                    Unleash Your Team's<br/>Full <span class="gradient-text" id="typing-word">Potential.</span>
+                </h1>
+                <p class="text-[18px] leading-[1.7] max-w-[500px]" style="color:var(--text-secondary);">
+                    The minimalist productivity suite designed for high-performance teams. Track, analyze, and optimize in real-time with privacy at the core.
+                </p>
+                <div class="flex flex-wrap gap-3 mt-2">
+                    <button class="btn-primary" onclick="window.location.hash='#login'">Get Started</button>
+                    <button class="btn-secondary">
+                        <span class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                            Watch Demo
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <!-- Right: dashboard mockup -->
+            <div class="md:w-[45%] w-full relative reveal from-right" style="transition-delay: 150ms;">
+                <div class="dashboard-mockup">
+                    <img alt="ProSync Dashboard Preview" class="w-full h-auto block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyMmojMe17qyxM-gShYgj7ZdVXQ8VTJjzt8pxcD5JW2APe4TmucG95h0E0GB5DzPCOaU0b36JaJd4KZEWUCQkgzL2aweXFTLM4uhUo5PDiLZQ4yHg7hOxO8UmrluzpyIZRI2rKx3LcleO0-zWy9cFB0QyL5JSG_DGepDS4VRpBNId6f7eTmFnczVwpGd6eWQbSBXv9k0esJZDnVWs5yDngRjK-l628Uz3ZuXWksMI9w07mKJFktinUuqOuMc46VH1LzdkuoZYSuPY"/>
+                </div>
+                <!-- Floating stat cards (distributed on both sides, cycling one by one) -->
+                <!-- Card 1: Productivity -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[12%] -left-[45px]" style="animation-delay: 0s;">
+                    <div class="feature-icon indigo !w-10 !h-10 !rounded-[10px]"><span class="material-symbols-outlined text-[20px]">trending_up</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Productivity</div>
+                        <div class="text-[18px] font-bold" style="color:var(--accent-1);">+34%</div>
+                    </div>
+                </div>
+                <!-- Card 2: 24/7 Support -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[25%] -right-[40px]" style="animation-delay: -4s;">
+                    <div class="feature-icon green !w-10 !h-10 !rounded-[10px]" style="background:rgba(34,197,94,0.1);color:#22c55e;"><span class="material-symbols-outlined text-[20px]">support_agent</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">24/7 Support</div>
+                        <div class="text-[18px] font-bold" style="color:#22c55e;">Guaranteed</div>
+                    </div>
+                </div>
+                <!-- Card 3: Customization -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[38%] -left-[50px]" style="animation-delay: -8s;">
+                    <div class="feature-icon orange !w-10 !h-10 !rounded-[10px]" style="background:rgba(249,115,22,0.1);color:#f97316;"><span class="material-symbols-outlined text-[20px]">tune</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Customization</div>
+                        <div class="text-[18px] font-bold" style="color:#f97316;">Fully Flexible</div>
+                    </div>
+                </div>
+                <!-- Card 4: SOC2 Security -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[50%] -right-[45px]" style="animation-delay: -12s;">
+                    <div class="feature-icon teal !w-10 !h-10 !rounded-[10px]"><span class="material-symbols-outlined text-[20px]">verified_user</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Data Security</div>
+                        <div class="text-[18px] font-bold" style="color:var(--accent-2);">SOC2 Ready</div>
+                    </div>
+                </div>
+                <!-- Card 5: Jigglers Blocked -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[62%] -left-[45px]" style="animation-delay: -16s;">
+                    <div class="feature-icon red !w-10 !h-10 !rounded-[10px] !bg-red-500/10 !text-red-500" style="background:rgba(239,68,68,0.1);color:#ef4444;"><span class="material-symbols-outlined text-[20px]">block</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Jigglers Blocked</div>
+                        <div class="text-[18px] font-bold" style="color:#ef4444;">+70%</div>
+                    </div>
+                </div>
+                <!-- Card 6: Recorded Days -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[75%] -right-[40px]" style="animation-delay: -20s;">
+                    <div class="feature-icon teal !w-10 !h-10 !rounded-[10px]"><span class="material-symbols-outlined text-[20px]">calendar_today</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Recorded Days</div>
+                        <div class="text-[18px] font-bold" style="color:var(--accent-2);">1,000+</div>
+                    </div>
+                </div>
+                <!-- Card 7: Tabs Analyzed -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[22%] -left-[40px]" style="animation-delay: -24s;">
+                    <div class="feature-icon purple !w-10 !h-10 !rounded-[10px] !bg-purple-500/10 !text-purple-500" style="background:rgba(168,85,247,0.1);color:#a855f7;"><span class="material-symbols-outlined text-[20px]">tab</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Tabs Analyzed</div>
+                        <div class="text-[18px] font-bold" style="color:#a855f7;">10K+</div>
+                    </div>
+                </div>
+                <!-- Card 8: Uptime -->
+                <div class="floating-stat-cycle hidden md:flex items-center gap-3 absolute top-[65%] -right-[35px]" style="animation-delay: -28s;">
+                    <div class="feature-icon blue !w-10 !h-10 !rounded-[10px]" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><span class="material-symbols-outlined text-[20px]">bolt</span></div>
+                    <div>
+                        <div class="text-[12px] font-semibold" style="color:var(--text-tertiary);">Uptime Guarantee</div>
+                        <div class="text-[18px] font-bold" style="color:#3b82f6;">99.9% Uptime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════ FEATURES SECTION ═══════════════════ -->
+    <section class="py-[100px] px-6" id="features" style="background:var(--bg-primary);">
+        <div class="max-w-[1200px] mx-auto">
+            <div class="text-center mb-16 reveal">
+                <p class="section-label mb-3">Features</p>
+                <h2 class="section-heading text-[36px] md:text-[44px] mb-4">Everything you need to<br/>manage your team</h2>
+                <p class="section-subheading mx-auto">Built for precision and clarity. Every feature is designed to give you actionable insights without overwhelming your team.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="flip-card reveal" style="transition-delay: 0ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/tracking.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" alt="Real-time Tracking"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini indigo"><span class="material-symbols-outlined text-[15px]">monitoring</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Real-time Tracking</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon indigo"><span class="material-symbols-outlined">monitoring</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Real-time Tracking</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Monitor progress as it happens with zero latency. Ensure your team stays on target throughout the day.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="flip-card reveal" style="transition-delay: 80ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/analytics.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" alt="Focus & App Analytics"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini teal"><span class="material-symbols-outlined text-[15px]">track_changes</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Focus & App Analytics</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon teal"><span class="material-symbols-outlined">track_changes</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Focus & App Analytics</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Tracks deep focus streaks and flags productive vs distracting apps. Compiles detailed time diagnostics by category.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="flip-card reveal" style="transition-delay: 160ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/dashboard.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" style="transform: scale(1.22);" alt="Admin Dashboard"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini violet"><span class="material-symbols-outlined text-[15px]">admin_panel_settings</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Admin Dashboard</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon violet"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Admin Dashboard</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Complete control over user permissions and system-wide settings. Manage your organization securely.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 4 -->
+                <div class="flip-card reveal" style="transition-delay: 0ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/privacy.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" style="transform: scale(1.15);" alt="Privacy Screenshots"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini amber"><span class="material-symbols-outlined text-[15px]">blur_on</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Privacy Screenshots</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon amber"><span class="material-symbols-outlined">blur_on</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Privacy Screenshots</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Captures screens with a local 15% Gaussian blur before upload. Files are auto-purged from the device after 91 days.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 5 -->
+                <div class="flip-card reveal" style="transition-delay: 80ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/behavior.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" style="transform: scale(1.08);" alt="Behavioral Authenticity"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini rose"><span class="material-symbols-outlined text-[15px]">psychology</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Behavioral Authenticity</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon rose"><span class="material-symbols-outlined">psychology</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Behavioral Authenticity</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Analyzes mouse and keyboard interaction density to filter out jigglers. Measures actual work, not active window tricks.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 6 -->
+                <div class="flip-card reveal" style="transition-delay: 160ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-5 flex flex-col gap-5 justify-start">
+                            <div class="w-full h-[192px] overflow-hidden rounded-xl bg-slate-950">
+                                <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/audits.webp" class="w-full h-full object-cover rounded-xl opacity-90 transition-transform duration-700" style="filter: brightness(0.65) contrast(1.1) saturate(0.85);" alt="Shift & Attendance Audits"/>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="feature-icon-mini sky"><span class="material-symbols-outlined text-[15px]">calendar_today</span></div>
+                                <h3 class="text-[16px] font-bold text-left" style="color:var(--text-primary);">Shift & Attendance Audits</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back glass-card p-5 flex flex-col gap-3.5 justify-center">
+                            <div class="feature-icon sky"><span class="material-symbols-outlined">calendar_today</span></div>
+                            <h3 class="text-[16.5px] font-bold text-left" style="color:var(--text-primary);">Shift & Attendance Audits</h3>
+                            <p class="text-[13.5px] leading-relaxed text-left" style="color:var(--text-tertiary);">Logs Clock In/Out times, late arrivals, and break durations. Auto-generates clean daily schedules and monthly reports.</p>
+    </section>
+
+    <!-- ═══════════════════ OPTIMIZATION & AGENT DETAILS SECTION ═══════════════════ -->
+    <section data-landing class="py-[100px] px-6 border-t" style="background:var(--bg-secondary); border-color:var(--border-primary);">
+        <div class="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <!-- Left Side Text -->
+            <div class="lg:w-[50%] flex flex-col gap-6 reveal from-left">
+                <span class="section-label">Enterprise-Grade Performance</span>
+                <h2 class="section-heading text-[32px] md:text-[40px] leading-tight">Built for standard PCs and erratic internet</h2>
+                <p class="text-[16px] leading-relaxed" style="color:var(--text-secondary);">
+                    Unlike heavy tracking suites that slow down workflows, ProSync is built to run smoothly in standard office environments. No performance lag, no connection blockages, and complete visibility control.
+                </p>
+                
+                <div class="flex flex-col gap-6 mt-2">
+                    <!-- Point 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">memory</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">Zero PC Slowdown (Low RAM)</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">An ultra-lightweight desktop client that uses less than 15MB RAM. Staff will experience zero lag, even on older dual-core office computers.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Point 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">wifi_off</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">100% Offline Tracking</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">No internet? No problem. The tracker continues recording offline and automatically syncs logs and daily statistics to your manager panel the moment connectivity returns.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Point 3 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">visibility_off</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">Silent or Visible Operation</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">Complete deployment control. Configure the desktop agent to run silently in the background (hidden from the system tray) or in visible mode with employee timers—completely up to the employer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side Interactive Mockup/Picture with staggered scroll reveal -->
+            <div class="lg:w-[50%] w-full relative flex items-center justify-center min-h-[480px] reveal reveal-group from-right" style="transition-delay: 150ms;">
+                <!-- Glowing background shapes -->
+                <div class="absolute w-[320px] h-[320px] rounded-full blur-[90px] z-0" style="background:radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);"></div>
+                
+                <!-- Main Container representing staggered intersecting cards -->
+                <div class="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] z-10 transition-all duration-300">
+                    
+                    <!-- Person 1 (Top-Left Card) -->
+                    <div class="absolute top-0 left-0 w-[190px] h-[240px] sm:w-[260px] sm:h-[330px] rounded-[24px] border-4 overflow-hidden shadow-xl bg-slate-800 z-10 reveal-child" style="border-color:var(--border-primary);">
+                        <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/team_member_1.webp" class="w-full h-full object-cover" alt="Team Member 1"/>
+                    </div>
+                    
+                    <!-- Person 2 (Bottom-Right Card) - Staggered/Overlapping -->
+                    <div class="absolute bottom-0 right-0 w-[190px] h-[240px] sm:w-[260px] sm:h-[330px] rounded-[24px] border-4 overflow-hidden shadow-2xl bg-slate-800 z-20 reveal-child" style="border-color:var(--border-primary);">
+                        <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/team_member_2.webp" class="w-full h-full object-cover" alt="Team Member 2"/>
+                    </div>
+                    
+                    <!-- Floating Amit S. Card (Top-Left of Person 1) - Half In, Half Out -->
+                    <div class="absolute -top-6 -left-6 sm:-top-8 sm:-left-12 glass-card p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 border-l-4 border-l-emerald-500 z-30 reveal-child w-[110px] sm:w-[140px]" style="box-shadow: 0 12px 28px rgba(0,0,0,0.30); background:var(--bg-secondary);">
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <div class="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-[8px] sm:text-[10px]">A</div>
+                            <div>
+                                <div class="text-[8px] sm:text-[10px] font-bold truncate" style="color:var(--text-primary);">Amit S.</div>
+                                <div class="text-[7px] sm:text-[8px]" style="color:var(--text-tertiary);">Marketing</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-200/20 h-0.5 sm:h-1 rounded-full overflow-hidden mt-0.5 sm:mt-1">
+                            <div class="bg-emerald-500 h-full w-[92%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[7px] sm:text-[8px] font-bold" style="color:var(--text-tertiary);">
+                            <span>Focus</span>
+                            <span class="text-emerald-400">92%</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Priya K. Card (Bottom-Right of Person 2) - Half In, Half Out -->
+                    <div class="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-12 glass-card p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 border-l-4 border-l-indigo-500 z-30 reveal-child w-[110px] sm:w-[140px]" style="box-shadow: 0 12px 28px rgba(0,0,0,0.30); background:var(--bg-secondary);">
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <div class="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-[8px] sm:text-[10px]">P</div>
+                            <div>
+                                <div class="text-[8px] sm:text-[10px] font-bold truncate" style="color:var(--text-primary);">Priya K.</div>
+                                <div class="text-[7px] sm:text-[8px]" style="color:var(--text-tertiary);">Dev Team</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-200/20 h-0.5 sm:h-1 rounded-full overflow-hidden mt-0.5 sm:mt-1">
+                            <div class="bg-indigo-500 h-full w-[88%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[7px] sm:text-[8px] font-bold" style="color:var(--text-tertiary);">
+                            <span>Today</span>
+                            <span class="text-indigo-400">8h 12m</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Agent Status (Top-Right) - Half In, Half Out -->
+                    <div class="absolute top-[100px] sm:top-[140px] -right-4 sm:-right-8 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <div class="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span class="text-[8px] sm:text-[10px] font-bold" style="color:var(--text-primary);">Agent: Active</span>
+                    </div>
+
+                    <!-- Floating RAM indicator (Middle-Left) - Half In, Half Out -->
+                    <div class="absolute top-36 -left-8 sm:top-48 sm:-left-16 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined text-[12px] sm:text-[14px] text-indigo-400">speed</span>
+                        <span class="text-[8px] sm:text-[10px] font-semibold" style="color:var(--text-tertiary);">RAM: 12.8 MB</span>
+                    </div>
+
+                    <!-- Floating Offline Sync (Bottom-Left) - Half In, Half Out -->
+                    <div class="absolute bottom-[100px] sm:bottom-[150px] -left-4 sm:-left-8 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined text-[12px] sm:text-[14px] text-teal-400">cloud_done</span>
+                        <span class="text-[8px] sm:text-[10px] font-semibold" style="color:var(--text-tertiary);">Offline Sync</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Panel: Indian Owner Focus (Left Side Photo, Right Side Text) -->
+        <div class="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-16 mt-24 md:mt-32">
+            <!-- Left Side Interactive Mockup/Picture with staggered scroll reveal -->
+            <div class="lg:w-[50%] w-full relative flex items-center justify-center min-h-[480px] reveal reveal-group from-left lg:order-1 order-2" style="transition-delay: 150ms;">
+                <!-- Glowing background shapes -->
+                <div class="absolute w-[320px] h-[320px] rounded-full blur-[90px] z-0" style="background:radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 70%);"></div>
+                
+                <!-- Main Container representing staggered intersecting cards -->
+                <div class="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] z-10 transition-all duration-300">
+                    
+                    <!-- Person 3 (Top-Left Card) -->
+                    <div class="absolute top-0 left-0 w-[190px] h-[240px] sm:w-[260px] sm:h-[330px] rounded-[24px] border-4 overflow-hidden shadow-xl bg-slate-800 z-10 reveal-child" style="border-color:var(--border-primary);">
+                        <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/team_member_3.webp" class="w-full h-full object-cover" alt="Team Member 3"/>
+                    </div>
+                    
+                    <!-- Person 4 (Bottom-Right Card) - Staggered/Overlapping -->
+                    <div class="absolute bottom-0 right-0 w-[190px] h-[240px] sm:w-[260px] sm:h-[330px] rounded-[24px] border-4 overflow-hidden shadow-2xl bg-slate-800 z-20 reveal-child" style="border-color:var(--border-primary);">
+                        <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/site/team_member_4.webp" class="w-full h-full object-cover" alt="Team Member 4"/>
+                    </div>
+                    
+                    <!-- Floating Summary Card (Top-Left of Person 3) - Half In, Half Out -->
+                    <div class="absolute -top-6 -left-6 sm:-top-8 sm:-left-12 glass-card p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 border-l-4 border-l-teal-500 z-30 reveal-child w-[120px] sm:w-[150px]" style="box-shadow: 0 12px 28px rgba(0,0,0,0.30); background:var(--bg-secondary);">
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <div class="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-[8px] sm:text-[10px]">M</div>
+                            <div>
+                                <div class="text-[8px] sm:text-[10px] font-bold truncate" style="color:var(--text-primary);">Manoj K.</div>
+                                <div class="text-[7px] sm:text-[8px]" style="color:var(--text-tertiary);">Accounts</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-200/20 h-0.5 sm:h-1 rounded-full overflow-hidden mt-0.5 sm:mt-1">
+                            <div class="bg-teal-500 h-full w-[94%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[7px] sm:text-[8px] font-bold" style="color:var(--text-tertiary);">
+                            <span>Active</span>
+                            <span class="text-teal-400">94%</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Payroll Saved Card (Bottom-Right of Person 4) - Half In, Half Out -->
+                    <div class="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-12 glass-card p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 border-l-4 border-l-amber-500 z-30 reveal-child w-[125px] sm:w-[155px]" style="box-shadow: 0 12px 28px rgba(0,0,0,0.30); background:var(--bg-secondary);">
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <div class="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center text-[8px] sm:text-[10px]">
+                                <span class="material-symbols-outlined text-[12px] sm:text-[16px]">payments</span>
+                            </div>
+                            <div>
+                                <div class="text-[8px] sm:text-[10px] font-bold truncate" style="color:var(--text-primary);">Salary Audit</div>
+                                <div class="text-[7px] sm:text-[8px]" style="color:var(--text-tertiary);">Leakage Prevented</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-1.5">
+                            <span class="text-[10px] sm:text-[13px] font-extrabold text-amber-400">₹45,000 Saved</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating WhatsApp Alert (Top-Right) - Half In, Half Out -->
+                    <div class="absolute top-[100px] sm:top-[140px] -right-4 sm:-right-8 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined text-[12px] sm:text-[14px] text-green-500">sms</span>
+                        <span class="text-[8px] sm:text-[10px] font-bold text-green-400">WhatsApp Alert: Sent</span>
+                    </div>
+
+                    <!-- Floating Idle Detected indicator (Middle-Left) - Half In, Half Out -->
+                    <div class="absolute top-36 -left-8 sm:top-48 sm:-left-16 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined text-[12px] sm:text-[14px] text-rose-400">hourglass_disabled</span>
+                        <span class="text-[8px] sm:text-[10px] font-semibold text-rose-400">Idle Detected: 2.5h</span>
+                    </div>
+
+                    <!-- Floating Owner Peace of Mind (Bottom-Left) - Half In, Half Out -->
+                    <div class="absolute bottom-[100px] sm:bottom-[150px] -left-4 sm:-left-8 glass-card !py-1.5 !px-2.5 sm:!py-2 sm:!px-3.5 flex items-center gap-1.5 sm:gap-2 z-30 reveal-child" style="box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined text-[12px] sm:text-[14px] text-teal-400">verified_user</span>
+                        <span class="text-[8px] sm:text-[10px] font-semibold" style="color:var(--text-tertiary);">Owner Verified</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Text -->
+            <div class="lg:w-[50%] flex flex-col gap-6 reveal from-right lg:order-2 order-1">
+                <span class="section-label">Owner Peace of Mind</span>
+                <h2 class="section-heading text-[32px] md:text-[40px] leading-tight">No complex unneccessary data. Just solid profitability & innovation.</h2>
+                <p class="text-[16px] leading-relaxed" style="color:var(--text-secondary);">
+                    Skip the complex, unnecessary data overload. ProSync filters out the noise to give you direct visibility over what actually matters: payroll leaks, idle time theft, and clear, actionable focus insights for your business.
+                </p>
+                
+                <div class="flex flex-col gap-6 mt-2">
+                    <!-- Point 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">Stop Payroll Theft</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">Know exactly when staff actually works. Track real-time active minutes so you only pay for actual work hours, eliminating inflated timecards and buddy-punching leaks.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Point 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">hourglass_empty</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">Eliminate Wasted Idle Hours</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">Instantly spot staff members who leave their PCs idle for hours or run auto-clickers. Track true keyboard and mouse active percentages for accurate productivity audits.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Point 3 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:var(--accent-glow); color:var(--accent-1);">
+                            <span class="material-symbols-outlined">verified_user</span>
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-bold mb-1" style="color:var(--text-primary);">Absolute Peace of Mind</h4>
+                            <p class="text-[14px]" style="color:var(--text-tertiary);">We aren't like other tracking tools that micromanage every second or rely on invasive, constant screenshots. ProSync works with natural human psychology, focusing on real focus patterns and healthy work rhythms to keep teams productive and motivated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ PRICING SECTION ═══════════════════ -->
+    <section class="py-[100px] px-6" id="pricing" style="background:var(--bg-primary);">
+        <div class="max-w-[1200px] mx-auto">
+            <div class="text-center mb-12 reveal">
+                <p class="section-label mb-3">Pricing</p>
+                <h2 class="section-heading text-[36px] md:text-[44px] mb-4">Simple, transparent pricing</h2>
+                <p class="section-subheading mx-auto">Choose the plan that fits your team. No hidden fees, no surprises.</p>
+            </div>
+
+            <!-- Monthly/Annually/Custom Toggle -->
+            <div class="flex justify-center mb-10 reveal">
+                <div class="pricing-toggle">
+                    <button id="btn-monthly">Monthly</button>
+                    <button id="btn-yearly" class="active">Annually</button>
+                    <button id="btn-custom">Custom</button>
+                </div>
+            </div>
+
+            <!-- Custom Pricing Calculator -->
+            <div id="calculator-panel" class="hidden max-w-md mx-auto mb-10 p-6 rounded-2xl reveal" style="background:var(--bg-card);border:1px solid var(--border-primary);">
+                <div class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between text-[13px] font-semibold" style="color:var(--text-tertiary);">
+                            <span>Number of Users</span>
+                            <span id="val-users" style="color:var(--accent-1);">5 Users</span>
+                        </div>
+                        <input type="range" id="range-users" min="1" max="10" value="5" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" style="accent-color:var(--accent-1);background:var(--bg-tertiary);"/>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between text-[13px] font-semibold" style="color:var(--text-tertiary);">
+                            <span>Duration (Months)</span>
+                            <span id="val-months" style="color:var(--accent-1);">12 Months</span>
+                        </div>
+                        <input type="range" id="range-months" min="1" max="6" value="4" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" style="accent-color:var(--accent-1);background:var(--bg-tertiary);"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+                <!-- Lite -->
+                <div id="card-pricing-lite" class="glass-card p-8 flex flex-col gap-4 reveal" style="transition-delay:0ms;">
+                    <div class="flex flex-col gap-3 min-h-[170px]">
+                        <h3 class="text-[20px] font-bold" style="color:var(--text-primary);">Lite</h3>
+                        <div id="price-lite" class="text-[44px] font-extrabold font-display" style="color:var(--text-primary);">₹99<span class="text-[16px] font-normal" style="color:var(--text-tertiary);">/mo</span></div>
+                        <div id="total-lite" class="hidden text-[14px]" style="color:var(--text-tertiary);"></div>
+                        <p class="text-[15px]" style="color:var(--text-tertiary);">Essential tracking for small teams.</p>
+                    </div>
+                    <ul class="flex flex-col gap-3 my-4 text-[14px]" style="color:var(--text-secondary);">
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Active Window & App Analytics</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Privacy-Focused blurred Screenshots</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> 60-Day Cloud History Sync</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Focus & Idle Time Diagnostics</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Monthly Productivity Reports</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Standard Manager Dashboard</li>
+                    </ul>
+                    <button class="btn-secondary w-full mt-auto" id="btn-get-lite">Get Lite</button>
+                </div>
+
+                <!-- Pro (Popular) -->
+                <div id="card-pricing-pro" class="glass-card pricing-popular p-8 flex flex-col gap-4 reveal" style="transition-delay:100ms;">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-[20px] font-bold" style="color:var(--text-primary);">Pro</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white" style="background:var(--accent-gradient);">Most Popular</span>
+                    </div>
+                    <div class="flex flex-col gap-3 min-h-[140px]">
+                        <div id="price-pro" class="text-[44px] font-extrabold font-display" style="color:var(--text-primary);">₹149<span class="text-[16px] font-normal" style="color:var(--text-tertiary);">/mo</span></div>
+                        <div id="total-pro" class="hidden text-[14px]" style="color:var(--text-tertiary);"></div>
+                        <p class="text-[15px]" style="color:var(--text-tertiary);">Advanced diagnostics for growing teams.</p>
+                    </div>
+                    <ul class="flex flex-col gap-3 my-4 text-[14px]" style="color:var(--text-secondary);">
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> <strong>All Lite Features Included</strong></li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Anti-Jiggler (Based on human behavior)</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Auto 91-Day Screenshot Purge</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> 1-Year History & Retention</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Weekly & Monthly Reports</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Admin Panel to Manage All Teams</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Classify App & Tab Usage Details</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Device Swapping & Reassignments</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Full Shift, Late & Break Audits</li>
+                    </ul>
+                    <button class="btn-primary w-full mt-auto" id="btn-get-pro">Upgrade to Pro</button>
+                </div>
+
+                <!-- Enterprise -->
+                <div id="card-pricing-enterprise" class="glass-card p-8 flex flex-col gap-4 reveal" style="transition-delay:200ms;">
+                    <div class="flex flex-col gap-3 min-h-[170px]">
+                        <h3 class="text-[20px] font-bold" style="color:var(--text-primary);">Enterprise</h3>
+                        <div class="text-[44px] font-extrabold font-display" style="color:var(--text-primary);">Custom</div>
+                        <p class="text-[15px]" style="color:var(--text-tertiary);">Custom integrations and dedicated support.</p>
+                    </div>
+                    <ul class="flex flex-col gap-3 my-4 text-[14px]" style="color:var(--text-secondary);">
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> Dedicated Success Manager</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> SSO Integration</li>
+                        <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined">check_circle</span> 24/7 Phone Support</li>
+                    </ul>
+                    <button class="btn-secondary w-full mt-auto">Contact Us</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ PRODUCT OVERVIEW (hidden, shown on login) ═══════════════════ -->
+    <section class="hidden py-[100px] px-6 flex flex-col gap-12" id="product" style="background:var(--bg-secondary);">
+        <div class="max-w-[1100px] mx-auto text-center mb-6">
+            <span class="section-label">PRODUCT SUITE</span>
+            <h2 class="section-heading text-[36px] md:text-[44px] mb-4 gradient-text">ProSync Product Overview</h2>
+            <p class="section-subheading mx-auto">Explore our high-performance productivity modules and secure remote management addons.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto w-full items-stretch">
+            
+            <!-- ProSync Lite Card -->
+            <div id="lite-card" class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group border-t-4 border-t-teal-500 cursor-pointer hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-500 group-hover:bg-teal-500/10"></div>
+                
+                <div>
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-teal-500/10 text-teal-500 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[28px]">monitoring</span>
+                        </div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-teal-500/10 text-teal-400">Essential</span>
+                    </div>
+                    
+                    <h3 class="text-[24px] font-extrabold mb-2 text-teal-500 dark:text-teal-400">ProSync Lite</h3>
+                    <p class="text-[14px] mb-6 leading-relaxed" style="color:var(--text-tertiary);">Essential tracking and local focus analytics designed for smaller teams.</p>
+                    
+                    <!-- Feature list -->
+                    <div class="border-t pt-6" style="border-color:var(--border-primary);">
+                        <h4 class="text-[12px] font-bold uppercase tracking-wider mb-4" style="color:var(--text-tertiary);">Core Features Included:</h4>
+                        <ul class="flex flex-col gap-3.5 text-[13px]" style="color:var(--text-secondary);">
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>Time, Shift & Attendance Tracking</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>Apps & Tab Tracking</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>7-Day Summary (can fetch more)</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>7-Day Screenshot Retention</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>180-Day History Sync</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]">check_circle</span> <span><strong>Monthly Report scorecard</strong></span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t flex flex-col gap-4" style="border-color:var(--border-primary);">
+                    <button class="btn-primary w-full !py-2.5 !px-5 !text-[13px] !shadow-none" id="btn-check-lite">Check Price</button>
+                </div>
+            </div>
+            
+            <!-- ProSync Pro Card -->
+            <div id="pro-card" class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group border-t-4 border-t-indigo-500 cursor-pointer hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-500 group-hover:bg-indigo-500/10"></div>
+                
+                <div>
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-indigo-500/10 text-indigo-500 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[28px]">admin_panel_settings</span>
+                        </div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400">Advanced</span>
+                    </div>
+                    
+                    <h3 class="text-[24px] font-extrabold mb-2 text-indigo-500 dark:text-indigo-400">ProSync Pro</h3>
+                    <p class="text-[14px] mb-6 leading-relaxed" style="color:var(--text-tertiary);">Advanced diagnostics, behavioral checks, and team delegation.</p>
+                    
+                    <!-- Feature list -->
+                    <div class="border-t pt-6" style="border-color:var(--border-primary);">
+                        <h4 class="text-[12px] font-bold uppercase tracking-wider mb-4" style="color:var(--text-tertiary);">Everything in Lite, plus:</h4>
+                        <ul class="flex flex-col gap-3.5 text-[13px]" style="color:var(--text-secondary);">
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Privacy-Focused Blurred Screenshots</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Anti-Jiggler (Real human patterns)</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Detailed Apps & Tabs Classifications</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Weekly, Monthly & Attendance Reports</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Overtime & Deficit Tracking</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Audits: Late, Extra Break & Authenticity</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>91-Day Screenshots Archive</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>2-Year History & Retention</strong></span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Admin View & Centralized Console</strong></span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t flex flex-col gap-4" style="border-color:var(--border-primary);">
+                    <button class="btn-primary w-full !py-2.5 !px-5 !text-[13px] !shadow-none" id="btn-check-pro">Check Price</button>
+                </div>
+            </div>
+            
+            <!-- Watcher & Controller Card -->
+            <div id="watcher-card" class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group border-t-4 border-t-fuchsia-500 cursor-pointer hover:scale-[1.01] hover:shadow-xl transition-all duration-300">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-500 group-hover:bg-fuchsia-500/10"></div>
+                
+                <div>
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-fuchsia-500/10 text-fuchsia-500 group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[28px]">blur_on</span>
+                        </div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-fuchsia-500/10 text-fuchsia-400">Optional Addon</span>
+                    </div>
+                    
+                    <h3 class="text-[24px] font-extrabold mb-2 text-fuchsia-500 dark:text-fuchsia-400 font-display">Watcher & Controller</h3>
+                    <p class="text-[14px] mb-6 leading-relaxed" style="color:var(--text-tertiary);">Live screen feeds and remote system control. Integrated as an addon to your current plan.</p>
+                    
+                    <!-- Feature list -->
+                    <div class="border-t pt-6" style="border-color:var(--border-primary);">
+                        <h4 class="text-[12px] font-bold uppercase tracking-wider mb-4" style="color:var(--text-tertiary);">Addon Features:</h4>
+                        <ul class="flex flex-col gap-3.5 text-[13px]" style="color:var(--text-secondary);">
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Live Feed Watcher:</strong> Secure stream feeds inside your panel.</span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Remote Control:</strong> Input controls for secure admin support.</span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Process Commands:</strong> Start/stop apps and run cmd lines.</span></li>
+                            <li class="flex items-start gap-3"><span class="check-icon material-symbols-outlined text-[18px]" style="color:var(--accent-2);">check_circle</span> <span><strong>Desktop Control:</strong> Remote trigger lock, logout, or reboot.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t flex flex-col gap-4" style="border-color:var(--border-primary);">
+                    <button class="btn-primary w-full !py-2.5 !px-5 !text-[13px] !shadow-none !bg-fuchsia-600 hover:!bg-fuchsia-700" id="btn-check-watcher">Check Addon Pricing</button>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════ CTA SECTION ═══════════════════ -->
+    <section data-landing class="cta-section py-[80px] px-6">
+        <div class="max-w-[700px] mx-auto text-center reveal">
+            <h2 class="font-display text-[32px] md:text-[40px] font-extrabold mb-5" style="color:#f1f5f9;">Ready to boost your<br/>team's productivity?</h2>
+            <p class="text-[17px] mb-8" style="color:#94a3b8;">Join 500+ companies already using ProSync to unlock their team's potential. Get started today.</p>
+            <button class="btn-primary !text-[16px] !px-10 !py-[14px]" onclick="window.location.hash='#login'">Get Started</button>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ PRODUCT DETAILS MODAL ═══════════════════ -->
+    <div id="product-details-modal" class="fixed inset-0 z-[110] flex items-center justify-center modal-overlay hidden">
+        <div class="w-full max-w-[1100px] mx-4 rounded-2xl p-8 relative overflow-hidden max-h-[90vh] flex flex-col" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+            <!-- Top decorative background glow -->
+            <div id="modal-theme-glow" class="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl -mr-24 -mt-24 opacity-25 transition-all duration-300"></div>
+
+            <!-- Close Button -->
+            <button id="btn-close-details" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer z-10" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            <!-- Scrollable Content -->
+            <div class="overflow-y-auto pr-2 custom-scrollbar flex-1 mt-4">
+                <div class="flex items-center gap-4 mb-6">
+                    <div id="modal-product-icon-container" class="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0">
+                        <span id="modal-product-icon" class="material-symbols-outlined text-[32px]">info</span>
+                    </div>
+                    <div>
+                        <div id="modal-product-badge" class="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full w-fit mb-1.5">Module Details</div>
+                        <h2 id="modal-product-title" class="text-[28px] font-extrabold font-display leading-tight" style="color:var(--text-primary);">Module Title</h2>
+                    </div>
+                </div>
+
+                <div id="modal-product-description" class="text-[16px] leading-relaxed mb-8" style="color:var(--text-secondary);">
+                    Detailed description of the module...
+                </div>
+
+                <!-- Main details area: left side features, right side guide metrics -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-t pt-8" style="border-color:var(--border-primary);">
+                    
+                    <!-- Left: Module-specific features list -->
+                    <div class="lg:col-span-5 flex flex-col gap-6">
+                        <h3 class="text-[14px] font-bold uppercase tracking-wider text-teal-400 font-display flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">verified</span> Included Features
+                        </h3>
+                        <div id="modal-product-features-list" class="flex flex-col gap-5">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Under-the-hood Metrics System Breakdown -->
+                    <div class="lg:col-span-7 flex flex-col gap-6 lg:border-l lg:pl-8" style="border-color:var(--border-primary);">
+                        <h3 class="text-[14px] font-bold uppercase tracking-wider text-indigo-400 font-display flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">analytics</span> Under the Hood: Metrics & Tracking
+                        </h3>
+                        
+                        <div id="modal-product-metrics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- Dynamic 2x2 grid content built via JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════ PAYMENT CHECKOUT MODAL ═══════════════════ -->
+    <div id="payment-checkout-modal" class="fixed inset-0 z-[120] flex items-center justify-center modal-overlay hidden">
+        <div class="w-full max-w-[500px] mx-4 rounded-2xl p-8 relative overflow-hidden flex flex-col" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+            <!-- Close Button -->
+            <button id="btn-close-payment" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer z-10" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            <!-- Step 1: Calculator -->
+            <div id="payment-step-calc" class="flex flex-col gap-6">
+                <div class="text-center">
+                    <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Secure Checkout</div>
+                    <h2 id="checkout-title" class="text-[24px] font-extrabold font-display" style="color:var(--text-primary);">Configure Your Plan</h2>
+                    <p class="text-[14px]" style="color:var(--text-tertiary);">Adjust users and duration to compute the total pricing.</p>
+                </div>
+
+                <!-- Pro / Lite Switcher -->
+                <div class="flex justify-center gap-2 p-1 rounded-xl bg-slate-950/40 border border-slate-800/40">
+                    <button id="checkout-btn-lite" type="button" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200">Lite Plan</button>
+                    <button id="checkout-btn-pro" type="button" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200">Pro Plan</button>
+                </div>
+
+                <div class="flex flex-col gap-5 p-5 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                    <!-- Users Slider -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between text-[13px] font-semibold" style="color:var(--text-secondary);">
+                            <span>Number of Users</span>
+                            <span id="checkout-val-users" class="font-bold text-teal-400">5 Users</span>
+                        </div>
+                        <input type="range" id="checkout-range-users" min="1" max="10" value="5" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" style="accent-color:var(--accent-2);background:var(--bg-tertiary);"/>
+                    </div>
+                    
+                    <!-- Duration Slider -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between text-[13px] font-semibold" style="color:var(--text-secondary);">
+                            <span>Duration (Months)</span>
+                            <span id="checkout-val-months" class="font-bold text-teal-400">12 Months</span>
+                        </div>
+                        <input type="range" id="checkout-range-months" min="1" max="6" value="4" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" style="accent-color:var(--accent-2);background:var(--bg-tertiary);"/>
+                    </div>
+                </div>
+
+                <!-- Total, Save, Pay Breakdown -->
+                <div class="flex flex-col gap-2.5 bg-slate-950/40 p-5 rounded-xl border border-slate-800/20 text-[14px]">
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span>Total</span>
+                        <span id="checkout-original-price" class="line-through">₹5,940</span>
+                    </div>
+                    <div class="flex justify-between items-center text-emerald-400 font-semibold">
+                        <span>Save</span>
+                        <span id="checkout-savings-price">-₹2,440</span>
+                    </div>
+                    <div class="border-t border-slate-800/60 my-1"></div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white text-[16px]">Pay</span>
+                        <span id="checkout-total-price" class="text-[32px] font-extrabold font-display text-white">₹3,500</span>
+                    </div>
+                </div>
+
+                <button id="btn-payment-proceed" class="btn-primary w-full !rounded-xl !py-3 !text-[15px]">Proceed to Payment</button>
+            </div>
+
+            <!-- Step 1.5: Company Details -->
+            <div id="payment-step-company" class="hidden flex flex-col gap-6">
+                <div class="text-center">
+                    <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Billing Info</div>
+                    <h2 class="text-[20px] font-extrabold font-display" style="color:var(--text-primary);">Company Details</h2>
+                    <p class="text-[14px]" style="color:var(--text-tertiary);">Please provide your company details to generate the invoice and payment records.</p>
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[13px] font-semibold text-slate-300">Company Name</label>
+                        <input type="text" id="checkout-company-name" placeholder="e.g. Acme Corporation" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[13px] font-semibold text-slate-300">Company Address</label>
+                        <textarea id="checkout-company-address" placeholder="e.g. 123 Business Rd, Suite 100, City, Country" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required></textarea>
+                    </div>
+                </div>
+
+                <button id="btn-company-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px]">Confirm & Pay</button>
+            </div>
+
+            <!-- Step 2: QR & WhatsApp Activation -->
+            <div id="payment-step-qr" class="hidden flex flex-col gap-5 items-center text-center">
+                <div>
+                    <h2 class="text-[20px] font-extrabold font-display" style="color:var(--text-primary);">Scan QR Code to Pay</h2>
+                    <p class="text-[13px] mt-1" style="color:var(--text-tertiary);">Open your UPI app (GPay, PhonePe, Paytm) and scan.</p>
+                </div>
+
+                <!-- Plan Config Summary Badge -->
+                <div id="checkout-summary-badge" class="px-4 py-1.5 rounded-lg text-[13px] font-bold bg-slate-950/40 border border-slate-800/60 text-teal-400">
+                    ProSync Lite • 5 Users • 12 Months
+                </div>
+
+                <!-- UPI QR Code Container -->
+                <div class="p-3 bg-white rounded-xl shadow-lg border border-slate-200">
+                    <img id="checkout-qr-img" class="w-[200px] h-[200px]" src="" alt="UPI Payment QR Code"/>
+                </div>
+
+                <!-- 5-Minute Timer -->
+                <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-400 font-mono font-bold text-[14px]">
+                    <span class="material-symbols-outlined text-[18px] animate-pulse">timer</span>
+                    <span>Session Expires in: </span>
+                    <span id="payment-timer">05:00</span>
+                </div>
+
+                <div class="border-t pt-4 w-full flex flex-col gap-4" style="border-color:var(--border-primary);">
+                    <div class="text-[14px] font-semibold text-slate-300">
+                        📸 Plz attach screenshot of payment receipt
+                    </div>
+
+                    <!-- WhatsApp CTA Box -->
+                    <a id="btn-payment-whatsapp" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-md text-[14px]">
+                        <img src="https://iqmgtfzpsjinihytxjri.supabase.co/storage/v1/object/public/logos/whatsapp.root.exe.webp" class="w-5 h-5 object-contain" style="width:20px;height:20px;" alt="WhatsApp logo"/>
+                        <span>Send Receipt via WhatsApp</span>
+                    </a>
+
+                    <!-- Download Agent Section (Shown after clicking WhatsApp) -->
+                    <div id="payment-download-agent-container" class="hidden flex flex-col gap-3 mt-2 pt-4 border-t text-center" style="border-color:var(--border-primary);">
+                        <div class="text-[13px] font-semibold text-slate-300">
+                            🎉 Checkout request logged!
+                        </div>
+                        <a href="#" class="btn-primary w-full text-center !rounded-xl !py-2.5 !text-[14px] flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">download</span>
+                            <span>Download Agent</span>
+                        </a>
+                        
+                        <!-- User Friendly Verification Note -->
+                        <div class="text-[12px] text-slate-400 leading-relaxed bg-slate-950/40 p-3.5 rounded-xl border border-slate-800/40 text-left flex gap-2.5 mt-1">
+                            <span class="material-symbols-outlined text-amber-500 text-[18px] shrink-0">info</span>
+                            <div>
+                                <span class="font-bold text-slate-300">Payment verification takes up to 24 hours.</span>
+                                You can download and install the agent now, but data collection will automatically begin once verification is complete.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════ LOGIN MODAL ═══════════════════ -->
+    <div id="login" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden">
+        <div class="w-full max-w-[420px] mx-4 rounded-2xl p-8 relative" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
+            <!-- Close Button -->
+            <button id="btn-close-login" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+            <div class="text-center mb-5">
+                <div class="font-display text-[20px] font-extrabold gradient-text mb-2">ProSync</div>
+                <h2 id="login-title" class="text-[22px] font-bold" style="color:var(--text-primary);">Welcome Back</h2>
+                <p id="login-subtitle" class="text-[14px] mt-1" style="color:var(--text-tertiary);">Sign in to your ProSync account.</p>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div id="auth-tabs" class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-primary);">
+                <button id="tab-signin" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Sign In</button>
+                <button id="tab-signup" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Sign Up</button>
+            </div>
+
+            <form id="login-form" class="flex flex-col gap-4">
+                <!-- Message Banner -->
+                <div id="login-message" class="hidden text-[13px] p-3 rounded-lg text-center font-medium"></div>
+
+                <!-- Step 1: Credentials -->
+                <div id="credentials-group" class="flex flex-col gap-4">
+                    <div id="name-group" class="hidden flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold" for="name" style="color:var(--text-tertiary);">Name</label>
+                        <input class="form-input" id="name" placeholder="John Doe" type="text"/>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold" for="email" style="color:var(--text-tertiary);">Email</label>
+                        <input class="form-input" id="email" placeholder="name@company.com" required type="email"/>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold" for="password" style="color:var(--text-tertiary);">Password</label>
+                        <input class="form-input" id="password" placeholder="••••••••" required type="password"/>
+                    </div>
+                    <div id="extra-login-actions" class="flex justify-between items-center">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input id="remember-me" class="rounded w-4 h-4 cursor-pointer" type="checkbox" style="accent-color:var(--accent-1);"/>
+                            <span class="text-[13px]" style="color:var(--text-tertiary);">Remember me</span>
+                        </label>
+                        <a class="text-[13px] font-medium transition-colors" href="#" style="color:var(--accent-1);">Forgot password?</a>
+                    </div>
+                    <button class="btn-primary w-full !rounded-xl mt-1" type="submit" id="btn-submit">Sign In</button>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div id="otp-group" class="hidden flex flex-col gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold" for="otp-code" style="color:var(--text-tertiary);">Enter 6-Digit OTP</label>
+                        <input class="form-input text-center tracking-[0.3em] font-bold text-[20px]" id="otp-code" placeholder="000000" maxlength="6" type="text"/>
+                    </div>
+                    <button class="btn-primary w-full !rounded-xl" type="button" id="btn-verify">Verify OTP</button>
+                    <button class="text-[13px] font-medium py-2 transition-colors cursor-pointer" type="button" id="btn-back" style="color:var(--text-tertiary);background:none;border:none;">← Back to Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <footer class="site-footer">
+        <div class="max-w-[1200px] mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+                <!-- Brand -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="font-display text-[22px] font-extrabold text-white mb-4">ProSync</div>
+                    <p class="text-[14px] leading-relaxed" style="color:#64748b;">The modern productivity suite for high-performance teams.</p>
+                </div>
+                <!-- Product -->
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Product</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="#features" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Features</a></li>
+                        <li><a href="#pricing" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Pricing</a></li>
+                    </ul>
+                </div>
+                <!-- Company -->
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="about.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">About</a></li>
+                        <li><a href="blog.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Blog</a></li>
+                        <li><a href="contact.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="privacy.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Terms of Service</a></li>
+                        <li><a href="security.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:rgba(148,163,184,0.15);">
+                <p class="text-[13px]" style="color:#475569;">© 2026 ProSync Systems Inc. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">Twitter</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">LinkedIn</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+    <script>
+        const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:5601' : '';
+
+        // ── Pricing Logic (fully preserved) ──
+        const btnMonthly = document.getElementById('btn-monthly');
+        const btnYearly = document.getElementById('btn-yearly');
+        const btnCustom = document.getElementById('btn-custom');
+
+        const calcPanel = document.getElementById('calculator-panel');
+        const rangeUsers = document.getElementById('range-users');
+        const rangeMonths = document.getElementById('range-months');
+        const valUsers = document.getElementById('val-users');
+        const valMonths = document.getElementById('val-months');
+
+        const priceLite = document.getElementById('price-lite');
+        const pricePro = document.getElementById('price-pro');
+        const totalLite = document.getElementById('total-lite');
+        const totalPro = document.getElementById('total-pro');
+
+        let currentMode = 'yearly';
+
+        function updatePricing() {
+            const priceStyle = 'color:var(--text-tertiary);';
+            if (currentMode === 'monthly') {
+                calcPanel.classList.add('hidden');
+                totalLite.classList.add('hidden');
+                totalPro.classList.add('hidden');
+                priceLite.innerHTML = `₹99<span class="text-[16px] font-normal" style="${priceStyle}">/mo</span>`;
+                pricePro.innerHTML = `₹149<span class="text-[16px] font-normal" style="${priceStyle}">/mo</span>`;
+            } else if (currentMode === 'yearly') {
+                calcPanel.classList.add('hidden');
+                totalLite.classList.add('hidden');
+                totalPro.classList.add('hidden');
+                priceLite.innerHTML = `₹79<span class="text-[16px] font-normal" style="${priceStyle}">/mo</span>`;
+                pricePro.innerHTML = `<span class="line-through opacity-50 text-2xl mr-2" style="${priceStyle}">₹129</span>₹99<span class="text-[16px] font-normal" style="${priceStyle}">/mo</span>`;
+            } else if (currentMode === 'custom') {
+                calcPanel.classList.remove('hidden');
+                totalLite.classList.remove('hidden');
+                totalPro.classList.remove('hidden');
+
+                const users = parseInt(rangeUsers.value);
+                const monthsStep = parseInt(rangeMonths.value);
+
+                function getMonthValue(step) {
+                    const mapping = { 1: 1, 2: 3, 3: 6, 4: 12, 5: 18, 6: 24 };
+                    return mapping[step] || 1;
+                }
+                const months = getMonthValue(monthsStep);
+
+                valUsers.textContent = `${users} ${users === 1 ? 'User' : 'Users'}`;
+                valMonths.textContent = `${months} ${months === 1 ? 'Month' : 'Months'}`;
+
+                let baseLite = 99, basePro = 149;
+                if (months === 1) { baseLite = 99; basePro = 149; }
+                else if (months === 3) { baseLite = 92; basePro = 138; }
+                else if (months === 6) { baseLite = 84; basePro = 125; }
+                else if (months === 12) { baseLite = 79; basePro = 99; }
+                else if (months === 18) { baseLite = 63; basePro = 91; }
+                else if (months === 24) { baseLite = 56; basePro = 84; }
+
+                // Shift base price to 76 for users >= 5 to allow a smooth, declining pricing path starting from 69
+                if (users >= 5 && months === 12) { baseLite = 76; }
+
+                let liteRate = baseLite, proRate = basePro;
+                if (users > 1) {
+                    const discountFactor = 1 - (users - 1) * 0.022;
+                    liteRate = Math.round(baseLite * discountFactor);
+                    proRate = Math.round(basePro * discountFactor);
+                }
+                if (users === 5 && months === 12) { proRate = 89; liteRate = 69; }
+                liteRate = Math.max(49, liteRate);
+                proRate = Math.max(69, proRate);
+                if (users === 10 && months === 24) { liteRate = 49; proRate = 69; }
+
+                priceLite.innerHTML = `₹${liteRate}<span class="text-[16px] font-normal" style="${priceStyle}">/mo per user</span>`;
+                pricePro.innerHTML = `₹${proRate}<span class="text-[16px] font-normal" style="${priceStyle}">/mo per user</span>`;
+
+                const liteOriginalTotal = 99 * users * months;
+                const proOriginalTotal = 149 * users * months;
+                const liteRawTotal = liteRate * users * months;
+                const proRawTotal = proRate * users * months;
+                const liteRoundedTotal = roundTotal(liteRawTotal);
+                const proRoundedTotal = roundTotal(proRawTotal);
+                const liteOriginalRounded = roundTotal(liteOriginalTotal);
+                const proOriginalRounded = roundTotal(proOriginalTotal);
+                const liteSavings = liteOriginalTotal - liteRoundedTotal;
+                const proSavings = proOriginalTotal - proRoundedTotal;
+
+                if (liteSavings > 0) {
+                    totalLite.innerHTML = `
+                        <div class="text-[13px] opacity-60" style="${priceStyle}">Total: <span class="line-through mr-1 opacity-70">₹${liteOriginalRounded}</span></div>
+                        <div class="text-2xl font-bold mt-0.5 gradient-text">₹${liteRoundedTotal}</div>
+                        <div class="text-[12px] mt-0.5" style="color:var(--accent-2);">Save ₹${liteSavings}</div>`;
+                } else {
+                    totalLite.innerHTML = `Total: <span class="font-bold gradient-text">₹${liteRoundedTotal}</span>`;
+                }
+                if (proSavings > 0) {
+                    totalPro.innerHTML = `
+                        <div class="text-[13px] opacity-60" style="${priceStyle}">Total: <span class="line-through mr-1 opacity-70">₹${proOriginalRounded}</span></div>
+                        <div class="text-2xl font-bold mt-0.5 gradient-text">₹${proRoundedTotal}</div>
+                        <div class="text-[12px] mt-0.5" style="color:var(--accent-2);">Save ₹${proSavings}</div>`;
+                } else {
+                    totalPro.innerHTML = `Total: <span class="font-bold gradient-text">₹${proRoundedTotal}</span>`;
+                }
+            }
+        }
+
+        function roundTotal(total) {
+            if (total < 300) return Math.round(total / 10) * 10;
+            else if (total < 1000) return Math.round(total / 50) * 50;
+            else if (total < 5000) return Math.round(total / 100) * 100;
+            else return Math.round(total / 500) * 500;
+        }
+
+        function setButtonActive(activeBtn, inactiveBtns) {
+            activeBtn.classList.add('active');
+            inactiveBtns.forEach(btn => btn.classList.remove('active'));
+        }
+
+        btnMonthly.addEventListener('click', () => { currentMode = 'monthly'; setButtonActive(btnMonthly, [btnYearly, btnCustom]); updatePricing(); });
+        btnYearly.addEventListener('click', () => { currentMode = 'yearly'; setButtonActive(btnYearly, [btnMonthly, btnCustom]); updatePricing(); });
+        btnCustom.addEventListener('click', () => { currentMode = 'custom'; setButtonActive(btnCustom, [btnMonthly, btnYearly]); updatePricing(); });
+
+        rangeUsers.addEventListener('input', updatePricing);
+        rangeMonths.addEventListener('input', updatePricing);
+
+        // ── Auth & OTP Form Handlers (fully preserved) ──
+        const loginForm = document.getElementById('login-form');
+        const credentialsGroup = document.getElementById('credentials-group');
+        const otpGroup = document.getElementById('otp-group');
+        const loginMessage = document.getElementById('login-message');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const otpInput = document.getElementById('otp-code');
+        const btnVerify = document.getElementById('btn-verify');
+        const btnBack = document.getElementById('btn-back');
+        const btnSubmit = document.getElementById('btn-submit');
+
+        const tabSignin = document.getElementById('tab-signin');
+        const tabSignup = document.getElementById('tab-signup');
+        const loginTitle = document.getElementById('login-title');
+        const loginSubtitle = document.getElementById('login-subtitle');
+        const extraLoginActions = document.getElementById('extra-login-actions');
+        const rememberMe = document.getElementById('remember-me');
+
+        let isOtpState = false;
+        let currentAuthMode = 'signin';
+
+        function showMessage(text, type = 'error') {
+            loginMessage.classList.remove('hidden', 'msg-error', 'msg-success');
+            loginMessage.classList.add(type === 'error' ? 'msg-error' : 'msg-success');
+            loginMessage.textContent = text;
+        }
+
+        tabSignin.addEventListener('click', () => {
+            if (isOtpState) return;
+            currentAuthMode = 'signin';
+            tabSignin.style.color = 'var(--accent-1)';
+            tabSignin.style.borderColor = 'var(--accent-1)';
+            tabSignup.style.color = 'var(--text-tertiary)';
+            tabSignup.style.borderColor = 'transparent';
+            loginTitle.textContent = 'Welcome Back';
+            loginSubtitle.textContent = 'Sign in to your ProSync account.';
+            btnSubmit.textContent = 'Sign In';
+            extraLoginActions.classList.remove('hidden');
+            passwordInput.placeholder = '••••••••';
+            passwordInput.required = true;
+            document.getElementById('name-group').classList.add('hidden');
+            document.getElementById('name').required = false;
+        });
+
+        tabSignup.addEventListener('click', () => {
+            if (isOtpState) return;
+            currentAuthMode = 'signup';
+            tabSignup.style.color = 'var(--accent-1)';
+            tabSignup.style.borderColor = 'var(--accent-1)';
+            tabSignin.style.color = 'var(--text-tertiary)';
+            tabSignin.style.borderColor = 'transparent';
+            loginTitle.textContent = 'Create Account';
+            loginSubtitle.textContent = 'Start your journey with ProSync.';
+            btnSubmit.textContent = 'Sign Up';
+            extraLoginActions.classList.add('hidden');
+            passwordInput.placeholder = '•••••••• (Required)';
+            passwordInput.required = true;
+            document.getElementById('name-group').classList.remove('hidden');
+            document.getElementById('name').required = true;
+        });
+
+        // Navbar session state
+        function updateNavbarSessionState() {
+            const savedSession = localStorage.getItem('prosync_session');
+            const savedName = localStorage.getItem('prosync_name') || '';
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navLogin = document.getElementById('nav-login');
+            const navProfile = document.getElementById('nav-profile');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownEmail = document.getElementById('dropdown-email');
+            const profileBtn = document.getElementById('profile-dropdown-btn');
+
+            if (savedSession) {
+                if (navDashboard) navDashboard.classList.remove('hidden');
+                if (navLogin) navLogin.classList.add('hidden');
+                if (navProfile) {
+                    navProfile.classList.remove('hidden');
+                    const displayName = savedName || savedSession;
+                    if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
+                    if (dropdownName) dropdownName.textContent = displayName;
+                    if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+            } else {
+                if (navDashboard) navDashboard.classList.add('hidden');
+                if (navLogin) { navLogin.classList.remove('hidden'); }
+                if (navProfile) navProfile.classList.add('hidden');
+            }
+        }
+
+        // Profile dropdown
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        if (profileDropdownBtn && profileDropdownMenu) {
+            profileDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
+        }
+
+        // Auto-login check
+        function checkAutoLogin() {
+            const savedSession = localStorage.getItem('prosync_session');
+            if (savedSession) updateNavbarSessionState();
+        }
+        checkAutoLogin();
+        updatePricing();
+
+        // Login form submit
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (isOtpState) return;
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const name = document.getElementById('name').value.trim();
+
+            if (!email) { showMessage('Please enter your email.'); return; }
+
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Processing...';
+            loginMessage.classList.add('hidden');
+
+            try {
+                if (currentAuthMode === 'signin') {
+                    const response = await fetch(`${API_BASE}/api/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        showMessage('Login successful! Redirecting...', 'success');
+                        localStorage.setItem('prosync_session', email);
+                        if (result.name) localStorage.setItem('prosync_name', result.name);
+                        updateNavbarSessionState();
+                        setTimeout(() => { window.location.hash = '#home'; }, 1500);
+                    } else {
+                        showMessage(result.error || 'Login failed. Please check credentials.');
+                    }
+                } else {
+                    const response = await fetch(`${API_BASE}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password, name })
+                    });
+                    const result = await response.json();
+                    if (response.ok && result.otp_required) {
+                        credentialsGroup.classList.add('hidden');
+                        otpGroup.classList.remove('hidden');
+                        isOtpState = true;
+                        showMessage(result.message || 'Verification OTP code sent to email.', 'success');
+                    } else {
+                        showMessage(result.error || 'Sign up failed. Try again.');
+                    }
+                }
+            } catch (err) {
+                showMessage('Network error. Check connection or backend server.');
+                console.error(err);
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = currentAuthMode === 'signin' ? 'Sign In' : 'Sign Up';
+            }
+        });
+
+        // OTP verify
+        btnVerify.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            const otp = otpInput.value.trim();
+            if (!otp || otp.length !== 6) { showMessage('Please enter a valid 6-digit OTP code.'); return; }
+
+            btnVerify.disabled = true;
+            btnVerify.textContent = 'Verifying OTP...';
+            loginMessage.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    showMessage(result.message || 'Verification successful! Redirecting...', 'success');
+                    localStorage.setItem('prosync_session', email);
+                    if (result.name) localStorage.setItem('prosync_name', result.name);
+                    updateNavbarSessionState();
+                    setTimeout(() => { window.location.hash = '#product'; }, 1500);
+                } else {
+                    showMessage(result.error || 'Verification failed. Try again.');
+                }
+            } catch (err) {
+                showMessage('Network error verifying OTP.');
+                console.error(err);
+            } finally {
+                btnVerify.disabled = false;
+                btnVerify.textContent = 'Verify OTP';
+            }
+        });
+
+        btnBack.addEventListener('click', () => {
+            otpGroup.classList.add('hidden');
+            credentialsGroup.classList.remove('hidden');
+            isOtpState = false;
+            loginMessage.classList.add('hidden');
+            otpInput.value = '';
+        });
+
+        // Logout
+        const dropdownLogout = document.getElementById('dropdown-logout');
+        if (dropdownLogout) {
+            dropdownLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('prosync_session');
+                localStorage.removeItem('prosync_name');
+                updateNavbarSessionState();
+                otpGroup.classList.add('hidden');
+                credentialsGroup.classList.remove('hidden');
+                isOtpState = false;
+                loginMessage.classList.add('hidden');
+                emailInput.value = '';
+                passwordInput.value = '';
+                document.getElementById('name').value = '';
+                otpInput.value = '';
+                loginTitle.textContent = 'Welcome Back';
+                loginSubtitle.textContent = 'Sign in to your ProSync account.';
+                showMessage('Logged out successfully.', 'success');
+                window.location.hash = '#home';
+            });
+        }
+
+        // Check Price redirect
+        function highlightPricingCard(cardId) {
+            window.location.hash = '#pricing';
+            setTimeout(() => {
+                const card = document.getElementById(cardId);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.style.boxShadow = '0 0 0 3px var(--accent-1), var(--card-shadow-hover)';
+                    card.style.transform = 'scale(1.03)';
+                    setTimeout(() => {
+                        card.style.boxShadow = '';
+                        card.style.transform = '';
+                    }, 2000);
+                }
+            }, 150);
+        }
+
+        // ── Payment checkout event logic ──
+        let paymentTimerInterval = null;
+        let selectedPaymentPlan = 'lite';
+
+        const checkoutModal = document.getElementById('payment-checkout-modal');
+        const checkoutRangeUsers = document.getElementById('checkout-range-users');
+        const checkoutRangeMonths = document.getElementById('checkout-range-months');
+        const checkoutValUsers = document.getElementById('checkout-val-users');
+        const checkoutValMonths = document.getElementById('checkout-val-months');
+        const checkoutOriginalPrice = document.getElementById('checkout-original-price');
+        const checkoutSavingsPrice = document.getElementById('checkout-savings-price');
+        const checkoutTotalPrice = document.getElementById('checkout-total-price');
+
+        const checkoutBtnLite = document.getElementById('checkout-btn-lite');
+        const checkoutBtnPro = document.getElementById('checkout-btn-pro');
+
+        const paymentStepCalc = document.getElementById('payment-step-calc');
+        const paymentStepCompany = document.getElementById('payment-step-company');
+        const paymentStepQr = document.getElementById('payment-step-qr');
+        const checkoutQrImg = document.getElementById('checkout-qr-img');
+        const btnPaymentProceed = document.getElementById('btn-payment-proceed');
+        const btnPaymentWhatsapp = document.getElementById('btn-payment-whatsapp');
+        const paymentTimer = document.getElementById('payment-timer');
+
+        const checkoutCompanyName = document.getElementById('checkout-company-name');
+        const checkoutCompanyAddress = document.getElementById('checkout-company-address');
+        const btnCompanySubmit = document.getElementById('btn-company-submit');
+
+        function openPaymentCheckoutModal(plan) {
+            selectedPaymentPlan = plan;
+            
+            paymentStepCalc.classList.remove('hidden');
+            if (paymentStepCompany) paymentStepCompany.classList.add('hidden');
+            paymentStepQr.classList.add('hidden');
+            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+            
+            checkoutRangeUsers.value = 5;
+            checkoutRangeMonths.value = 4; // 12 months (step 4)
+            
+            const checkoutTitle = document.getElementById('checkout-title');
+            if (checkoutTitle) {
+                checkoutTitle.textContent = `Configure ProSync ${plan === 'lite' ? 'Lite' : 'Pro'}`;
+            }
+
+            // Highlight current plan tab
+            if (plan === 'lite') {
+                setCheckoutTabActive(checkoutBtnLite, checkoutBtnPro, 'lite');
+            } else {
+                setCheckoutTabActive(checkoutBtnPro, checkoutBtnLite, 'pro');
+            }
+
+            const downloadContainer = document.getElementById('payment-download-agent-container');
+            if (downloadContainer) downloadContainer.classList.add('hidden');
+
+            updateCheckoutPrice();
+            if (checkoutModal) checkoutModal.classList.remove('hidden');
+        }
+
+        function setCheckoutTabActive(activeBtn, inactiveBtn, plan) {
+            if (plan === 'lite') {
+                activeBtn.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-teal-500 text-slate-950";
+                inactiveBtn.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400";
+            } else {
+                activeBtn.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-indigo-500 text-white";
+                inactiveBtn.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400";
+            }
+        }
+
+        if (checkoutBtnLite) {
+            checkoutBtnLite.addEventListener('click', () => {
+                selectedPaymentPlan = 'lite';
+                setCheckoutTabActive(checkoutBtnLite, checkoutBtnPro, 'lite');
+                const checkoutTitle = document.getElementById('checkout-title');
+                if (checkoutTitle) checkoutTitle.textContent = 'Configure ProSync Lite';
+                updateCheckoutPrice();
+            });
+        }
+        if (checkoutBtnPro) {
+            checkoutBtnPro.addEventListener('click', () => {
+                selectedPaymentPlan = 'pro';
+                setCheckoutTabActive(checkoutBtnPro, checkoutBtnLite, 'pro');
+                const checkoutTitle = document.getElementById('checkout-title');
+                if (checkoutTitle) checkoutTitle.textContent = 'Configure ProSync Pro';
+                updateCheckoutPrice();
+            });
+        }
+
+        function updateCheckoutPrice() {
+            const users = parseInt(checkoutRangeUsers.value);
+            const monthsStep = parseInt(checkoutRangeMonths.value);
+            const mapping = { 1: 1, 2: 3, 3: 6, 4: 12, 5: 18, 6: 24 };
+            const months = mapping[monthsStep] || 1;
+
+            checkoutValUsers.textContent = `${users} ${users === 1 ? 'User' : 'Users'}`;
+            checkoutValMonths.textContent = `${months} ${months === 1 ? 'Month' : 'Months'}`;
+
+            // Calculate Base Price matching main calculator
+            let baseLite = 99, basePro = 149;
+            if (months === 1) { baseLite = 99; basePro = 149; }
+            else if (months === 3) { baseLite = 92; basePro = 138; }
+            else if (months === 6) { baseLite = 84; basePro = 125; }
+            else if (months === 12) { baseLite = 79; basePro = 99; }
+            else if (months === 18) { baseLite = 63; basePro = 91; }
+            else if (months === 24) { baseLite = 56; basePro = 84; }
+
+            // Shift base price to 76 for users >= 5 to allow a smooth, declining pricing path starting from 69
+            if (users >= 5 && months === 12) { baseLite = 76; }
+
+            let liteRate = baseLite, proRate = basePro;
+            if (users > 1) {
+                const discountFactor = 1 - (users - 1) * 0.022;
+                liteRate = Math.round(baseLite * discountFactor);
+                proRate = Math.round(basePro * discountFactor);
+            }
+            if (users === 5 && months === 12) { proRate = 89; liteRate = 69; }
+            liteRate = Math.max(49, liteRate);
+            proRate = Math.max(69, proRate);
+            if (users === 10 && months === 24) { liteRate = 49; proRate = 69; }
+
+            const originalTotal = (selectedPaymentPlan === 'lite' ? 99 : 149) * users * months;
+            const discountedRate = selectedPaymentPlan === 'lite' ? liteRate : proRate;
+            const discountedTotal = discountedRate * users * months;
+            
+            const roundedOriginal = roundTotal(originalTotal);
+            const roundedTotal = roundTotal(discountedTotal);
+            const savings = Math.max(0, roundedOriginal - roundedTotal);
+
+            checkoutOriginalPrice.textContent = `₹${roundedOriginal.toLocaleString('en-IN')}`;
+            checkoutSavingsPrice.textContent = `₹${savings.toLocaleString('en-IN')}`;
+            checkoutTotalPrice.textContent = `₹${roundedTotal.toLocaleString('en-IN')}`;
+            
+            return { total: roundedTotal, users, months };
+        }
+
+        if (checkoutRangeUsers) checkoutRangeUsers.addEventListener('input', updateCheckoutPrice);
+        if (checkoutRangeMonths) checkoutRangeMonths.addEventListener('input', updateCheckoutPrice);
+
+        function transitionToQrCode() {
+            const { total, users, months } = updateCheckoutPrice();
+            
+            paymentStepCalc.classList.add('hidden');
+            if (paymentStepCompany) paymentStepCompany.classList.add('hidden');
+            paymentStepQr.classList.remove('hidden');
+
+            // Update plan configuration summary badge
+            const summaryBadge = document.getElementById('checkout-summary-badge');
+            if (summaryBadge) {
+                const planName = selectedPaymentPlan === 'lite' ? 'ProSync Lite' : 'ProSync Pro';
+                summaryBadge.textContent = `${planName} • ${users} ${users === 1 ? 'User' : 'Users'} • ${months} ${months === 1 ? 'Month' : 'Months'}`;
+                if (selectedPaymentPlan === 'lite') {
+                    summaryBadge.className = "px-4 py-1.5 rounded-lg text-[13px] font-bold bg-slate-950/40 border border-slate-800/60 text-teal-400";
+                } else {
+                    summaryBadge.className = "px-4 py-1.5 rounded-lg text-[13px] font-bold bg-slate-950/40 border border-slate-800/60 text-indigo-400";
+                }
+            }
+            
+            // UPI QR Code generation via free qrserver API
+            const upiLink = `upi://pay?pa=fenilgabani5851-1@okhdfcbank&pn=ProSync&am=${total}&cu=INR&tn=prosync-order`;
+            checkoutQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiLink)}`;
+            
+            // WhatsApp prefilled message
+            const waText = `Hello, I have completed the payment of INR ${total} for ${users} users for ${months} months on ProSync. Here is my screenshot.`;
+            btnPaymentWhatsapp.href = `https://wa.me/919106346658?text=${encodeURIComponent(waText)}`;
+            
+            // 5-minute countdown
+            startCountdown(300);
+        }
+
+        if (btnPaymentProceed) {
+            btnPaymentProceed.addEventListener('click', () => {
+                const storedCompany = localStorage.getItem('prosync_company_name') || '';
+                const storedAddress = localStorage.getItem('prosync_company_address') || '';
+                
+                if (checkoutCompanyName) checkoutCompanyName.value = storedCompany;
+                if (checkoutCompanyAddress) checkoutCompanyAddress.value = storedAddress;
+
+                if (storedCompany && storedAddress) {
+                    transitionToQrCode();
+                } else {
+                    paymentStepCalc.classList.add('hidden');
+                    if (paymentStepCompany) paymentStepCompany.classList.remove('hidden');
+                }
+            });
+        }
+
+        if (btnCompanySubmit) {
+            btnCompanySubmit.addEventListener('click', () => {
+                const compName = checkoutCompanyName.value.trim();
+                const compAddr = checkoutCompanyAddress.value.trim();
+                
+                if (!compName || !compAddr) {
+                    alert('Please enter both Company Name and Address.');
+                    return;
+                }
+                
+                localStorage.setItem('prosync_company_name', compName);
+                localStorage.setItem('prosync_company_address', compAddr);
+                
+                transitionToQrCode();
+            });
+        }
+
+        if (btnPaymentWhatsapp) {
+            btnPaymentWhatsapp.addEventListener('click', () => {
+                const { total, users, months } = updateCheckoutPrice();
+                const email = localStorage.getItem('prosync_session') || '';
+                
+                // Reveal the download agent button on page
+                const downloadContainer = document.getElementById('payment-download-agent-container');
+                if (downloadContainer) {
+                    downloadContainer.classList.remove('hidden');
+                }
+
+                // Send checkout transaction to backend
+                fetch(`${API_BASE}/api/payment/record`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        plan: selectedPaymentPlan,
+                        users: users,
+                        months: months,
+                        company_name: localStorage.getItem('prosync_company_name') || '',
+                        company_address: localStorage.getItem('prosync_company_address') || ''
+                    })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    console.log('Payment recorded:', data);
+                })
+                .catch(err => {
+                    console.error('Failed to record payment:', err);
+                });
+            });
+        }
+
+        function startCountdown(duration) {
+            if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+            let timeRemaining = duration;
+            
+            function updateTimerDisplay() {
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                paymentTimer.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            updateTimerDisplay();
+            paymentTimerInterval = setInterval(() => {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    clearInterval(paymentTimerInterval);
+                    paymentTimer.textContent = "00:00";
+                    alert("Payment session expired. Please configure a new invoice.");
+                    if (checkoutModal) checkoutModal.classList.add('hidden');
+                } else {
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        const btnClosePayment = document.getElementById('btn-close-payment');
+        if (checkoutModal) {
+            checkoutModal.addEventListener('click', (e) => {
+                if (e.target === checkoutModal) {
+                    checkoutModal.classList.add('hidden');
+                    if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+                }
+            });
+        }
+        if (btnClosePayment) {
+            btnClosePayment.addEventListener('click', () => {
+                if (checkoutModal) checkoutModal.classList.add('hidden');
+                if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+            });
+        }
+
+        function handlePaymentClick(plan) {
+            if (!localStorage.getItem('prosync_session')) {
+                window.location.hash = '#login';
+                return;
+            }
+            openPaymentCheckoutModal(plan);
+        }
+
+        const btnGetLite = document.getElementById('btn-get-lite');
+        const btnGetPro = document.getElementById('btn-get-pro');
+        if (btnGetLite) btnGetLite.addEventListener('click', () => handlePaymentClick('lite'));
+        if (btnGetPro) btnGetPro.addEventListener('click', () => handlePaymentClick('pro'));
+
+        document.getElementById('btn-check-lite').addEventListener('click', (e) => {
+            e.stopPropagation();
+            highlightPricingCard('card-pricing-lite');
+        });
+        document.getElementById('btn-check-pro').addEventListener('click', (e) => {
+            e.stopPropagation();
+            highlightPricingCard('card-pricing-pro');
+        });
+        document.getElementById('btn-check-watcher').addEventListener('click', () => highlightPricingCard('card-pricing-enterprise'));
+
+        // ── Login Modal open/close ──
+        const loginModal = document.getElementById('login');
+        const btnCloseLogin = document.getElementById('btn-close-login');
+        if (loginModal) {
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) window.location.hash = '#home';
+            });
+        }
+        if (btnCloseLogin) {
+            btnCloseLogin.addEventListener('click', () => window.location.hash = '#home');
+        }
+
+        // ── Router (SPA navigation) ──
+        let isInitialRouting = true;
+
+        function handleRouting() {
+            const hash = window.location.hash || '#home';
+            const loginModalEl = document.getElementById('login');
+
+            const mainSections = [
+                document.getElementById('home'),
+                document.getElementById('features'),
+                document.getElementById('pricing')
+            ];
+            const productSection = document.getElementById('product');
+
+            // Get nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Reset active
+            navLinks.forEach(l => l.classList.remove('active'));
+
+            if (hash === '#product') {
+                mainSections.forEach(sec => { if(sec) sec.classList.add('hidden'); });
+                if (loginModalEl) loginModalEl.classList.add('hidden');
+                if (productSection) productSection.classList.remove('hidden');
+                const productNav = document.getElementById('nav-dashboard');
+                if (productNav) productNav.classList.add('active');
+                // Also show testimonials/cta/trust? Hide them for product view
+                document.querySelectorAll('[data-landing]').forEach(s => s.classList.add('hidden'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                mainSections.forEach(sec => { if(sec) sec.classList.remove('hidden'); });
+                if (productSection) productSection.classList.add('hidden');
+                document.querySelectorAll('[data-landing]').forEach(s => s.classList.remove('hidden'));
+
+                if (hash === '#login') {
+                    if (loginModalEl) loginModalEl.classList.remove('hidden');
+                } else {
+                    if (loginModalEl) loginModalEl.classList.add('hidden');
+                }
+
+                // Highlight nav
+                const activeLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                if (activeLink) activeLink.classList.add('active');
+
+                if (hash !== '#login' && !isInitialRouting) {
+                    const target = document.querySelector(hash);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+            isInitialRouting = false;
+        }
+
+        // ── Scroll Reveal Observer ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+
+        // ── Navbar scroll shadow ──
+        const mainNav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                mainNav.classList.add('scrolled');
+            } else {
+                mainNav.classList.remove('scrolled');
+            }
+        });
+
+        // ── Scroll Spy (Automatic Nav Highlighting) ──
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY || document.documentElement.scrollTop;
+            const offset = 120; // Offset for sticky navbar height
+            const hash = window.location.hash || '#home';
+            
+            // Only scroll spy on the main landing sections
+            if (hash !== '#product' && hash !== '#login') {
+                const homeSec = document.getElementById('home');
+                const featuresSec = document.getElementById('features');
+                const pricingSec = document.getElementById('pricing');
+                
+                let current = '#home';
+                
+                if (pricingSec && scrollPos >= pricingSec.offsetTop - offset) {
+                    current = '#pricing';
+                } else if (featuresSec && scrollPos >= featuresSec.offsetTop - offset) {
+                    current = '#features';
+                } else if (homeSec && scrollPos >= homeSec.offsetTop - offset) {
+                    current = '#home';
+                }
+                
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === current) {
+                        link.classList.add('active');
+                    } else if (href === '#home' || href === '#features' || href === '#pricing') {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+        // ── Theme Toggle ──
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeToggleIcon) themeToggleIcon.textContent = 'light_mode';
+                localStorage.setItem('prosync_theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (themeToggleIcon) themeToggleIcon.textContent = 'dark_mode';
+                localStorage.setItem('prosync_theme', 'light');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('prosync_theme') || 'dark';
+        setTheme(savedTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+                setTheme(next);
+            });
+        }
+
+        // Typing Effect logic
+        const words = ["Potential.", "Strength.", "Ability.", "Productivity.", "Focus.", "Efficiency."];
+        let wordIndex = 0;
+        let charIndex = words[0].length;
+        let isDeleting = true;
+        const typingSpeed = 100;
+        const eraseSpeed = 60;
+        const delayBetweenWords = 2000;
+        const typingElement = document.getElementById('typing-word');
+
+        function type() {
+            if (!typingElement) return;
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typingElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let nextSpeed = isDeleting ? eraseSpeed : typingSpeed;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                nextSpeed = delayBetweenWords;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                nextSpeed = 500;
+            }
+
+            setTimeout(type, nextSpeed);
+        }
+        setTimeout(type, 2000);
+
+        // ── Feature Flip Cards Auto-timeout Logic ──
+        const flipCards = document.querySelectorAll('.flip-card');
+        flipCards.forEach(card => {
+            let timeoutId = null;
+
+            function triggerFlip() {
+                // If it is already flipped, we clear any previous timers
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                card.classList.add('flipped');
+
+                // Set a 30-second (30000ms) timer to flip it back to the front
+                timeoutId = setTimeout(() => {
+                    card.classList.remove('flipped');
+                    timeoutId = null;
+                }, 30000);
+            }
+
+            // Flip on mouse enter
+            card.addEventListener('mouseenter', () => {
+                if (!card.classList.contains('flipped')) {
+                    triggerFlip();
+                }
+            });
+
+            // Also support clicking/tapping to flip/reset
+            card.addEventListener('click', (e) => {
+                if (card.classList.contains('flipped')) {
+                    // Manual flip back if clicked while flipped
+                    card.classList.remove('flipped');
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        timeoutId = null;
+                    }
+                } else {
+                    triggerFlip();
+                }
+            });
+        });
+
+        // ═══════════════════ PRODUCT DETAILS MODAL LOGIC ═══════════════════
+        const productData = {
+            lite: {
+                title: "ProSync Lite",
+                badge: "Essential Module",
+                badgeClass: "bg-teal-500/10 text-teal-400",
+                icon: "monitoring",
+                iconBg: "bg-teal-500/10 text-teal-500",
+                glowColor: "rgba(20,184,166,0.2)",
+                description: "Essential local tracking and privacy-conscious focus analytics designed for smaller teams and straightforward accountability.",
+                features: [
+                    {
+                        title: "Time Tracking",
+                        desc: "Detailed logs of Active, Idle, Buffer, Break, and Out of System segments."
+                    },
+                    {
+                        title: "Shift & Attendance",
+                        desc: "Clock in, Clock out, target shift standards, and daily attendance logging."
+                    },
+                    {
+                        title: "Apps & Tab Tracking",
+                        desc: "Standard logging of active window headers, applications, and processes."
+                    },
+                    {
+                        title: "7-Day Summary Reports",
+                        desc: "View daily summary scorecards for the past 7 days (with custom options to fetch more)."
+                    },
+                    {
+                        title: "7-Day Screenshot Retention",
+                        desc: "Rolling archive of standard employee screenshots, kept for 7 days before auto-purge."
+                    },
+                    {
+                        title: "180-Day History Sync",
+                        desc: "Sync logs and activity metadata to the cloud database with a 180-day retention window."
+                    },
+                    {
+                        title: "Monthly Summary Reports",
+                        desc: "Receive monthly performance and productivity reports delivered to your inbox."
+                    }
+                ]
+            },
+            pro: {
+                title: "ProSync Pro",
+                badge: "Advanced Diagnostics",
+                badgeClass: "bg-indigo-500/10 text-indigo-400",
+                icon: "admin_panel_settings",
+                iconBg: "bg-indigo-500/10 text-indigo-500",
+                glowColor: "rgba(99,102,241,0.2)",
+                description: "Advanced cognitive diagnostics, anti-cheat detection, full-shift audits, and centralized management console for scaling businesses.",
+                features: [
+                    {
+                        title: "Privacy-Focused Screenshots",
+                        desc: "Screenshots are Gaussian-blurred locally on the agent device before uploading to ensure privacy."
+                    },
+                    {
+                        title: "Anti-Jiggler Engine",
+                        desc: "Verifies real human patterns and activity density, filtering out mechanical mouse jigglers."
+                    },
+                    {
+                        title: "Detailed Apps & Tabs Classifications",
+                        desc: "Custom matrix to classify window headers and categorize app usage categories."
+                    },
+                    {
+                        title: "Weekly, Monthly & Attendance Reports",
+                        desc: "Generate full summary scorecards and detailed attendance reports anytime."
+                    },
+                    {
+                        title: "Overtime & Deficit Tracking",
+                        desc: "Compute shifts timing differences to calculate late entries, early logouts, and work deficits."
+                    },
+                    {
+                        title: "Performance Audits",
+                        desc: "Audit late arrivals, extra breaks, session efficiency, and activity authenticity metrics."
+                    },
+                    {
+                        title: "91-Day Screenshots Archive",
+                        desc: "Rolling visual verify screenshots archive, safely retained for 91 days before purging."
+                    },
+                    {
+                        title: "2-Year History & Retention",
+                        desc: "Store full team metrics history for up to 2 years, ensuring audit and compliance readiness."
+                    },
+                    {
+                        title: "Admin View & Centralized Console",
+                        desc: "Central dashboard view to approve devices, reassign licenses, and manage team controls."
+                    }
+                ]
+            },
+            watcher: {
+                title: "Watcher & Controller",
+                badge: "Optional Addon",
+                badgeClass: "bg-fuchsia-500/10 text-fuchsia-400",
+                icon: "blur_on",
+                iconBg: "bg-fuchsia-500/10 text-fuchsia-500",
+                glowColor: "rgba(217,70,239,0.2)",
+                description: "Real-time desktop streaming, live operational views, and direct administrative remote control for active assistance and strict auditing.",
+                features: [
+                    {
+                        title: "Live Feed Watcher",
+                        desc: "Stream real-time high-fidelity screen views from remote machines directly into the web panel, requiring zero manual refreshes."
+                    },
+                    {
+                        title: "Input Remote Control",
+                        desc: "Allows admins to securely send input controls (mouse clicks, movements, and key events) to remote devices for support."
+                    },
+                    {
+                        title: "Process Commands Runner",
+                        desc: "Remotely launch executables, run terminal/cmd lines, and start or stop application processes on target employee machines securely."
+                    },
+                    {
+                        title: "Desktop Lockdown Actions",
+                        desc: "Provides rapid mitigation controls to lock screens, trigger instant user logout, force reboots, or shutdown target systems."
+                    }
+                ]
+            }
+        };
+
+        const detailsModal = document.getElementById('product-details-modal');
+        const btnCloseDetails = document.getElementById('btn-close-details');
+        
+        function openProductDetailsModal(mode) {
+            const data = productData[mode];
+            if (!data) return;
+            
+            document.getElementById('modal-theme-glow').style.backgroundColor = data.glowColor;
+            
+            const iconContainer = document.getElementById('modal-product-icon-container');
+            iconContainer.className = `w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${data.iconBg}`;
+            document.getElementById('modal-product-icon').textContent = data.icon;
+            
+            const badge = document.getElementById('modal-product-badge');
+            badge.className = `text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full w-fit mb-1.5 ${data.badgeClass}`;
+            badge.textContent = data.badge;
+            
+            document.getElementById('modal-product-title').textContent = data.title;
+            document.getElementById('modal-product-description').textContent = data.description;
+            
+            const listContainer = document.getElementById('modal-product-features-list');
+            listContainer.innerHTML = '';
+            
+            data.features.forEach(feat => {
+                const item = document.createElement('div');
+                item.className = 'flex items-start gap-3.5';
+                item.innerHTML = `
+                    <div class="w-2.5 h-2.5 rounded-full mt-1.5 shrink-0" style="background: ${data.glowColor.replace('0.2', '0.8')}"></div>
+                    <div>
+                        <h4 class="text-[14px] font-bold text-slate-200">${feat.title}</h4>
+                        <p class="text-[13px] leading-relaxed mt-1" style="color:var(--text-tertiary);">${feat.desc}</p>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+
+            // Dynamic 2x2 grid rendering
+            const gridContainer = document.getElementById('modal-product-metrics-grid');
+            if (gridContainer) {
+                if (mode === 'lite') {
+                    gridContainer.innerHTML = `
+                        <!-- Card 1: Shift -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-teal-400">schedule</span> Shift
+                            </div>
+                            <div class="flex flex-col gap-2.5">
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Clock in</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">First registered input event time.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Clock out</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Timestamp of final event registered.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Shift</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Target work hours standard.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Late</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Diff between Clock in & shift start.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Time -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-teal-400">timer</span> Time
+                            </div>
+                            <div class="flex flex-col gap-2.5">
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Active & Idle</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Active keystrokes versus AFK idle blocks.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Buffer & Break</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Sporadic reading time and break segments.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">Out of System</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">PC is locked, offline, or turned off.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Attendance -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-teal-400">fact_check</span> Attendance
+                            </div>
+                            <div class="flex flex-col gap-2 text-[11px]" style="color:var(--text-tertiary);">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center font-extrabold text-[10px] bg-green-500/10 text-green-400 shrink-0">P</span>
+                                    <div><strong class="text-slate-300">Present</strong>: Work hours completed.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center font-extrabold text-[10px] bg-blue-500/10 text-blue-400 shrink-0">H</span>
+                                    <div><strong class="text-slate-300">Half-Day</strong>: 4-5 hours logged.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center font-extrabold text-[10px] bg-amber-500/10 text-amber-400 shrink-0">S</span>
+                                    <div><strong class="text-slate-300">Short-Day</strong>: Under target shift hours.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center font-extrabold text-[10px] bg-red-500/10 text-red-400 shrink-0">A</span>
+                                    <div><strong class="text-slate-300">Absent</strong>: No activity logged.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center font-extrabold text-[10px] bg-slate-500/10 text-slate-400 shrink-0">W</span>
+                                    <div><strong class="text-slate-300">Weekly Off</strong>: Weekends or holidays.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Basic App Log -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-teal-400">web</span> App Log
+                            </div>
+                            <div class="flex flex-col gap-2.5">
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300">App Tracking</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Log active application names and process headers.</div>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] font-bold text-slate-300 font-sans">No Custom Categories</div>
+                                    <div class="text-[11px]" style="color:var(--text-tertiary);">Does not classify URL tabs or organize into category matrices.</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (mode === 'pro') {
+                    gridContainer.innerHTML = `
+                        <!-- Card 1: Shift Tracking -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-indigo-400">schedule</span> Shift Tracking
+                            </div>
+                            <div class="flex flex-col gap-2.5 text-[11px] text-slate-300">
+                                <div>
+                                    <strong class="text-indigo-400">Clock in</strong>: First registered input event time.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Clock out</strong>: Timestamp of final event registered.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Shift</strong>: Target work hours standard.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Late</strong>: Diff between Clock in & shift start.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Extra Stats -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-indigo-400">analytics</span> Extra Stats
+                            </div>
+                            <div class="flex flex-col gap-2.5 text-[11px] text-slate-300">
+                                <div>
+                                    <strong class="text-indigo-400">Overtime (OT)</strong>: Time surplus beyond shift boundaries.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Work Deficit</strong>: Shortage of active hours relative to shift.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Efficiency Score</strong>: Productivity ratio based on focus patterns.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Authenticity</strong>: Verification of real keyboard/mouse effort.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: App & Tab Tracking -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-indigo-400">web_asset</span> App & Tab Tracking
+                            </div>
+                            <div class="flex flex-col gap-2 text-[11px] text-slate-300">
+                                <div class="mb-1 text-[11px]" style="color:var(--text-tertiary);">Classify browser URLs and tabs:</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center bg-green-500/10 text-green-400 shrink-0">💼</span>
+                                    <div><strong class="text-slate-200">Work</strong>: IDEs, professional tools.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center bg-blue-500/10 text-blue-400 shrink-0">📚</span>
+                                    <div><strong class="text-slate-200">Study</strong>: Research, learning documents.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center bg-purple-500/10 text-purple-400 shrink-0">🎮</span>
+                                    <div><strong class="text-slate-200">Entertainment</strong>: Media, streaming.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center bg-red-500/10 text-red-400 shrink-0">⚠️</span>
+                                    <div><strong class="text-slate-200">Distraction</strong>: Social media, chat portals.</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded flex items-center justify-center bg-slate-500/10 text-slate-400 shrink-0">📁</span>
+                                    <div><strong class="text-slate-200">Other</strong>: Default utility programs.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Reports & Metrics -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-indigo-400">assessment</span> Reports & Metrics
+                            </div>
+                            <div class="flex flex-col gap-2 text-[11px] text-slate-300">
+                                <div>
+                                    <strong class="text-indigo-400">Weekly & Monthly Reports</strong>: Exportable analytics sheets.
+                                </div>
+                                <div>
+                                    <strong class="text-indigo-400">Average Active Time</strong>: Average daily real active hours.
+                                </div>
+                                <div class="mb-1">
+                                    <strong class="text-indigo-400">Average Idle Time</strong>: Average daily AFK breaks summary.
+                                </div>
+                                <div class="border-t pt-1.5 border-slate-800 flex flex-col gap-1.5">
+                                    <div class="text-[10px] font-bold uppercase tracking-wider mb-0.5" style="color:var(--text-tertiary);">Attendance Rows:</div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded flex items-center justify-center font-extrabold text-[9px] bg-green-500/10 text-green-400 shrink-0">P</span>
+                                        <div>Present Status</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded flex items-center justify-center font-extrabold text-[9px] bg-blue-500/10 text-blue-400 shrink-0">H</span>
+                                        <div>Half-Day Status</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded flex items-center justify-center font-extrabold text-[9px] bg-amber-500/10 text-amber-400 shrink-0">S</span>
+                                        <div>Short-Day Status</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded flex items-center justify-center font-extrabold text-[9px] bg-red-500/10 text-red-400 shrink-0">A</span>
+                                        <div>Absent Status</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-4 h-4 rounded flex items-center justify-center font-extrabold text-[9px] bg-slate-500/10 text-slate-400 shrink-0">W</span>
+                                        <div>Weekly Off Status</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (mode === 'watcher') {
+                    gridContainer.innerHTML = `
+                        <!-- Card 1: Live Screen Stream -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-fuchsia-400">visibility</span> Live Streaming
+                            </div>
+                            <div class="text-[11px]" style="color:var(--text-tertiary);">
+                                Real-time capture of screen states, streaming continuously to the manager panel with minimal latency and zero page refreshes.
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Input Interception -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-fuchsia-400">mouse</span> Input Control
+                            </div>
+                            <div class="text-[11px]" style="color:var(--text-tertiary);">
+                                Intercepts administrative mouse movements, clicks, and keystrokes from the web dashboard to control the target PC for hands-on IT support.
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Process Execution -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-fuchsia-400">terminal</span> Command Execution
+                            </div>
+                            <div class="text-[11px]" style="color:var(--text-tertiary);">
+                                Safely runs shell/cmd commands and controls process trees remotely to stop unauthorized applications or start tools.
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Hardware Lockdown -->
+                        <div class="flex flex-col gap-3.5 p-4 rounded-xl bg-slate-950/20 border border-slate-800/40">
+                            <div class="text-[13px] font-bold text-slate-200 uppercase tracking-wider border-b pb-1.5 border-slate-800 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-fuchsia-400">lock_open</span> Remote Lockdown
+                            </div>
+                            <div class="text-[11px]" style="color:var(--text-tertiary);">
+                                Immediate lockdown operations: remotely lock user screens, log out current sessions, or command immediate restarts/shutdowns.
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (detailsModal) detailsModal.classList.remove('hidden');
+        }
+
+        if (detailsModal) {
+            detailsModal.addEventListener('click', (e) => {
+                if (e.target === detailsModal) detailsModal.classList.add('hidden');
+            });
+        }
+        if (btnCloseDetails) {
+            btnCloseDetails.addEventListener('click', () => {
+                if (detailsModal) detailsModal.classList.add('hidden');
+            });
+        }
+
+        const cardLite = document.getElementById('lite-card');
+        const cardPro = document.getElementById('pro-card');
+        const cardWatcher = document.getElementById('watcher-card');
+
+        if (cardLite) {
+            cardLite.addEventListener('click', (e) => {
+                if (e.target.closest('#btn-check-lite')) return;
+                openProductDetailsModal('lite');
+            });
+        }
+        if (cardPro) {
+            cardPro.addEventListener('click', (e) => {
+                if (e.target.closest('#btn-check-pro')) return;
+                openProductDetailsModal('pro');
+            });
+        }
+        if (cardWatcher) {
+            cardWatcher.addEventListener('click', (e) => {
+                if (e.target.closest('#btn-check-watcher')) return;
+                openProductDetailsModal('watcher');
+            });
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        setTimeout(handleRouting, 100);
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>About Us - ProSync</title>
+    <meta name="description" content="About ProSync. Learn about our mission to build a privacy-first employee productivity platform that respects boundaries."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255,255,255,0.82);
+            --bg-footer: #0f172a;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --accent-1: #6366f1;
+            --accent-2: #14b8a6;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #14b8a6);
+            --accent-gradient-text: linear-gradient(135deg, #6366f1, #14b8a6);
+            --accent-glow: rgba(99,102,241,0.12);
+        }
+        .dark {
+            --bg-primary: #0a0f1e;
+            --bg-secondary: #0f1629;
+            --bg-tertiary: #151d35;
+            --bg-card: rgba(21,29,53,0.70);
+            --bg-nav: rgba(10,15,30,0.85);
+            --bg-footer: #060a14;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --border-primary: rgba(99,102,241,0.12);
+            --border-secondary: rgba(148,163,184,0.15);
+            --accent-glow: rgba(99,102,241,0.18);
+        }
+
+        body { background: var(--bg-primary); color: var(--text-primary); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 4px; }
+        .gradient-text { background: var(--accent-gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-glass { background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-primary); transition: box-shadow 0.3s ease; }
+        .nav-glass.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .nav-link { position: relative; color: var(--text-tertiary); font-weight: 500; font-size: 14px; transition: color 0.25s ease; text-decoration: none; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--accent-gradient); border-radius: 1px; transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .btn-primary { background: var(--accent-gradient); color: #fff; font-weight: 600; padding: 12px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px rgba(99,102,241,0.30); text-decoration: none; display: inline-block; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.40); }
+        .theme-btn { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--bg-tertiary); border: 1px solid var(--border-primary); color: var(--text-tertiary); cursor: pointer; transition: all 0.25s ease; }
+        .theme-btn:hover { color: var(--accent-1); border-color: var(--accent-1); background: var(--accent-glow); }
+        .site-footer { background: var(--bg-footer); color: #94a3b8; }
+        .dark .site-footer { background: #060a14; border-top: 1px solid rgba(99,102,241,0.10); }
+        html { scroll-behavior: smooth; }
+
+        /* Legal/Sub page styles */
+        .legal-content { max-width: 800px; margin: 0 auto; }
+        .legal-content h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        .legal-content h3 {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        .legal-content p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+        .legal-content li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .legal-content strong { color: var(--text-primary); }
+        .legal-content a { color: var(--accent-1); text-decoration: underline; transition: opacity 0.2s; }
+        .legal-content a:hover { opacity: 0.8; }
+        .legal-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+            border-radius: 100px; background: rgba(99,102,241,0.08); color: var(--accent-1);
+            border: 1px solid rgba(99,102,241,0.18); font-size: 13px; font-weight: 600;
+        }
+        .legal-content a.btn-primary { color: #ffffff !important; text-decoration: none !important; }
+        .legal-content a.btn-primary:hover { color: #ffffff !important; opacity: 0.9 !important; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="main-nav" class="nav-glass fixed top-0 w-full z-50">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between h-[64px] px-6">
+            <a href="index.html" class="font-display text-[22px] font-extrabold gradient-text tracking-tight">ProSync</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link" href="index.html#home">Home</a>
+                <a class="nav-link" href="index.html#features">Features</a>
+                <a class="nav-link" href="index.html#pricing">Pricing</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a id="nav-dashboard" class="nav-link hidden" href="index.html#product">Product</a>
+            </div>
+            <div class="flex items-center gap-3 relative">
+                <button id="theme-toggle" class="theme-btn" type="button" title="Toggle Light/Dark Mode">
+                    <span class="material-symbols-outlined text-[20px]" id="theme-toggle-icon">dark_mode</span>
+                </button>
+                <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="index.html#login" style="text-decoration:none;">Get Started</a>
+                
+                <!-- Profile dropdown (hidden until logged in) -->
+                <div id="nav-profile" class="hidden relative">
+                    <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
+                        <div class="px-4 py-3 border-b flex flex-col" style="border-color:var(--border-primary);">
+                            <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
+                            <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
+                        </div>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER -->
+    <section class="pt-[140px] pb-[60px] px-6" style="background:var(--bg-secondary);">
+        <div class="legal-content text-center">
+            <div class="legal-badge mb-4">
+                <span class="material-symbols-outlined text-[16px]">info</span>
+                Our Story
+            </div>
+            <h1 class="font-display text-[40px] md:text-[52px] font-extrabold leading-tight mb-4" style="color:var(--text-primary);">About ProSync</h1>
+            <p class="text-[17px] mb-2" style="color:var(--text-tertiary);">Building the future of healthy, high-performance remote teams without compromising trust.</p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="py-[60px] px-6" style="background:var(--bg-primary);">
+        <div class="legal-content">
+            <h2>Our Mission</h2>
+            <p>At ProSync, we believe that the rise of remote and hybrid work is one of the most positive shifts in workplace history. However, it has introduced a major challenge: how do organizations align expectations, track progress, and support their teams without resorting to invasive surveillance?</p>
+            <p>Traditional monitoring tools capture everything—keystrokes, private chats, bank accounts, and personal emails. This creates a culture of paranoia, causes massive employee burnout, and breaks trust. ProSync was built on a simple premise: <strong>productivity and privacy can, and must, coexist.</strong></p>
+
+            <h2>Why ProSync is Different</h2>
+            <p>We designed our software with hard technical limitations to protect employee privacy while delivering actionable insights to business leaders:</p>
+            <ul>
+                <li><strong>Privacy-First Screenshots:</strong> ProSync automatically blurs screen captures locally on the device with a 15% Gaussian blur <em>before</em> they are sent to the cloud. Sensitive personal details or client data are never exposed.</li>
+                <li><strong>No Keylogging:</strong> We never log what you type. Our anti-jiggler system measures only the overall density of mouse and keyboard inputs to detect fake activity, keeping your keystrokes strictly confidential.</li>
+                <li><strong>No URL Tracking:</strong> We track only active application names and window titles to categorize work, not your complete web browsing history.</li>
+            </ul>
+
+            <h2>Our Team & Vision</h2>
+            <p>Founded in 2026, ProSync is a globally distributed team of designers, engineers, and researchers. We are dedicated to creating beautiful, minimalist tools that help modern workplaces operate more efficiently. We prioritize clean aesthetics, fast performance, and robust security in everything we build.</p>
+
+            <div class="mt-16 p-6 rounded-2xl text-center" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <p class="text-[14px] mb-3" style="color:var(--text-tertiary);">Want to know more about our data practices?</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="privacy.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Privacy Policy</a>
+                    <a href="security.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Security Policy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="max-w-[1200px] mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="font-display text-[22px] font-extrabold text-white mb-4">ProSync</div>
+                    <p class="text-[14px] leading-relaxed" style="color:#64748b;">The modern productivity suite for high-performance teams.</p>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Product</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="index.html#features" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Features</a></li>
+                        <li><a href="index.html#pricing" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="about.html" class="text-[14px] hover:text-white transition-colors text-white font-semibold">About</a></li>
+                        <li><a href="blog.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Blog</a></li>
+                        <li><a href="contact.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="privacy.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Terms of Service</a></li>
+                        <li><a href="security.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:rgba(148,163,184,0.15);">
+                <p class="text-[13px]" style="color:#475569;">&copy; 2026 ProSync Systems Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        function setTheme(t) {
+            if (t==='dark') { document.documentElement.classList.add('dark'); if(themeToggleIcon) themeToggleIcon.textContent='light_mode'; localStorage.setItem('prosync_theme','dark'); }
+            else { document.documentElement.classList.remove('dark'); if(themeToggleIcon) themeToggleIcon.textContent='dark_mode'; localStorage.setItem('prosync_theme','light'); }
+        }
+        setTheme(localStorage.getItem('prosync_theme') || 'light');
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+    
+        // Navbar session check
+        function updateNavbarSessionState() {
+            const savedSession = localStorage.getItem('prosync_session');
+            const savedName = localStorage.getItem('prosync_name') || '';
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navLogin = document.getElementById('nav-login');
+            const navProfile = document.getElementById('nav-profile');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownEmail = document.getElementById('dropdown-email');
+            const profileBtn = document.getElementById('profile-dropdown-btn');
+
+            if (savedSession) {
+                if (navDashboard) navDashboard.classList.remove('hidden');
+                if (navLogin) navLogin.classList.add('hidden');
+                if (navProfile) {
+                    navProfile.classList.remove('hidden');
+                    const displayName = savedName || savedSession;
+                    if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
+                    if (dropdownName) dropdownName.textContent = displayName;
+                    if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+            } else {
+                if (navDashboard) navDashboard.classList.add('hidden');
+                if (navLogin) { navLogin.classList.remove('hidden'); }
+                if (navProfile) navProfile.classList.add('hidden');
+            }
+        }
+
+        // Profile dropdown toggling
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        if (profileDropdownBtn && profileDropdownMenu) {
+            profileDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
+        }
+
+        // Logout handling
+        const dropdownLogout = document.getElementById('dropdown-logout');
+        if (dropdownLogout) {
+            dropdownLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('prosync_session');
+                localStorage.removeItem('prosync_name');
+                updateNavbarSessionState();
+                window.location.href = 'index.html#home';
+            });
+        }
+
+        // Run session check on load
+        updateNavbarSessionState();
+</script>
+</body>
+</html>

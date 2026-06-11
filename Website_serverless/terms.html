@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Terms of Service - ProSync</title>
+    <meta name="description" content="ProSync Terms of Service. Read the terms and conditions governing your use of the ProSync employee productivity platform."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8fafc; --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff; --bg-nav: rgba(255,255,255,0.82); --bg-footer: #0f172a;
+            --text-primary: #0f172a; --text-secondary: #334155; --text-tertiary: #64748b;
+            --border-primary: #e2e8f0; --border-secondary: #cbd5e1;
+            --accent-1: #6366f1; --accent-2: #14b8a6;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #14b8a6);
+            --accent-gradient-text: linear-gradient(135deg, #6366f1, #14b8a6);
+            --accent-glow: rgba(99,102,241,0.12);
+        }
+        .dark {
+            --bg-primary: #0a0f1e; --bg-secondary: #0f1629; --bg-tertiary: #151d35;
+            --bg-card: rgba(21,29,53,0.70); --bg-nav: rgba(10,15,30,0.85); --bg-footer: #060a14;
+            --text-primary: #f1f5f9; --text-secondary: #cbd5e1; --text-tertiary: #94a3b8;
+            --border-primary: rgba(99,102,241,0.12); --border-secondary: rgba(148,163,184,0.15);
+            --accent-glow: rgba(99,102,241,0.18);
+        }
+        body { background: var(--bg-primary); color: var(--text-primary); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 4px; }
+        .gradient-text { background: var(--accent-gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-glass { background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-primary); transition: box-shadow 0.3s ease; }
+        .nav-glass.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .nav-link { position: relative; color: var(--text-tertiary); font-weight: 500; font-size: 14px; transition: color 0.25s ease; text-decoration: none; }
+        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:var(--accent-gradient); border-radius:1px; transition:width 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .btn-primary { background: var(--accent-gradient); color: #fff; font-weight: 600; padding: 12px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px rgba(99,102,241,0.30); text-decoration: none; display: inline-block; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.40); }
+        .theme-btn { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--bg-tertiary); border:1px solid var(--border-primary); color:var(--text-tertiary); cursor:pointer; transition:all 0.25s ease; }
+        .theme-btn:hover { color:var(--accent-1); border-color:var(--accent-1); background:var(--accent-glow); }
+        .site-footer { background: var(--bg-footer); color: #94a3b8; }
+        .dark .site-footer { background: #060a14; border-top: 1px solid rgba(99,102,241,0.10); }
+        html { scroll-behavior: smooth; }
+        .legal-content { max-width: 800px; margin: 0 auto; }
+        .legal-content h2 { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:24px; color:var(--text-primary); margin-top:48px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border-primary); }
+        .legal-content h3 { font-weight:600; font-size:18px; color:var(--text-primary); margin-top:32px; margin-bottom:12px; }
+        .legal-content p { font-size:15px; line-height:1.8; color:var(--text-secondary); margin-bottom:16px; }
+        .legal-content ul, .legal-content ol { margin-bottom:16px; padding-left:24px; }
+        .legal-content li { font-size:15px; line-height:1.8; color:var(--text-secondary); margin-bottom:8px; }
+        .legal-content strong { color: var(--text-primary); }
+        .legal-content a { color: var(--accent-1); text-decoration: underline; transition: opacity 0.2s; }
+        .legal-content a:hover { opacity: 0.8; }
+        .legal-content a.btn-primary { color: #ffffff !important; text-decoration: none !important; }
+        .legal-content a.btn-primary:hover { color: #ffffff !important; opacity: 0.9 !important; }
+        .legal-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:100px; background:rgba(99,102,241,0.08); color:var(--accent-1); border:1px solid rgba(99,102,241,0.18); font-size:13px; font-weight:600; }
+        .toc-link { display:block; padding:8px 0; font-size:14px; color:var(--text-tertiary); text-decoration:none; transition:color 0.2s; border-bottom:1px solid var(--border-primary); }
+        .toc-link:hover { color:var(--accent-1); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="main-nav" class="nav-glass fixed top-0 w-full z-50">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between h-[64px] px-6">
+            <a href="index.html" class="font-display text-[22px] font-extrabold gradient-text tracking-tight">ProSync</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link" href="index.html#home">Home</a>
+                <a class="nav-link" href="index.html#features">Features</a>
+                <a class="nav-link" href="index.html#pricing">Pricing</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a id="nav-dashboard" class="nav-link hidden" href="index.html#product">Product</a>
+            </div>
+            <div class="flex items-center gap-3 relative">
+                <button id="theme-toggle" class="theme-btn" type="button" title="Toggle Light/Dark Mode">
+                    <span class="material-symbols-outlined text-[20px]" id="theme-toggle-icon">dark_mode</span>
+                </button>
+                <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="index.html#login" style="text-decoration:none;">Get Started</a>
+                
+                <!-- Profile dropdown (hidden until logged in) -->
+                <div id="nav-profile" class="hidden relative">
+                    <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
+                        <div class="px-4 py-3 border-b flex flex-col" style="border-color:var(--border-primary);">
+                            <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
+                            <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
+                        </div>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER -->
+    <section class="pt-[140px] pb-[60px] px-6" style="background:var(--bg-secondary);">
+        <div class="legal-content text-center">
+            <div class="legal-badge mb-4">
+                <span class="material-symbols-outlined text-[16px]">gavel</span>
+                Legal
+            </div>
+            <h1 class="font-display text-[40px] md:text-[52px] font-extrabold leading-tight mb-4" style="color:var(--text-primary);">Terms of Service</h1>
+            <p class="text-[17px] mb-2" style="color:var(--text-tertiary);">Please read these terms carefully before using the ProSync platform.</p>
+            <p class="text-[14px]" style="color:var(--text-tertiary);">Last Updated: <strong style="color:var(--text-secondary);">June 8, 2026</strong> &middot; Effective Date: <strong style="color:var(--text-secondary);">June 8, 2026</strong></p>
+        </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="py-[60px] px-6" style="background:var(--bg-primary);">
+        <div class="legal-content">
+
+            <!-- Table of Contents -->
+            <div class="mb-12 p-6 rounded-2xl" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <h3 class="text-[16px] font-bold mb-4" style="color:var(--text-primary);">Table of Contents</h3>
+                <a href="#acceptance" class="toc-link">1. Acceptance of Terms</a>
+                <a href="#description" class="toc-link">2. Description of Service</a>
+                <a href="#accounts" class="toc-link">3. User Accounts & Registration</a>
+                <a href="#acceptable-use" class="toc-link">4. Acceptable Use Policy</a>
+                <a href="#subscription" class="toc-link">5. Subscription Plans & Payments</a>
+                <a href="#ip" class="toc-link">6. Intellectual Property</a>
+                <a href="#data-ownership" class="toc-link">7. Data Ownership & Licensing</a>
+                <a href="#uptime" class="toc-link">8. Service Availability & Uptime</a>
+                <a href="#limitation" class="toc-link">9. Limitation of Liability</a>
+                <a href="#indemnification" class="toc-link">10. Indemnification</a>
+                <a href="#termination" class="toc-link">11. Termination</a>
+                <a href="#disclaimer" class="toc-link">12. Disclaimer of Warranties</a>
+                <a href="#governing-law" class="toc-link">13. Governing Law & Dispute Resolution</a>
+                <a href="#modifications" class="toc-link">14. Modifications to Terms</a>
+                <a href="#severability" class="toc-link">15. Severability</a>
+                <a href="#tos-contact" class="toc-link" style="border:none;">16. Contact Information</a>
+            </div>
+
+            <!-- 1 -->
+            <h2 id="acceptance">1. Acceptance of Terms</h2>
+            <p>By accessing, downloading, installing, or using the ProSync platform, website, desktop agents, APIs, or any related services (collectively, the "Service"), you ("User," "you," or "your") agree to be bound by these Terms of Service ("Terms"). If you are using the Service on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms, and "you" or "your" will refer to both you individually and the organization.</p>
+            <p>If you do not agree to these Terms in their entirety, you must immediately discontinue use of the Service. Your continued use of the Service after the posting of any amended Terms constitutes your acceptance of such amendments.</p>
+            <p>These Terms should be read in conjunction with our <a href="privacy.html">Privacy Policy</a> and <a href="security.html">Security Policy</a>, which are hereby incorporated by reference into these Terms.</p>
+
+            <!-- 2 -->
+            <h2 id="description">2. Description of Service</h2>
+            <p>ProSync is an employee productivity monitoring and analytics platform that provides organizations with tools to track, analyze, and optimize workforce performance. The Service includes, but is not limited to:</p>
+            <ul>
+                <li>Desktop agent software installed on enrolled workstations that collects productivity metrics</li>
+                <li>A cloud-based web dashboard for administrators to view reports, analytics, and manage teams</li>
+                <li>Automated reporting and notification systems</li>
+                <li>APIs and integration endpoints</li>
+                <li>All documentation, updates, upgrades, and support services provided by ProSync</li>
+            </ul>
+            <p>ProSync is designed to be used by employers and organizations to monitor work activities on company-owned or company-designated devices. <strong>It is the sole responsibility of the organization to ensure that their use of ProSync complies with all applicable employment laws, labor regulations, and employee notification requirements in their jurisdiction.</strong></p>
+            <p>ProSync provides the technology platform; we do not provide legal, HR, or compliance advice. Organizations should consult with their own legal counsel to ensure proper employee disclosure and consent procedures are followed before deploying ProSync agents on any device.</p>
+
+            <!-- 3 -->
+            <h2 id="accounts">3. User Accounts & Registration</h2>
+            <p>To access certain features of the Service, you must create a user account by providing accurate, current, and complete registration information. You agree to:</p>
+            <ul>
+                <li>Provide truthful, accurate, and complete information during registration</li>
+                <li>Maintain and promptly update your account information to keep it accurate and current</li>
+                <li>Maintain the confidentiality of your account credentials, including your password and OTP codes</li>
+                <li>Accept responsibility for all activities that occur under your account</li>
+                <li>Immediately notify ProSync of any unauthorized use of your account or any other security breach</li>
+            </ul>
+            <p>ProSync reserves the right to suspend, deactivate, or terminate any account that we reasonably believe violates these Terms, contains false information, or has been compromised. You may not create multiple accounts for the same individual, share account credentials with unauthorized persons, or use another person's account without explicit permission.</p>
+            <p>Account administrators within an organization are responsible for managing user access, permissions, and ensuring that all users within their organization comply with these Terms.</p>
+
+            <!-- 4 -->
+            <h2 id="acceptable-use">4. Acceptable Use Policy</h2>
+            <p>You agree to use the Service only for its intended purpose and in compliance with all applicable laws and regulations. The following activities are strictly prohibited:</p>
+            <ul>
+                <li><strong>Unauthorized Monitoring</strong> &mdash; Installing ProSync agents on devices without the knowledge or proper notification of the device user, where such notification is required by applicable law.</li>
+                <li><strong>Reverse Engineering</strong> &mdash; Decompiling, disassembling, reverse engineering, or otherwise attempting to derive the source code, algorithms, or underlying structure of the ProSync software.</li>
+                <li><strong>Circumvention</strong> &mdash; Attempting to bypass, disable, or circumvent any security features, access controls, usage limits, or licensing restrictions of the Service.</li>
+                <li><strong>Unauthorized Access</strong> &mdash; Attempting to access another user's account, another organization's data, or any systems, networks, or servers connected to the Service without authorization.</li>
+                <li><strong>Reselling</strong> &mdash; Reselling, sublicensing, renting, leasing, or distributing access to the Service to third parties without prior written consent from ProSync.</li>
+                <li><strong>Harmful Use</strong> &mdash; Using the Service to engage in harassment, discrimination, surveillance of personal activities unrelated to work, or any activity that violates the rights of individuals.</li>
+                <li><strong>Interference</strong> &mdash; Introducing viruses, malware, or any code designed to disrupt, damage, or interfere with the proper functioning of the Service or any connected systems.</li>
+                <li><strong>Data Scraping</strong> &mdash; Using automated tools, bots, or scripts to extract, scrape, or harvest data from the Service beyond what is provided through official APIs and export features.</li>
+            </ul>
+            <p>ProSync reserves the right to investigate potential violations of this Acceptable Use Policy and may take appropriate action, including suspending or terminating accounts, reporting activities to law enforcement, or pursuing legal remedies.</p>
+
+            <!-- 5 -->
+            <h2 id="subscription">5. Subscription Plans & Payments</h2>
+            <p>ProSync offers multiple subscription tiers (Lite, Pro, and Enterprise) with varying features, user limits, and data retention periods. The specific features and pricing for each plan are described on our <a href="index.html#pricing">Pricing page</a> and may be updated from time to time.</p>
+
+            <h3>5.1 Billing & Payment</h3>
+            <ul>
+                <li>Subscription fees are billed in advance on a monthly or annual basis, depending on the billing cycle selected.</li>
+                <li>All fees are quoted in Indian Rupees (&#8377;) unless otherwise specified and are exclusive of applicable taxes.</li>
+                <li>Payment is due on the billing date. Failure to make timely payments may result in service suspension.</li>
+                <li>We reserve the right to change subscription pricing with 30 days' advance notice. Existing subscriptions will be honored at the current rate until the end of the current billing period.</li>
+            </ul>
+
+            <h3>5.2 Refund Policy</h3>
+            <p>Subscription fees are generally non-refundable. However, if you experience a significant service disruption that prevents you from using essential features for an extended period (more than 72 consecutive hours), you may request a prorated credit for the affected period. Refund requests must be submitted within 30 days of the disruption.</p>
+
+            <!-- 6 -->
+            <h2 id="ip">6. Intellectual Property</h2>
+            <p>The ProSync platform, including but not limited to its software, source code, algorithms, user interfaces, designs, graphics, logos, trademarks, documentation, and all related intellectual property (collectively, "ProSync IP"), is and remains the exclusive property of ProSync Systems Inc. and its licensors.</p>
+            <p>These Terms do not grant you any ownership interest in or to the ProSync IP. You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the Service solely for its intended purpose and in accordance with these Terms and your active subscription plan.</p>
+            <p>All trademarks, service marks, trade names, and logos displayed on the Service are the registered or unregistered trademarks of ProSync Systems Inc. or their respective owners. You may not use any ProSync trademarks without prior written consent.</p>
+
+            <!-- 7 -->
+            <h2 id="data-ownership">7. Data Ownership & Licensing</h2>
+            <p>You and/or your organization retain full ownership of all data that is collected from your enrolled devices and uploaded to the ProSync platform ("Customer Data"), including productivity logs, blurred screenshots, and analytics data.</p>
+            <p>By using the Service, you grant ProSync a limited, non-exclusive license to process, store, transmit, and display Customer Data solely for the purpose of providing the Service to you. This license terminates when your account is deactivated and your data is deleted in accordance with our retention policies.</p>
+            <p>ProSync may generate and use <strong>aggregated, anonymized, and de-identified data</strong> derived from Customer Data for the purposes of improving the Service, conducting research, generating benchmarking reports, and developing new features. Such aggregated data will never contain personally identifiable information and cannot be traced back to any individual user or organization.</p>
+            <p>You are solely responsible for ensuring that you have all necessary rights, consents, and legal authority to collect and process data from enrolled devices and users through the ProSync platform.</p>
+
+            <!-- 8 -->
+            <h2 id="uptime">8. Service Availability & Uptime</h2>
+            <p>ProSync strives to maintain high service availability and targets a 99.9% uptime for our cloud platform. However, we do not guarantee uninterrupted, error-free, or continuous access to the Service.</p>
+            <p>The Service may be temporarily unavailable due to:</p>
+            <ul>
+                <li>Scheduled maintenance (we will provide advance notice when possible)</li>
+                <li>Emergency maintenance required to address security vulnerabilities or critical bugs</li>
+                <li>Force majeure events including natural disasters, power outages, telecommunications failures, government actions, or other events beyond our reasonable control</li>
+                <li>Third-party service provider outages (cloud hosting, DNS, CDN, etc.)</li>
+                <li>DDoS attacks or other malicious activities targeting our infrastructure</li>
+            </ul>
+            <p>ProSync will make commercially reasonable efforts to minimize downtime and restore service as quickly as possible. During planned maintenance windows, we will endeavor to provide at least 48 hours' advance notice through the dashboard or email.</p>
+
+            <!-- 9 -->
+            <h2 id="limitation">9. Limitation of Liability</h2>
+            <p><strong>This section is critical. Please read it carefully.</strong></p>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, PROSYNC SYSTEMS INC., ITS OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, AFFILIATES, LICENSORS, AND SERVICE PROVIDERS (COLLECTIVELY, THE "PROSYNC PARTIES") SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO:</p>
+            <ul>
+                <li>Loss of profits, revenue, business, or anticipated savings</li>
+                <li>Loss of data or data corruption</li>
+                <li>Loss of goodwill or reputation</li>
+                <li>Business interruption or downtime costs</li>
+                <li>Cost of procurement of substitute goods or services</li>
+                <li>Any damages arising from unauthorized access to or alteration of your data</li>
+                <li>Any damages resulting from cyber attacks, data breaches, hacking, ransomware, or other security incidents</li>
+            </ul>
+            <p>This limitation applies regardless of the legal theory upon which the claim is based, whether in contract, tort (including negligence), strict liability, warranty, or otherwise, and even if the ProSync Parties have been advised of the possibility of such damages.</p>
+            <p><strong>While ProSync implements industry-standard security measures and employs best practices to protect the integrity and confidentiality of your data, no system connected to the internet is completely immune to security threats.</strong> In the event of a cyber attack, data breach, unauthorized access, or other security incident that results in the compromise, loss, or unauthorized disclosure of your data, ProSync's total liability shall be limited to the fees actually paid by you to ProSync during the twelve (12) months immediately preceding the event giving rise to the claim.</p>
+            <p>ProSync shall not be held liable or responsible for damages, losses, or costs arising from security incidents that are beyond our reasonable control, including but not limited to advanced persistent threats (APTs), zero-day vulnerabilities, nation-state attacks, social engineering attacks targeting your organization's employees, or breaches caused by third-party service providers. We commit to taking all commercially reasonable steps to prevent, detect, and respond to security incidents, and to notifying affected customers promptly in accordance with applicable breach notification laws.</p>
+            <p>Some jurisdictions do not allow the exclusion or limitation of certain warranties or liability for certain types of damages. In such jurisdictions, our liability shall be limited to the greatest extent permitted by applicable law.</p>
+
+            <!-- 10 -->
+            <h2 id="indemnification">10. Indemnification</h2>
+            <p>You agree to indemnify, defend, and hold harmless the ProSync Parties from and against any and all claims, demands, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+            <ul>
+                <li>Your use of the Service or any activity under your account</li>
+                <li>Your violation of these Terms or any applicable law or regulation</li>
+                <li>Your failure to obtain proper employee consent or provide required notifications before deploying ProSync agents</li>
+                <li>Any claim that your use of the Service infringes or violates the rights of any third party</li>
+                <li>Any dispute between you and your employees, contractors, or other users regarding monitoring practices</li>
+            </ul>
+            <p>ProSync reserves the right to assume exclusive defense and control of any matter subject to indemnification by you, and you agree to cooperate with our defense of such claims.</p>
+
+            <!-- 11 -->
+            <h2 id="termination">11. Termination</h2>
+            <p>You may terminate your account at any time by contacting ProSync support or using the account management features in the dashboard. Upon termination:</p>
+            <ul>
+                <li>Your access to the Service will be immediately revoked</li>
+                <li>All active agent connections will be disconnected</li>
+                <li>Your Customer Data will be retained for 30 days to allow for data export, after which it will be permanently deleted</li>
+                <li>Any prepaid fees for the remaining subscription period are non-refundable</li>
+            </ul>
+            <p>ProSync reserves the right to suspend or terminate your account immediately, without prior notice, if:</p>
+            <ul>
+                <li>You violate any provision of these Terms</li>
+                <li>You fail to make timely payment of subscription fees after reasonable notice</li>
+                <li>We are required to do so by law, regulation, or court order</li>
+                <li>We reasonably believe that your account has been compromised or is being used for unauthorized purposes</li>
+                <li>Continued provision of the Service to you would pose a security risk to other users or our infrastructure</li>
+            </ul>
+            <p>Sections of these Terms that by their nature should survive termination (including, without limitation, Limitation of Liability, Indemnification, Intellectual Property, and Governing Law) shall survive any termination or expiration of these Terms.</p>
+
+            <!-- 12 -->
+            <h2 id="disclaimer">12. Disclaimer of Warranties</h2>
+            <p>THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE. THE PROSYNC PARTIES EXPRESSLY DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:</p>
+            <ul>
+                <li>IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT</li>
+                <li>WARRANTIES THAT THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE</li>
+                <li>WARRANTIES THAT THE RESULTS OBTAINED FROM THE USE OF THE SERVICE WILL BE ACCURATE, COMPLETE, OR RELIABLE</li>
+                <li>WARRANTIES THAT ANY ERRORS OR DEFECTS IN THE SERVICE WILL BE CORRECTED</li>
+            </ul>
+            <p>No advice or information, whether oral or written, obtained from ProSync or through the Service shall create any warranty not expressly stated in these Terms. You acknowledge that you use the Service at your own risk and discretion.</p>
+
+            <!-- 13 -->
+            <h2 id="governing-law">13. Governing Law & Dispute Resolution</h2>
+            <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any disputes arising out of or relating to these Terms or the Service shall be subject to the exclusive jurisdiction of the courts located in [City], India.</p>
+            <p>Before initiating any formal legal proceedings, both parties agree to attempt to resolve disputes through good-faith negotiation for a period of at least 30 days. If the dispute cannot be resolved through negotiation, either party may pursue formal legal remedies as provided by applicable law.</p>
+            <p>For Enterprise customers, dispute resolution procedures may be governed by the terms of your individual Enterprise Agreement, which shall take precedence over this section in the event of any conflict.</p>
+
+            <!-- 14 -->
+            <h2 id="modifications">14. Modifications to Terms</h2>
+            <p><strong>ProSync reserves the right to modify, update, or replace these Terms of Service at any time, at our sole discretion.</strong> We may make changes to reflect new features, evolving business practices, changes in applicable law, or for any other reason we deem necessary.</p>
+            <p>When we make changes, we will update the "Last Updated" date at the top of these Terms. For material changes that significantly affect your rights or obligations, we may provide additional notice through the ProSync dashboard, email notification, or a prominent announcement on our website.</p>
+            <p>Your continued use of the Service after any modification to these Terms constitutes your acceptance of the revised Terms. If you do not agree to the modified Terms, you must discontinue use of the Service and terminate your account.</p>
+            <p>We recommend reviewing these Terms periodically to stay informed about your rights and obligations.</p>
+
+            <!-- 15 -->
+            <h2 id="severability">15. Severability</h2>
+            <p>If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect. The invalid or unenforceable provision shall be modified to the minimum extent necessary to make it valid and enforceable while preserving the original intent of the parties, or if such modification is not possible, it shall be severed from these Terms.</p>
+            <p>The failure of ProSync to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision. Any waiver of any provision of these Terms will be effective only if in writing and signed by ProSync.</p>
+
+            <!-- 16 -->
+            <h2 id="tos-contact">16. Contact Information</h2>
+            <p>If you have questions or concerns about these Terms of Service, please contact us:</p>
+            <ul>
+                <li><strong>Contact:</strong> Through our <a href="contact.html">Contact Page</a></li>
+                <li><strong>Support Portal:</strong> Through the ProSync dashboard under Help & Support</li>
+                <li><strong>Mailing Address:</strong> ProSync Systems Inc., Legal Department</li>
+            </ul>
+
+            <div class="mt-16 p-6 rounded-2xl text-center" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <p class="text-[14px] mb-3" style="color:var(--text-tertiary);">Related Legal Documents</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="privacy.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Privacy Policy</a>
+                    <a href="security.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Security Policy</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="max-w-[1200px] mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="font-display text-[22px] font-extrabold text-white mb-4">ProSync</div>
+                    <p class="text-[14px] leading-relaxed" style="color:#64748b;">The modern productivity suite for high-performance teams.</p>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Product</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="index.html#features" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Features</a></li>
+                        <li><a href="index.html#pricing" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="about.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">About</a></li>
+                        <li><a href="contact.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="privacy.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-[14px] hover:text-white transition-colors text-white font-semibold">Terms of Service</a></li>
+                        <li><a href="security.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:rgba(148,163,184,0.15);">
+                <p class="text-[13px]" style="color:#475569;">&copy; 2026 ProSync Systems Inc. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">Twitter</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">LinkedIn</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        function setTheme(t) {
+            if (t==='dark') { document.documentElement.classList.add('dark'); if(themeToggleIcon) themeToggleIcon.textContent='light_mode'; localStorage.setItem('prosync_theme','dark'); }
+            else { document.documentElement.classList.remove('dark'); if(themeToggleIcon) themeToggleIcon.textContent='dark_mode'; localStorage.setItem('prosync_theme','light'); }
+        }
+        setTheme(localStorage.getItem('prosync_theme') || 'light');
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+        const mainNav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => { mainNav.classList.toggle('scrolled', window.scrollY > 10); });
+    
+        // Navbar session check
+        function updateNavbarSessionState() {
+            const savedSession = localStorage.getItem('prosync_session');
+            const savedName = localStorage.getItem('prosync_name') || '';
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navLogin = document.getElementById('nav-login');
+            const navProfile = document.getElementById('nav-profile');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownEmail = document.getElementById('dropdown-email');
+            const profileBtn = document.getElementById('profile-dropdown-btn');
+
+            if (savedSession) {
+                if (navDashboard) navDashboard.classList.remove('hidden');
+                if (navLogin) navLogin.classList.add('hidden');
+                if (navProfile) {
+                    navProfile.classList.remove('hidden');
+                    const displayName = savedName || savedSession;
+                    if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
+                    if (dropdownName) dropdownName.textContent = displayName;
+                    if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+            } else {
+                if (navDashboard) navDashboard.classList.add('hidden');
+                if (navLogin) { navLogin.classList.remove('hidden'); }
+                if (navProfile) navProfile.classList.add('hidden');
+            }
+        }
+
+        // Profile dropdown toggling
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        if (profileDropdownBtn && profileDropdownMenu) {
+            profileDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
+        }
+
+        // Logout handling
+        const dropdownLogout = document.getElementById('dropdown-logout');
+        if (dropdownLogout) {
+            dropdownLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('prosync_session');
+                localStorage.removeItem('prosync_name');
+                updateNavbarSessionState();
+                window.location.href = 'index.html#home';
+            });
+        }
+
+        // Run session check on load
+        updateNavbarSessionState();
+</script>
+</body>
+</html>

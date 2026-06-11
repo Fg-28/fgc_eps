@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Security Policy - ProSync</title>
+    <meta name="description" content="ProSync Security Policy. Learn about the technical and organizational measures we implement to protect your data."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f8fafc; --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff; --bg-nav: rgba(255,255,255,0.82); --bg-footer: #0f172a;
+            --text-primary: #0f172a; --text-secondary: #334155; --text-tertiary: #64748b;
+            --border-primary: #e2e8f0; --border-secondary: #cbd5e1;
+            --accent-1: #6366f1; --accent-2: #14b8a6;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #14b8a6);
+            --accent-gradient-text: linear-gradient(135deg, #6366f1, #14b8a6);
+            --accent-glow: rgba(99,102,241,0.12);
+        }
+        .dark {
+            --bg-primary: #0a0f1e; --bg-secondary: #0f1629; --bg-tertiary: #151d35;
+            --bg-card: rgba(21,29,53,0.70); --bg-nav: rgba(10,15,30,0.85); --bg-footer: #060a14;
+            --text-primary: #f1f5f9; --text-secondary: #cbd5e1; --text-tertiary: #94a3b8;
+            --border-primary: rgba(99,102,241,0.12); --border-secondary: rgba(148,163,184,0.15);
+            --accent-glow: rgba(99,102,241,0.18);
+        }
+        body { background: var(--bg-primary); color: var(--text-primary); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-secondary); border-radius: 4px; }
+        .gradient-text { background: var(--accent-gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-glass { background: var(--bg-nav); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-primary); transition: box-shadow 0.3s ease; }
+        .nav-glass.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .nav-link { position: relative; color: var(--text-tertiary); font-weight: 500; font-size: 14px; transition: color 0.25s ease; text-decoration: none; }
+        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:var(--accent-gradient); border-radius:1px; transition:width 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover::after { width: 100%; }
+        .btn-primary { background: var(--accent-gradient); color: #fff; font-weight: 600; padding: 12px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 14px rgba(99,102,241,0.30); text-decoration: none; display: inline-block; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.40); }
+        .theme-btn { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--bg-tertiary); border:1px solid var(--border-primary); color:var(--text-tertiary); cursor:pointer; transition:all 0.25s ease; }
+        .theme-btn:hover { color:var(--accent-1); border-color:var(--accent-1); background:var(--accent-glow); }
+        .site-footer { background: var(--bg-footer); color: #94a3b8; }
+        .dark .site-footer { background: #060a14; border-top: 1px solid rgba(99,102,241,0.10); }
+        html { scroll-behavior: smooth; }
+        .legal-content { max-width: 800px; margin: 0 auto; }
+        .legal-content h2 { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:24px; color:var(--text-primary); margin-top:48px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border-primary); }
+        .legal-content h3 { font-weight:600; font-size:18px; color:var(--text-primary); margin-top:32px; margin-bottom:12px; }
+        .legal-content p { font-size:15px; line-height:1.8; color:var(--text-secondary); margin-bottom:16px; }
+        .legal-content ul, .legal-content ol { margin-bottom:16px; padding-left:24px; }
+        .legal-content li { font-size:15px; line-height:1.8; color:var(--text-secondary); margin-bottom:8px; }
+        .legal-content strong { color: var(--text-primary); }
+        .legal-content a { color: var(--accent-1); text-decoration: underline; transition: opacity 0.2s; }
+        .legal-content a:hover { opacity: 0.8; }
+        .legal-content a.btn-primary { color: #ffffff !important; text-decoration: none !important; }
+        .legal-content a.btn-primary:hover { color: #ffffff !important; opacity: 0.9 !important; }
+        .legal-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:100px; background:rgba(99,102,241,0.08); color:var(--accent-1); border:1px solid rgba(99,102,241,0.18); font-size:13px; font-weight:600; }
+        .toc-link { display:block; padding:8px 0; font-size:14px; color:var(--text-tertiary); text-decoration:none; transition:color 0.2s; border-bottom:1px solid var(--border-primary); }
+        .toc-link:hover { color:var(--accent-1); }
+        .security-card {
+            padding: 28px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            transition: all 0.3s ease;
+        }
+        .security-card:hover {
+            box-shadow: 0 8px 32px rgba(99,102,241,0.10);
+            border-color: var(--accent-1);
+            transform: translateY(-3px);
+        }
+        .security-icon {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 16px; font-size: 24px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="main-nav" class="nav-glass fixed top-0 w-full z-50">
+        <div class="max-w-[1200px] mx-auto flex items-center justify-between h-[64px] px-6">
+            <a href="index.html" class="font-display text-[22px] font-extrabold gradient-text tracking-tight">ProSync</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link" href="index.html#home">Home</a>
+                <a class="nav-link" href="index.html#features">Features</a>
+                <a class="nav-link" href="index.html#pricing">Pricing</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a id="nav-dashboard" class="nav-link hidden" href="index.html#product">Product</a>
+            </div>
+            <div class="flex items-center gap-3 relative">
+                <button id="theme-toggle" class="theme-btn" type="button" title="Toggle Light/Dark Mode">
+                    <span class="material-symbols-outlined text-[20px]" id="theme-toggle-icon">dark_mode</span>
+                </button>
+                <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="index.html#login" style="text-decoration:none;">Get Started</a>
+                
+                <!-- Profile dropdown (hidden until logged in) -->
+                <div id="nav-profile" class="hidden relative">
+                    <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
+                        <div class="px-4 py-3 border-b flex flex-col" style="border-color:var(--border-primary);">
+                            <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
+                            <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
+                        </div>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER -->
+    <section class="pt-[140px] pb-[60px] px-6" style="background:var(--bg-secondary);">
+        <div class="legal-content text-center">
+            <div class="legal-badge mb-4">
+                <span class="material-symbols-outlined text-[16px]">verified_user</span>
+                Security
+            </div>
+            <h1 class="font-display text-[40px] md:text-[52px] font-extrabold leading-tight mb-4" style="color:var(--text-primary);">Security Policy</h1>
+            <p class="text-[17px] mb-2" style="color:var(--text-tertiary);">How ProSync protects your data with industry-leading security practices.</p>
+            <p class="text-[14px]" style="color:var(--text-tertiary);">Last Updated: <strong style="color:var(--text-secondary);">June 8, 2026</strong></p>
+        </div>
+    </section>
+
+    <!-- SECURITY HIGHLIGHTS CARDS -->
+    <section class="py-[60px] px-6" style="background:var(--bg-primary);">
+        <div class="max-w-[1200px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="security-card">
+                    <div class="security-icon" style="background:rgba(99,102,241,0.08);color:#6366f1;">
+                        <span class="material-symbols-outlined">encrypted</span>
+                    </div>
+                    <h3 class="text-[17px] font-bold mb-2" style="color:var(--text-primary);">Encryption at Rest & In Transit</h3>
+                    <p class="text-[14px] leading-relaxed" style="color:var(--text-tertiary);">All data is encrypted using AES-256 at rest and TLS 1.3 in transit. Your data is never stored or transmitted in plaintext.</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon" style="background:rgba(20,184,166,0.08);color:#14b8a6;">
+                        <span class="material-symbols-outlined">blur_on</span>
+                    </div>
+                    <h3 class="text-[17px] font-bold mb-2" style="color:var(--text-primary);">Privacy-First Screenshot Capture</h3>
+                    <p class="text-[14px] leading-relaxed" style="color:var(--text-tertiary);">All screenshots are blurred locally on the device with a 15% Gaussian filter before any upload. Unblurred images never leave the device.</p>
+                </div>
+                <div class="security-card">
+                    <div class="security-icon" style="background:rgba(139,92,246,0.08);color:#8b5cf6;">
+                        <span class="material-symbols-outlined">passkey</span>
+                    </div>
+                    <h3 class="text-[17px] font-bold mb-2" style="color:var(--text-primary);">Secure Authentication</h3>
+                    <p class="text-[14px] leading-relaxed" style="color:var(--text-tertiary);">SHA-256 password hashing, OTP email verification, and role-based access control. We never store plaintext passwords.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILED CONTENT -->
+    <section class="pb-[80px] px-6" style="background:var(--bg-primary);">
+        <div class="legal-content">
+
+            <div class="mb-12 p-6 rounded-2xl" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <h3 class="text-[16px] font-bold mb-4" style="color:var(--text-primary);">Table of Contents</h3>
+                <a href="#commitment" class="toc-link">1. Our Security Commitment</a>
+                <a href="#infrastructure" class="toc-link">2. Infrastructure Security</a>
+                <a href="#data-encryption" class="toc-link">3. Data Encryption</a>
+                <a href="#access-control" class="toc-link">4. Access Control & Authentication</a>
+                <a href="#app-security" class="toc-link">5. Application Security</a>
+                <a href="#agent-security" class="toc-link">6. Desktop Agent Security</a>
+                <a href="#data-minimization" class="toc-link">7. Data Minimization & Privacy by Design</a>
+                <a href="#incident-response" class="toc-link">8. Incident Response</a>
+                <a href="#breach-notification" class="toc-link">9. Breach Notification</a>
+                <a href="#limitation-security" class="toc-link">10. Limitation of Liability for Security Events</a>
+                <a href="#third-party" class="toc-link">11. Third-Party Security</a>
+                <a href="#employee-security" class="toc-link">12. Employee & Internal Security</a>
+                <a href="#continuous" class="toc-link">13. Continuous Improvement</a>
+                <a href="#responsible-disclosure" class="toc-link">14. Responsible Disclosure Program</a>
+                <a href="#security-contact" class="toc-link" style="border:none;">15. Security Contact</a>
+            </div>
+
+            <!-- 1 -->
+            <h2 id="commitment">1. Our Security Commitment</h2>
+            <p>At ProSync, security is not an afterthought  &mdash; it is a foundational principle embedded into every layer of our platform, from architecture to daily operations. We understand that our customers entrust us with sensitive productivity data, and we take that responsibility seriously.</p>
+            <p>We are committed to implementing and maintaining comprehensive technical, administrative, and organizational security measures that meet or exceed industry standards. Our security program is designed to protect the confidentiality, integrity, and availability of your data throughout its entire lifecycle  &mdash; from collection on the desktop agent, through transmission, to storage in our cloud infrastructure, and through eventual deletion.</p>
+            <p><strong>We employ best-in-class security practices and continually invest in improving our security posture.</strong> However, we believe in transparency: while we strive to make our platform as secure as possible, no system connected to the internet can guarantee absolute immunity from all threats. This policy outlines what we do, what we commit to, and how we respond when things go wrong.</p>
+
+            <!-- 2 -->
+            <h2 id="infrastructure">2. Infrastructure Security</h2>
+            <p>Our cloud infrastructure is hosted on enterprise-grade platforms that maintain industry-leading security certifications and compliance standards. Our infrastructure security measures include:</p>
+
+            <h3>2.1 Cloud Hosting</h3>
+            <ul>
+                <li><strong>Enterprise Cloud Providers</strong>  &mdash; Our services run on cloud platforms that maintain SOC 2 Type II, ISO 27001, and other compliance certifications.</li>
+                <li><strong>Geographic Redundancy</strong>  &mdash; Data is replicated across multiple availability zones to ensure high availability and disaster recovery capabilities.</li>
+                <li><strong>Isolated Environments</strong>  &mdash; Production, staging, and development environments are strictly separated. Customer data never enters non-production environments.</li>
+            </ul>
+
+            <h3>2.2 Network Security</h3>
+            <ul>
+                <li><strong>Firewall Protection</strong>  &mdash; Multi-layered firewall rules restrict access to essential ports and services only.</li>
+                <li><strong>DDoS Mitigation</strong>  &mdash; Automated DDoS detection and mitigation systems protect against volumetric, protocol, and application-layer attacks.</li>
+                <li><strong>Intrusion Detection & Prevention</strong>  &mdash; We deploy IDS/IPS systems that continuously monitor network traffic for suspicious patterns and automatically block malicious activity.</li>
+                <li><strong>Network Segmentation</strong>  &mdash; Internal networks are segmented to limit the blast radius of any potential compromise. Database servers are not directly accessible from the public internet.</li>
+            </ul>
+
+            <h3>2.3 Server Hardening</h3>
+            <ul>
+                <li>All servers run minimal, hardened operating system configurations with unnecessary services and ports disabled.</li>
+                <li>Automated patch management ensures security updates are applied promptly.</li>
+                <li>System configurations are managed through infrastructure-as-code to prevent configuration drift.</li>
+                <li>All administrative access requires multi-factor authentication and is logged for audit purposes.</li>
+            </ul>
+
+            <!-- 3 -->
+            <h2 id="data-encryption">3. Data Encryption</h2>
+            <p>Encryption is a cornerstone of our data protection strategy. We apply encryption at every stage of the data lifecycle:</p>
+
+            <h3>3.1 Encryption In Transit</h3>
+            <ul>
+                <li>All communications between the desktop agent and our servers use <strong>TLS 1.3</strong> (or TLS 1.2 as a minimum fallback) with strong cipher suites.</li>
+                <li>All web dashboard traffic is served exclusively over HTTPS with HTTP Strict Transport Security (HSTS) headers.</li>
+                <li>API endpoints enforce TLS and reject plaintext HTTP connections.</li>
+                <li>Certificate pinning is implemented in the desktop agent to prevent man-in-the-middle attacks.</li>
+            </ul>
+
+            <h3>3.2 Encryption At Rest</h3>
+            <ul>
+                <li>All databases use <strong>AES-256</strong> encryption at rest, managed through the cloud provider's key management service.</li>
+                <li>Blurred screenshots stored in object storage are encrypted using server-side encryption with managed keys.</li>
+                <li>Database backups are encrypted with the same standards as the primary database.</li>
+                <li>Encryption keys are rotated on a regular schedule and are never stored alongside the encrypted data.</li>
+            </ul>
+
+            <h3>3.3 Password Security</h3>
+            <ul>
+                <li>User passwords are never stored in plaintext. All passwords are hashed using <strong>SHA-256</strong> (with plans to migrate to bcrypt/Argon2id for enhanced protection).</li>
+                <li>Password strength requirements are enforced at the application layer.</li>
+                <li>Failed login attempts are rate-limited to prevent brute-force attacks.</li>
+            </ul>
+
+            <!-- 4 -->
+            <h2 id="access-control">4. Access Control & Authentication</h2>
+            <p>We implement the principle of least privilege across our entire platform:</p>
+            <ul>
+                <li><strong>Role-Based Access Control (RBAC)</strong>  &mdash; Users are assigned roles (Admin, Manager, Employee) with granular permissions. Each role can only access the data and features appropriate to their function.</li>
+                <li><strong>OTP Email Verification</strong>  &mdash; New account registrations require email verification through a one-time password (OTP) to confirm ownership of the email address.</li>
+                <li><strong>Session Management</strong>  &mdash; User sessions are managed through secure tokens stored in the browser's localStorage. Sessions expire after configurable inactivity periods.</li>
+                <li><strong>Administrative Access Logging</strong>  &mdash; All administrative actions (user creation, permission changes, data exports, agent enrollments) are logged with timestamps and actor identification for full audit trail capability.</li>
+                <li><strong>Separate Admin Credentials</strong>  &mdash; Internal ProSync engineering staff who require access to production systems use separate, dedicated credentials with multi-factor authentication. Access is granted only on a need-to-know basis and is reviewed quarterly.</li>
+            </ul>
+
+            <!-- 5 -->
+            <h2 id="app-security">5. Application Security</h2>
+            <p>Security is integrated into our software development lifecycle (SDLC) from design through deployment:</p>
+            <ul>
+                <li><strong>Secure Coding Practices</strong>  &mdash; Our development team follows OWASP Top 10 guidelines and conducts peer code reviews for all changes before they are merged into the codebase.</li>
+                <li><strong>Input Validation & Sanitization</strong>  &mdash; All user inputs are validated and sanitized on both client and server sides to prevent injection attacks (SQL injection, XSS, command injection, etc.).</li>
+                <li><strong>Content Security Policy (CSP)</strong>  &mdash; Strict CSP headers are configured to prevent cross-site scripting and data injection attacks.</li>
+                <li><strong>Dependency Management</strong>  &mdash; Third-party libraries and dependencies are regularly audited for known vulnerabilities using automated scanning tools.</li>
+                <li><strong>API Security</strong>  &mdash; All API endpoints implement authentication, rate limiting, input validation, and proper error handling. Sensitive operations require additional authorization checks.</li>
+                <li><strong>Error Handling</strong>  &mdash; Application errors are handled gracefully without exposing internal system details, stack traces, or sensitive information to end users.</li>
+            </ul>
+
+            <!-- 6 -->
+            <h2 id="agent-security">6. Desktop Agent Security</h2>
+            <p>The ProSync desktop agent is the software installed on monitored devices. Its security is paramount:</p>
+            <ul>
+                <li><strong>Minimal Permissions</strong>  &mdash; The agent requests only the minimum system permissions necessary to perform its monitoring functions. It does not require root/administrator privileges for normal operation.</li>
+                <li><strong>Local Data Processing</strong>  &mdash; Screenshot blurring, activity aggregation, and data formatting are performed locally on the device before any data is transmitted. This ensures that raw, unprocessed data never leaves the device.</li>
+                <li><strong>Secure Communication</strong>  &mdash; All data transmissions from the agent to ProSync servers are encrypted via TLS 1.3 with certificate pinning.</li>
+                <li><strong>No Keylogging</strong>  &mdash; The agent does not capture, record, or transmit individual keystrokes, key names, or input content of any kind. Keyboard activity is measured solely as an aggregate density metric (actions per time interval).</li>
+                <li><strong>Signed Updates</strong>  &mdash; Agent updates are digitally signed to ensure integrity and authenticity. The agent verifies the signature before applying any update to prevent tampering.</li>
+                <li><strong>Tamper Detection</strong>  &mdash; The agent includes basic tamper detection mechanisms that alert administrators if the agent process is forcefully terminated, the executable is modified, or critical configuration files are altered.</li>
+                <li><strong>Automatic Data Purge</strong>  &mdash; Local data caches on the device are automatically purged according to the retention schedule (91 days for screenshots). Users cannot access raw monitoring data on the local device.</li>
+            </ul>
+
+            <!-- 7 -->
+            <h2 id="data-minimization">7. Data Minimization & Privacy by Design</h2>
+            <p>Our security philosophy is inseparable from our privacy philosophy. We practice data minimization as a core security principle:</p>
+            <ul>
+                <li><strong>Collect Only What's Needed</strong>  &mdash; We collect the absolute minimum data required to deliver productivity insights. We do not collect file contents, email content, chat messages, browsing history, or personal media.</li>
+                <li><strong>Blur Before Upload</strong>  &mdash; Screenshots are blurred at the source (on the device) before being transmitted. This is a privacy-by-design decision that ensures even if our servers were compromised, the captured images would not reveal sensitive information in readable detail.</li>
+                <li><strong>Aggregate When Possible</strong>  &mdash; Keyboard and mouse activity data is collected as aggregate density metrics, not granular event logs. This provides the anti-jiggler functionality without creating a surveillance-level input record.</li>
+                <li><strong>Automatic Deletion</strong>  &mdash; Data is automatically and permanently deleted when it reaches the end of its retention period. We do not indefinitely retain data "just in case."</li>
+                <li><strong>No Cross-Purpose Use</strong>  &mdash; Data collected for productivity monitoring is never repurposed for advertising, profiling, resale, or any purpose outside the core functionality of the platform.</li>
+            </ul>
+
+            <!-- 8 -->
+            <h2 id="incident-response">8. Incident Response</h2>
+            <p>ProSync maintains a formal Incident Response Plan (IRP) that outlines the procedures for detecting, containing, investigating, and recovering from security incidents. Our incident response process includes:</p>
+
+            <h3>8.1 Detection & Triage</h3>
+            <ul>
+                <li>Automated monitoring and alerting systems continuously scan for anomalous activity, unauthorized access attempts, and potential security threats.</li>
+                <li>All security alerts are triaged by severity (Critical, High, Medium, Low) and assigned to the appropriate response team.</li>
+                <li>Critical and High severity incidents trigger immediate escalation to senior security personnel.</li>
+            </ul>
+
+            <h3>8.2 Containment & Eradication</h3>
+            <ul>
+                <li>Immediate containment measures are taken to isolate affected systems and prevent further damage or data exposure.</li>
+                <li>The root cause of the incident is identified and eradicated.</li>
+                <li>Affected credentials, tokens, and certificates are rotated.</li>
+                <li>Forensic evidence is preserved for post-incident analysis.</li>
+            </ul>
+
+            <h3>8.3 Recovery & Post-Incident Review</h3>
+            <ul>
+                <li>Systems are restored from verified clean backups after thorough validation.</li>
+                <li>Enhanced monitoring is deployed on affected systems for an extended observation period.</li>
+                <li>A detailed post-incident report is produced documenting the timeline, root cause, impact, response actions, and lessons learned.</li>
+                <li>The IRP is updated based on findings to improve future response capabilities.</li>
+            </ul>
+
+            <!-- 9 -->
+            <h2 id="breach-notification">9. Breach Notification</h2>
+            <p>In the event of a confirmed data breach that results in the unauthorized access, acquisition, or disclosure of personal data or customer data, ProSync will:</p>
+            <ul>
+                <li><strong>Notify Affected Customers</strong>  &mdash; We will notify affected organizations and, where applicable, individual users within <strong>72 hours</strong> of confirming the breach, or as soon as reasonably practicable. Notification will be provided via email to the registered account administrator and through the ProSync dashboard.</li>
+                <li><strong>Provide Details</strong>  &mdash; The notification will include: a description of the nature of the breach, the categories and approximate number of records affected, the likely consequences of the breach, the measures taken or proposed to address the breach, and recommendations for affected parties to mitigate potential harm.</li>
+                <li><strong>Notify Authorities</strong>  &mdash; Where required by applicable law, we will notify relevant supervisory authorities and data protection regulators within the legally mandated timeframe.</li>
+                <li><strong>Cooperate Fully</strong>  &mdash; We will cooperate with affected organizations, law enforcement, and regulatory authorities in the investigation and remediation of the breach.</li>
+                <li><strong>Offer Remediation</strong>  &mdash; Depending on the severity and nature of the breach, we may offer affected parties credit monitoring services, password resets, or other appropriate remediation measures.</li>
+            </ul>
+
+            <!-- 10 -->
+            <h2 id="limitation-security">10. Limitation of Liability for Security Events</h2>
+            <p><strong>This is an important section. Please read it carefully.</strong></p>
+            <p>ProSync is deeply committed to protecting your data and invests significant resources in maintaining a robust security posture. We implement industry-standard and, in many cases, industry-leading security measures as described throughout this policy. We continuously monitor, test, and improve our defenses.</p>
+            <p>However, <strong>the nature of cybersecurity is such that no organization  &mdash; regardless of size, resources, or sophistication  &mdash; can guarantee absolute protection against all possible threats.</strong> The cybersecurity landscape is constantly evolving, with new vulnerabilities, attack vectors, and threat actors emerging regularly. Advanced persistent threats (APTs), zero-day exploits, state-sponsored attacks, and sophisticated social engineering campaigns represent risks that even the most well-defended organizations face.</p>
+            <p>Accordingly, while ProSync commits to employing commercially reasonable, best-practice security measures to safeguard your data:</p>
+            <ul>
+                <li><strong>ProSync shall not be held liable</strong> for any data loss, data breach, unauthorized access, data corruption, or service disruption resulting from cyber attacks, hacking, ransomware, malware, phishing, social engineering, or other malicious activities that are beyond our reasonable ability to prevent, detect, or mitigate despite our best efforts.</li>
+                <li><strong>ProSync shall not be liable</strong> for security incidents caused by zero-day vulnerabilities in third-party software, libraries, frameworks, or infrastructure providers that we reasonably rely upon and that were not known or publicly disclosed at the time of the incident.</li>
+                <li><strong>ProSync shall not be responsible</strong> for security incidents arising from the actions or negligence of your organization's employees, including but not limited to sharing credentials, clicking on phishing links, installing unauthorized software, or failing to follow your organization's own security policies.</li>
+                <li><strong>ProSync shall not be liable</strong> for force majeure events including natural disasters, wars, terrorism, government actions, power grid failures, internet backbone outages, or other extraordinary circumstances beyond our control that may impact the security or availability of the Service.</li>
+            </ul>
+            <p>In the event of any security incident, ProSync's total aggregate liability shall be limited to the total fees paid by the affected customer during the twelve (12) months immediately preceding the incident, as further described in our <a href="terms.html">Terms of Service</a>.</p>
+            <p><strong>Our commitment to you is this:</strong> We will always act with urgency, transparency, and good faith in responding to any security incident. We will deploy every reasonable resource to contain the impact, remediate the cause, notify affected parties promptly, and strengthen our defenses to prevent recurrence. While we cannot guarantee that a breach will never occur, we guarantee that our response will be swift, thorough, and honest.</p>
+
+            <!-- 11 -->
+            <h2 id="third-party">11. Third-Party Security</h2>
+            <p>ProSync relies on a limited number of third-party service providers for infrastructure, communication, and operational functions. Our third-party security management includes:</p>
+            <ul>
+                <li><strong>Vendor Assessment</strong>  &mdash; All third-party providers undergo a security assessment before onboarding, evaluating their security certifications, data handling practices, incident response capabilities, and compliance posture.</li>
+                <li><strong>Data Processing Agreements</strong>  &mdash; We maintain formal data processing agreements (DPAs) with all providers that handle customer data, specifying their obligations regarding data protection, breach notification, and sub-processor management.</li>
+                <li><strong>Minimal Access</strong>  &mdash; Third-party providers are granted only the minimum level of access necessary to perform their designated function. They do not have broad access to customer data.</li>
+                <li><strong>Ongoing Monitoring</strong>  &mdash; We periodically review the security posture and compliance status of our third-party providers to ensure continued adherence to our security standards.</li>
+            </ul>
+            <p>Key third-party categories include: cloud hosting and database providers, email delivery services (for OTP and notification emails), and content delivery networks (CDNs).</p>
+
+            <!-- 12 -->
+            <h2 id="employee-security">12. Employee & Internal Security</h2>
+            <p>Security starts with our own team. ProSync maintains strict internal security practices:</p>
+            <ul>
+                <li><strong>Background Checks</strong>  &mdash; All employees with access to production systems or customer data undergo background verification during the hiring process.</li>
+                <li><strong>Security Training</strong>  &mdash; All employees receive security awareness training during onboarding and on an ongoing annual basis, covering topics such as phishing awareness, secure coding, data handling, and incident reporting.</li>
+                <li><strong>Access Reviews</strong>  &mdash; Employee access to production systems, databases, and administrative tools is reviewed quarterly. Access is promptly revoked upon role change or separation.</li>
+                <li><strong>Separation of Duties</strong>  &mdash; Critical operations (e.g., database migrations, key rotation, access provisioning) require approval from multiple authorized personnel.</li>
+                <li><strong>Secure Workstations</strong>  &mdash; All employee workstations are encrypted, run endpoint protection software, and are managed through centralized device management.</li>
+                <li><strong>Clean Desk Policy</strong>  &mdash; Employees follow clean desk policies and do not store customer data on local devices or removable media.</li>
+            </ul>
+
+            <!-- 13 -->
+            <h2 id="continuous">13. Continuous Improvement</h2>
+            <p>Security is not a destination  &mdash; it is an ongoing process. ProSync is committed to continuously improving our security posture through:</p>
+            <ul>
+                <li><strong>Regular Audits</strong>  &mdash; We conduct internal security audits and, where applicable, engage independent third-party security firms to perform external audits and assessments.</li>
+                <li><strong>Penetration Testing</strong>  &mdash; We perform regular penetration testing of our infrastructure, web applications, and APIs to proactively identify and remediate vulnerabilities before they can be exploited.</li>
+                <li><strong>Vulnerability Scanning</strong>  &mdash; Automated vulnerability scanners continuously assess our systems, code dependencies, and infrastructure for known vulnerabilities.</li>
+                <li><strong>Threat Intelligence</strong>  &mdash; We monitor threat intelligence feeds and security advisories to stay informed about emerging threats that could impact our platform or technology stack.</li>
+                <li><strong>Policy Reviews</strong>  &mdash; This Security Policy, along with our internal security procedures and incident response plans, is reviewed and updated at least annually or whenever a significant change occurs in our technology, operations, or the threat landscape.</li>
+            </ul>
+
+            <!-- 14 -->
+            <h2 id="responsible-disclosure">14. Responsible Disclosure Program</h2>
+            <p>ProSync values the contributions of the security research community in helping us maintain the security of our platform. If you discover a potential security vulnerability in ProSync, we encourage you to report it to us responsibly.</p>
+
+            <h3>14.1 Reporting Guidelines</h3>
+            <ul>
+                <li>Submit your findings through our <a href="contact.html">Contact Page</a> with a detailed description of the vulnerability, steps to reproduce, and potential impact assessment.</li>
+                <li>Allow us a reasonable timeframe (typically 90 days) to investigate and remediate the vulnerability before any public disclosure.</li>
+                <li>Do not access, modify, or delete data belonging to other users or organizations during your research.</li>
+                <li>Do not perform denial-of-service testing, social engineering, or physical security testing.</li>
+            </ul>
+
+            <h3>14.2 Our Commitment</h3>
+            <ul>
+                <li>We will acknowledge receipt of your report within 2 business days.</li>
+                <li>We will investigate the reported vulnerability promptly and keep you informed of our progress.</li>
+                <li>We will not take legal action against researchers who follow these responsible disclosure guidelines in good faith.</li>
+                <li>We will credit researchers (with their permission) for valid vulnerabilities reported and remediated.</li>
+            </ul>
+
+            <!-- 15 -->
+            <h2 id="security-contact">15. Security Contact</h2>
+            <p>For security-related questions, concerns, vulnerability reports, or incident notifications, please contact our security team:</p>
+            <ul>
+                <li><strong>Security Contact:</strong> Through our <a href="contact.html">Contact Page</a></li>
+                <li><strong>General Support:</strong> Through our <a href="contact.html">Contact Page</a></li>
+                <li><strong>Response Time:</strong> Security reports are triaged within 2 business days. Critical vulnerabilities are addressed on an emergency basis.</li>
+            </ul>
+
+            <div class="mt-16 p-6 rounded-2xl text-center" style="background:var(--bg-secondary);border:1px solid var(--border-primary);">
+                <p class="text-[14px] mb-3" style="color:var(--text-tertiary);">Related Legal Documents</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="privacy.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Privacy Policy</a>
+                    <a href="terms.html" class="btn-primary !py-[10px] !px-[24px] !text-[14px] !rounded-xl">Terms of Service</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="max-w-[1200px] mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="font-display text-[22px] font-extrabold text-white mb-4">ProSync</div>
+                    <p class="text-[14px] leading-relaxed" style="color:#64748b;">The modern productivity suite for high-performance teams.</p>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Product</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="index.html#features" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Features</a></li>
+                        <li><a href="index.html#pricing" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="about.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">About</a></li>
+                        <li><a href="contact.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul class="flex flex-col gap-2.5">
+                        <li><a href="privacy.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-[14px] hover:text-white transition-colors" style="color:#64748b;">Terms of Service</a></li>
+                        <li><a href="security.html" class="text-[14px] hover:text-white transition-colors text-white font-semibold">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:rgba(148,163,184,0.15);">
+                <p class="text-[13px]" style="color:#475569;">&copy; 2026 ProSync Systems Inc. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">Twitter</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">LinkedIn</a>
+                    <a href="#" class="text-[13px] hover:text-white transition-colors" style="color:#475569;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        function setTheme(t) {
+            if (t==='dark') { document.documentElement.classList.add('dark'); if(themeToggleIcon) themeToggleIcon.textContent='light_mode'; localStorage.setItem('prosync_theme','dark'); }
+            else { document.documentElement.classList.remove('dark'); if(themeToggleIcon) themeToggleIcon.textContent='dark_mode'; localStorage.setItem('prosync_theme','light'); }
+        }
+        setTheme(localStorage.getItem('prosync_theme') || 'light');
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', () => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+        const mainNav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => { mainNav.classList.toggle('scrolled', window.scrollY > 10); });
+    
+        // Navbar session check
+        function updateNavbarSessionState() {
+            const savedSession = localStorage.getItem('prosync_session');
+            const savedName = localStorage.getItem('prosync_name') || '';
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navLogin = document.getElementById('nav-login');
+            const navProfile = document.getElementById('nav-profile');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownEmail = document.getElementById('dropdown-email');
+            const profileBtn = document.getElementById('profile-dropdown-btn');
+
+            if (savedSession) {
+                if (navDashboard) navDashboard.classList.remove('hidden');
+                if (navLogin) navLogin.classList.add('hidden');
+                if (navProfile) {
+                    navProfile.classList.remove('hidden');
+                    const displayName = savedName || savedSession;
+                    if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
+                    if (dropdownName) dropdownName.textContent = displayName;
+                    if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+            } else {
+                if (navDashboard) navDashboard.classList.add('hidden');
+                if (navLogin) { navLogin.classList.remove('hidden'); }
+                if (navProfile) navProfile.classList.add('hidden');
+            }
+        }
+
+        // Profile dropdown toggling
+        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        if (profileDropdownBtn && profileDropdownMenu) {
+            profileDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
+        }
+
+        // Logout handling
+        const dropdownLogout = document.getElementById('dropdown-logout');
+        if (dropdownLogout) {
+            dropdownLogout.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('prosync_session');
+                localStorage.removeItem('prosync_name');
+                updateNavbarSessionState();
+                window.location.href = 'index.html#home';
+            });
+        }
+
+        // Run session check on load
+        updateNavbarSessionState();
+</script>
+</body>
+</html>
