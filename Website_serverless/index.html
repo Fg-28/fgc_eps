@@ -671,7 +671,6 @@
                 <!-- Login link -->
                 <a id="nav-login" class="btn-primary !py-[8px] !px-[20px] !text-[13px] !rounded-[10px] !shadow-none hover:!shadow-[0_4px_14px_rgba(99,102,241,0.30)]" href="#login" style="text-decoration:none;">Get Started</a>
 
-                <!-- Profile dropdown (hidden until logged in) -->
                 <div id="nav-profile" class="hidden relative">
                     <button id="profile-dropdown-btn" class="w-9 h-9 rounded-full font-bold flex items-center justify-center text-sm text-white uppercase focus:outline-none cursor-pointer" style="background:var(--accent-gradient);">U</button>
                     <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl p-1 z-50" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:var(--card-shadow-hover);">
@@ -679,6 +678,8 @@
                             <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
                             <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
                         </div>
+                        <a id="dropdown-profile" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Profile Details</a>
+                        <a id="dropdown-tx" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Transactions</a>
                         <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
                     </div>
                 </div>
@@ -1635,6 +1636,79 @@
         </div>
     </div>
 
+    <!-- ═══════════════════ USER PROFILE & TRANSACTIONS MODAL ═══════════════════ -->
+    <div id="profile-modal" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden" style="background:rgba(10,11,16,0.6); backdrop-filter:blur(8px);">
+        <div class="w-full max-w-[750px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
+            <!-- Close Button -->
+            <button id="btn-close-profile" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);border:none;">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+            
+            <!-- Modal Title -->
+            <div class="text-center mb-6">
+                <div class="font-display text-[20px] font-extrabold gradient-text mb-1">My Account</div>
+                <h2 class="text-[22px] font-bold" style="color:var(--text-primary);" id="profile-modal-title">Account Details & Invoices</h2>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
+                <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Profile Info</button>
+                <button id="tab-profile-tx" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Transactions</button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-grow overflow-y-auto pr-1">
+                <!-- Panel 1: Profile Info -->
+                <div id="panel-profile-info" class="flex flex-col gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" style="color:var(--text-tertiary);">Full Name</label>
+                            <input class="form-input opacity-75 cursor-not-allowed" id="profile-modal-name" readonly type="text" style="background:rgba(0,0,0,0.2);"/>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" style="color:var(--text-tertiary);">Email Address</label>
+                            <input class="form-input opacity-75 cursor-not-allowed" id="profile-modal-email" readonly type="email" style="background:rgba(0,0,0,0.2);"/>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" style="color:var(--text-tertiary);">Company Name</label>
+                            <input class="form-input opacity-75 cursor-not-allowed" id="profile-modal-company" readonly type="text" style="background:rgba(0,0,0,0.2);"/>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" style="color:var(--text-tertiary);">Company Address</label>
+                            <textarea class="form-input opacity-75 cursor-not-allowed min-h-[80px]" id="profile-modal-address" readonly style="background:rgba(0,0,0,0.2); resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 2: Transactions -->
+                <div id="panel-profile-tx" class="hidden flex flex-col">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b" style="border-color:var(--border-glass);">
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Payment Date</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-center" style="color:var(--text-tertiary);">Users</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-center" style="color:var(--text-tertiary);">Months</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Paid</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Starting</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Ending</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Status (X)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profile-modal-tx-tbody">
+                                <tr>
+                                    <td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading transactions...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══════════════════ FOOTER ═══════════════════ -->
     <footer class="site-footer">
         <div class="max-w-[1200px] mx-auto px-6 py-16">
@@ -2039,6 +2113,204 @@
                 showMessage('Logged out successfully.', 'success');
                 window.location.hash = '#home';
             });
+        }
+
+        // ── PROFILE & TRANSACTIONS MODAL LOGIC ──
+        const profileModal = document.getElementById('profile-modal');
+        const btnCloseProfile = document.getElementById('btn-close-profile');
+        const tabProfileInfo = document.getElementById('tab-profile-info');
+        const tabProfileTx = document.getElementById('tab-profile-tx');
+        const panelProfileInfo = document.getElementById('panel-profile-info');
+        const panelProfileTx = document.getElementById('panel-profile-tx');
+        const dropdownProfile = document.getElementById('dropdown-profile');
+        const dropdownTx = document.getElementById('dropdown-tx');
+
+        function switchProfileModalTab(tab) {
+            if (tab === 'info') {
+                tabProfileInfo.classList.add('border-b-2', 'font-bold');
+                tabProfileInfo.classList.remove('border-transparent', 'font-medium');
+                tabProfileInfo.style.color = 'var(--accent-1)';
+                tabProfileInfo.style.borderColor = 'var(--accent-1)';
+
+                tabProfileTx.classList.remove('border-b-2', 'font-bold');
+                tabProfileTx.classList.add('border-transparent', 'font-medium');
+                tabProfileTx.style.color = 'var(--text-tertiary)';
+                tabProfileTx.style.borderColor = 'transparent';
+
+                panelProfileInfo.classList.remove('hidden');
+                panelProfileTx.classList.add('hidden');
+            } else {
+                tabProfileTx.classList.add('border-b-2', 'font-bold');
+                tabProfileTx.classList.remove('border-transparent', 'font-medium');
+                tabProfileTx.style.color = 'var(--accent-1)';
+                tabProfileTx.style.borderColor = 'var(--accent-1)';
+
+                tabProfileInfo.classList.remove('border-b-2', 'font-bold');
+                tabProfileInfo.classList.add('border-transparent', 'font-medium');
+                tabProfileInfo.style.color = 'var(--text-tertiary)';
+                tabProfileInfo.style.borderColor = 'transparent';
+
+                panelProfileTx.classList.remove('hidden');
+                panelProfileInfo.classList.add('hidden');
+            }
+        }
+
+        if (tabProfileInfo) {
+            tabProfileInfo.addEventListener('click', () => switchProfileModalTab('info'));
+        }
+        if (tabProfileTx) {
+            tabProfileTx.addEventListener('click', () => switchProfileModalTab('tx'));
+        }
+
+        async function openProfileModal(initialTab = 'info') {
+            switchProfileModalTab(initialTab);
+            if (profileModal) profileModal.classList.remove('hidden');
+
+            const email = localStorage.getItem('prosync_session') || '';
+            const tbody = document.getElementById('profile-modal-tx-tbody');
+            
+            // Populate defaults from localStorage first
+            document.getElementById('profile-modal-name').value = localStorage.getItem('prosync_name') || 'Guest';
+            document.getElementById('profile-modal-email').value = email;
+            document.getElementById('profile-modal-company').value = localStorage.getItem('prosync_company_name') || '—';
+            document.getElementById('profile-modal-address').value = localStorage.getItem('prosync_company_address') || '—';
+
+            if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading transactions...</td></tr>';
+
+            if (!email) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/user/profile`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    document.getElementById('profile-modal-name').value = result.name || '';
+                    document.getElementById('profile-modal-email').value = result.email || '';
+                    document.getElementById('profile-modal-company').value = result.company_name || '—';
+                    document.getElementById('profile-modal-address').value = result.company_address || '—';
+
+                    // Cache in localStorage to keep in sync
+                    if (result.company_name) localStorage.setItem('prosync_company_name', result.company_name);
+                    if (result.company_address) localStorage.setItem('prosync_company_address', result.company_address);
+
+                    // Render Transactions
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                        if (!result.transactions || result.transactions.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No transactions found.</td></tr>';
+                        } else {
+                            result.transactions.forEach(tx => {
+                                const tr = document.createElement('tr');
+                                tr.style.borderColor = 'var(--border-glass)';
+                                tr.className = 'border-b';
+                                
+                                const amount = calculateProfilePaymentPrice(tx.plan, tx.users_count, tx.months);
+                                const startStr = formatDateDDMMYYYY(tx.start_date);
+                                const endStr = formatDateDDMMYYYY(tx.end_date);
+                                const createdStr = formatDateDDMMYYYY(tx.start_date);
+                                
+                                let statusBadge = '';
+                                const status = tx.approved || 'pending';
+                                if (status === 'approved') {
+                                    statusBadge = '<span class="text-green-400 font-bold">Approved ✅</span>';
+                                } else if (status === 'rejected') {
+                                    statusBadge = '<span class="text-red-400 font-bold">Rejected ❌</span>';
+                                } else {
+                                    statusBadge = '<span class="text-yellow-400 font-bold">Pending ⏳</span>';
+                                }
+
+                                tr.innerHTML = `
+                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${createdStr}</td>
+                                    <td class="px-4 py-3 text-sm text-center">${tx.users_count}</td>
+                                    <td class="px-4 py-3 text-sm text-center">${tx.months}</td>
+                                    <td class="px-4 py-3 text-sm font-bold text-green-400">₹${amount.toLocaleString('en-IN')}</td>
+                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${startStr}</td>
+                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${endStr}</td>
+                                    <td class="px-4 py-3 text-sm">${statusBadge}</td>
+                                `;
+                                tbody.appendChild(tr);
+                            });
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching profile details:", err);
+                if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm text-red-400">Failed to load transactions.</td></tr>';
+            }
+        }
+
+        if (dropdownProfile) {
+            dropdownProfile.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal('info');
+            });
+        }
+        if (dropdownTx) {
+            dropdownTx.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal('tx');
+            });
+        }
+        if (btnCloseProfile) {
+            btnCloseProfile.addEventListener('click', () => {
+                if (profileModal) profileModal.classList.add('hidden');
+            });
+        }
+        if (profileModal) {
+            profileModal.addEventListener('click', (e) => {
+                if (e.target === profileModal) {
+                    profileModal.classList.add('hidden');
+                }
+            });
+        }
+
+        function formatDateDDMMYYYY(isoStr) {
+            if (!isoStr) return "—";
+            try {
+                const date = new Date(isoStr);
+                if (isNaN(date.getTime())) return isoStr;
+                const d = String(date.getDate()).padStart(2, '0');
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const y = date.getFullYear();
+                return `${d}-${m}-${y}`;
+            } catch(e) {
+                return isoStr;
+            }
+        }
+
+        function calculateProfilePaymentPrice(plan, users, months) {
+            let baseLite = 99, basePro = 149;
+            if (months === 1) { baseLite = 99; basePro = 149; }
+            else if (months === 3) { baseLite = 92; basePro = 138; }
+            else if (months === 6) { baseLite = 84; basePro = 125; }
+            else if (months === 12) { baseLite = 79; basePro = 99; }
+            else if (months === 18) { baseLite = 63; basePro = 91; }
+            else if (months === 24) { baseLite = 56; basePro = 84; }
+
+            if (users >= 5 && months === 12) { baseLite = 76; }
+
+            let liteRate = baseLite, proRate = basePro;
+            if (users > 1) {
+                const discountFactor = 1 - (users - 1) * 0.022;
+                liteRate = Math.round(baseLite * discountFactor);
+                proRate = Math.round(basePro * discountFactor);
+            }
+            if (users === 5 && months === 12) { proRate = 89; liteRate = 69; }
+            liteRate = Math.max(49, liteRate);
+            proRate = Math.max(69, proRate);
+            if (users === 10 && months === 24) { liteRate = 49; proRate = 69; }
+
+            const rate = plan === 'lite' ? liteRate : proRate;
+            const discountedTotal = rate * users * months;
+            
+            // Rounding logic
+            if (discountedTotal < 300) return Math.round(discountedTotal / 10) * 10;
+            else if (discountedTotal < 1000) return Math.round(discountedTotal / 50) * 50;
+            else if (discountedTotal < 5000) return Math.round(discountedTotal / 100) * 100;
+            else return Math.round(discountedTotal / 500) * 500;
         }
 
         // Check Price redirect
