@@ -1634,7 +1634,7 @@
                     <!-- Spam check notice & resend button -->
                     <div class="text-center mt-1 flex flex-col gap-1">
                         <span class="text-[12px] font-medium" style="color:var(--text-secondary);">
-                            ✉️ Check your <strong>Spam/Junk</strong> folder if you don't see it.
+                            Check your <strong>Spam/Junk</strong> folder if you don't see it.
                         </span>
                         <button id="btn-resend-otp" class="text-[13px] font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:underline" type="button" style="color:var(--accent-1);background:none;border:none;" disabled>
                             Resend Email in 60s
@@ -1918,6 +1918,8 @@
         let isOtpState = false;
         let currentAuthMode = 'signin';
         let resendTimer = null;
+        let cachedProfileData = null;
+        let profileCacheTimestamp = 0;
 
         function startResendCountdown(seconds) {
             const resendBtn = document.getElementById('btn-resend-otp');
@@ -2065,6 +2067,10 @@
                             setTimeout(() => {
                                 tabSignup.click();
                                 emailInput.value = email;
+                                // Hide the error message after 5 seconds
+                                setTimeout(() => {
+                                    loginMessage.classList.add('hidden');
+                                }, 5000);
                             }, 1200);
                         }
                     }
@@ -2192,6 +2198,8 @@
                     clearInterval(resendTimer);
                     resendTimer = null;
                 }
+                cachedProfileData = null;
+                profileCacheTimestamp = 0;
                 loginMessage.classList.add('hidden');
                 emailInput.value = '';
                 passwordInput.value = '';
@@ -2264,9 +2272,20 @@
             document.getElementById('profile-modal-company').value = localStorage.getItem('prosync_company_name') || '—';
             document.getElementById('profile-modal-address').value = localStorage.getItem('prosync_company_address') || '—';
 
-            if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading transactions...</td></tr>';
-
             if (!email) return;
+
+            // Check RAM Cache
+            const now = Date.now();
+            const cacheDuration = 5 * 60 * 1000; // 5 minutes
+            const isCacheValid = cachedProfileData && (now - profileCacheTimestamp < cacheDuration);
+
+            if (isCacheValid) {
+                console.log("⚡ Loading profile and transactions from RAM cache");
+                renderProfileData(cachedProfileData, tbody);
+                return;
+            }
+
+            if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading transactions...</td></tr>';
 
             try {
                 const response = await fetch(`${API_BASE}/api/user/profile`, {
@@ -2276,59 +2295,73 @@
                 });
                 const result = await response.json();
                 if (response.ok && result.success) {
-                    document.getElementById('profile-modal-name').value = result.name || '';
-                    document.getElementById('profile-modal-email').value = result.email || '';
-                    document.getElementById('profile-modal-company').value = result.company_name || '—';
-                    document.getElementById('profile-modal-address').value = result.company_address || '—';
+                    // Store in RAM Cache
+                    cachedProfileData = result;
+                    profileCacheTimestamp = now;
 
-                    // Cache in localStorage to keep in sync
-                    if (result.company_name) localStorage.setItem('prosync_company_name', result.company_name);
-                    if (result.company_address) localStorage.setItem('prosync_company_address', result.company_address);
-
-                    // Render Transactions
-                    if (tbody) {
-                        tbody.innerHTML = '';
-                        if (!result.transactions || result.transactions.length === 0) {
-                            tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No transactions found.</td></tr>';
-                        } else {
-                            result.transactions.forEach(tx => {
-                                const tr = document.createElement('tr');
-                                tr.style.borderColor = 'var(--border-glass)';
-                                tr.className = 'border-b';
-                                
-                                const amount = calculateProfilePaymentPrice(tx.plan, tx.users_count, tx.months);
-                                const startStr = formatDateDDMMYYYY(tx.start_date);
-                                const endStr = formatDateDDMMYYYY(tx.end_date);
-                                const createdStr = formatDateDDMMYYYY(tx.created_at || tx.start_date);
-                                
-                                let statusBadge = '';
-                                const status = (tx.Approved || tx.approved || 'pending').toLowerCase();
-                                if (status === 'approved' || status === 'yes') {
-                                    statusBadge = '<span class="text-green-400 font-bold">Approved ✅</span>';
-                                } else if (status === 'rejected' || status === 'no') {
-                                    statusBadge = '<span class="text-red-400 font-bold">Rejected ❌</span>';
-                                } else {
-                                    statusBadge = '<span class="text-yellow-400 font-bold">In Progress ⏳</span>';
-                                }
-
-                                tr.innerHTML = `
-                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${createdStr}</td>
-                                    <td class="px-4 py-3 text-sm text-center">${tx.users_count}</td>
-                                    <td class="px-4 py-3 text-sm text-center">${tx.months}</td>
-                                    <td class="px-4 py-3 text-sm font-bold text-green-400">₹${amount.toLocaleString('en-IN')}</td>
-                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${startStr}</td>
-                                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${endStr}</td>
-                                    <td class="px-4 py-3 text-sm">${statusBadge}</td>
-                                `;
-                                tbody.appendChild(tr);
-                            });
-                        }
-                    }
+                    renderProfileData(result, tbody);
                 }
             } catch (err) {
                 console.error("Error fetching profile details:", err);
                 if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm text-red-400">Failed to load transactions.</td></tr>';
             }
+        }
+
+        // Helper to render the profile details and transactions
+        function renderProfileData(result, tbody) {
+            document.getElementById('profile-modal-name').value = result.name || '';
+            document.getElementById('profile-modal-email').value = result.email || '';
+            document.getElementById('profile-modal-company').value = result.company_name || '—';
+            document.getElementById('profile-modal-address').value = result.company_address || '—';
+
+            // Cache in localStorage to keep in sync
+            if (result.company_name) localStorage.setItem('prosync_company_name', result.company_name);
+            if (result.company_address) localStorage.setItem('prosync_company_address', result.company_address);
+
+            // Render Transactions
+            if (tbody) {
+                tbody.innerHTML = '';
+                if (!result.transactions || result.transactions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No transactions found.</td></tr>';
+                } else {
+                    result.transactions.forEach(tx => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderColor = 'var(--border-glass)';
+                        tr.className = 'border-b';
+                        
+                        const amount = calculateProfileProfilePaymentPrice(tx.plan, tx.users_count, tx.months);
+                        const startStr = formatDateDDMMYYYY(tx.start_date);
+                        const endStr = formatDateDDMMYYYY(tx.end_date);
+                        const createdStr = formatDateDDMMYYYY(tx.created_at || tx.start_date);
+                        
+                        let statusBadge = '';
+                        const status = (tx.Approved || tx.approved || 'pending').toLowerCase();
+                        if (status === 'approved' || status === 'yes') {
+                            statusBadge = '<span class="text-green-400 font-bold">Approved ✅</span>';
+                        } else if (status === 'rejected' || status === 'no') {
+                            statusBadge = '<span class="text-red-400 font-bold">Rejected ❌</span>';
+                        } else {
+                            statusBadge = '<span class="text-yellow-400 font-bold">In Progress ⏳</span>';
+                        }
+
+                        tr.innerHTML = `
+                            <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${createdStr}</td>
+                            <td class="px-4 py-3 text-sm text-center">${tx.users_count}</td>
+                            <td class="px-4 py-3 text-sm text-center">${tx.months}</td>
+                            <td class="px-4 py-3 text-sm font-bold text-green-400">₹${amount.toLocaleString('en-IN')}</td>
+                            <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${startStr}</td>
+                            <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${endStr}</td>
+                            <td class="px-4 py-3 text-sm">${statusBadge}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            }
+        }
+
+        // Renamed price helper call to avoid reference errors if it is different
+        function calculateProfileProfilePaymentPrice(plan, users, months) {
+            return calculateProfilePaymentPrice(plan, users, months);
         }
 
         if (dropdownProfile) {
@@ -2648,6 +2681,9 @@
                 .then(r => r.json())
                 .then(data => {
                     console.log('Payment recorded:', data);
+                    // Clear RAM Cache so the new transaction loads on next profile modal open
+                    cachedProfileData = null;
+                    profileCacheTimestamp = 0;
                 })
                 .catch(err => {
                     console.error('Failed to record payment:', err);
