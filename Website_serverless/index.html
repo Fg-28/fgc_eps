@@ -1630,6 +1630,17 @@
                         <input class="form-input text-center tracking-[0.3em] font-bold text-[20px]" id="otp-code" placeholder="000000" maxlength="6" type="text"/>
                     </div>
                     <button class="btn-primary w-full !rounded-xl" type="button" id="btn-verify">Verify OTP</button>
+
+                    <!-- Spam check notice & resend button -->
+                    <div class="text-center mt-1 flex flex-col gap-1">
+                        <span class="text-[12px] font-medium" style="color:var(--text-secondary);">
+                            ✉️ Check your <strong>Spam/Junk</strong> folder if you don't see it.
+                        </span>
+                        <button id="btn-resend-otp" class="text-[13px] font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:underline" type="button" style="color:var(--accent-1);background:none;border:none;" disabled>
+                            Resend Email in 60s
+                        </button>
+                    </div>
+
                     <button class="text-[13px] font-medium py-2 transition-colors cursor-pointer" type="button" id="btn-back" style="color:var(--text-tertiary);background:none;border:none;">← Back to Login</button>
                 </div>
             </form>
@@ -1906,6 +1917,30 @@
 
         let isOtpState = false;
         let currentAuthMode = 'signin';
+        let resendTimer = null;
+
+        function startResendCountdown(seconds) {
+            const resendBtn = document.getElementById('btn-resend-otp');
+            if (!resendBtn) return;
+
+            if (resendTimer) clearInterval(resendTimer);
+
+            resendBtn.disabled = true;
+            let timeLeft = seconds;
+            resendBtn.textContent = `Resend Email in ${timeLeft}s`;
+
+            resendTimer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(resendTimer);
+                    resendTimer = null;
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = 'Resend Email';
+                } else {
+                    resendBtn.textContent = `Resend Email in ${timeLeft}s`;
+                }
+            }, 1000);
+        }
 
         function showMessage(text, type = 'error') {
             loginMessage.classList.remove('hidden', 'msg-error', 'msg-success');
@@ -2025,6 +2060,13 @@
                         setTimeout(() => { window.location.hash = '#home'; }, 1500);
                     } else {
                         showMessage(result.error || 'Login failed. Please check credentials.');
+                        if (response.status === 404 || (result.error && result.error.toLowerCase().includes('user not found'))) {
+                            showMessage('Account not found. Redirecting to Sign Up...', 'error');
+                            setTimeout(() => {
+                                tabSignup.click();
+                                emailInput.value = email;
+                            }, 1200);
+                        }
                     }
                 } else {
                     const response = await fetch(`${API_BASE}/api/auth/register`, {
@@ -2038,6 +2080,7 @@
                         otpGroup.classList.remove('hidden');
                         isOtpState = true;
                         showMessage(result.message || 'Verification OTP code sent to email.', 'success');
+                        startResendCountdown(60);
                     } else {
                         showMessage(result.error || 'Sign up failed. Try again.');
                     }
@@ -2092,7 +2135,47 @@
             isOtpState = false;
             loginMessage.classList.add('hidden');
             otpInput.value = '';
+            if (resendTimer) {
+                clearInterval(resendTimer);
+                resendTimer = null;
+            }
         });
+
+        // Resend OTP handler
+        const btnResendOtp = document.getElementById('btn-resend-otp');
+        if (btnResendOtp) {
+            btnResendOtp.addEventListener('click', async () => {
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+                const name = document.getElementById('name').value.trim();
+
+                btnResendOtp.disabled = true;
+                btnResendOtp.textContent = 'Sending email...';
+                loginMessage.classList.add('hidden');
+
+                try {
+                    const response = await fetch(`${API_BASE}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password, name })
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        showMessage('A new OTP code has been sent to your email.', 'success');
+                        startResendCountdown(60);
+                    } else {
+                        showMessage(result.error || 'Failed to resend OTP.');
+                        btnResendOtp.disabled = false;
+                        btnResendOtp.textContent = 'Resend Email';
+                    }
+                } catch (err) {
+                    showMessage('Network error resending OTP.');
+                    console.error(err);
+                    btnResendOtp.disabled = false;
+                    btnResendOtp.textContent = 'Resend Email';
+                }
+            });
+        }
 
         // Logout
         const dropdownLogout = document.getElementById('dropdown-logout');
@@ -2105,6 +2188,10 @@
                 otpGroup.classList.add('hidden');
                 credentialsGroup.classList.remove('hidden');
                 isOtpState = false;
+                if (resendTimer) {
+                    clearInterval(resendTimer);
+                    resendTimer = null;
+                }
                 loginMessage.classList.add('hidden');
                 emailInput.value = '';
                 passwordInput.value = '';
