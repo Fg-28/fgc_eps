@@ -1889,6 +1889,23 @@
         const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
         let tempPasswordHash = '';
 
+        // Helper to generate company code: PRO + 3 characters of company name + 6 random alphanumeric characters
+        function generateCompanyCode(companyName) {
+            if (!companyName) return null;
+            let cleaned = companyName.replace(/[^A-Za-z]/g, '').toUpperCase();
+            while (cleaned.length < 3) {
+                cleaned += 'X';
+            }
+            const namePart = cleaned.substring(0, 3);
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let randPart = '';
+            for (let i = 0; i < 6; i++) {
+                randPart += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return `PRO${namePart}${randPart}`;
+        }
+
+
         // ── Pricing Logic (fully preserved) ──
         const btnMonthly = document.getElementById('btn-monthly');
         const btnYearly = document.getElementById('btn-yearly');
@@ -2358,6 +2375,7 @@
                 localStorage.removeItem('prosync_account_type');
                 localStorage.removeItem('prosync_company_name');
                 localStorage.removeItem('prosync_company_address');
+                localStorage.removeItem('prosync_company_code');
                 updateNavbarSessionState();
                 otpGroup.classList.add('hidden');
                 credentialsGroup.classList.remove('hidden');
@@ -3030,20 +3048,29 @@
                     onboardingError.textContent = '';
                 }
 
-                if (!userNameVal) {
+                if (!userNameVal || userNameVal.length < 3) {
                     if (onboardingError) {
-                        onboardingError.textContent = '⚠️ Please enter your full name.';
+                        onboardingError.textContent = '⚠️ Name must be at least 3 characters.';
                         onboardingError.classList.remove('hidden');
                     }
                     return;
                 }
 
-                if (onboardingMode === 'company' && (!companyNameVal || !companyAddressVal)) {
-                    if (onboardingError) {
-                        onboardingError.textContent = '⚠️ Please enter both Company Name and Address.';
-                        onboardingError.classList.remove('hidden');
+                if (onboardingMode === 'company') {
+                    if (!companyNameVal || companyNameVal.length < 3) {
+                        if (onboardingError) {
+                            onboardingError.textContent = '⚠️ Company Name must be at least 3 characters.';
+                            onboardingError.classList.remove('hidden');
+                        }
+                        return;
                     }
-                    return;
+                    if (!companyAddressVal || companyAddressVal.length < 3) {
+                        if (onboardingError) {
+                            onboardingError.textContent = '⚠️ Company Address must be at least 3 characters.';
+                            onboardingError.classList.remove('hidden');
+                        }
+                        return;
+                    }
                 }
 
                 if (!onboardingPoliciesCheck || !onboardingPoliciesCheck.checked) {
@@ -3068,6 +3095,7 @@
 
                 try {
                     if (supabaseClient) {
+                        const generatedCode = onboardingMode === 'company' ? generateCompanyCode(companyNameVal) : null;
                         if (onboardingMode === 'company') {
                             // Verify duplicate company name first
                             const { data: duplicateData, error: duplicateErr } = await supabaseClient
@@ -3099,6 +3127,7 @@
                                 type: onboardingMode,
                                 company_name: onboardingMode === 'company' ? companyNameVal : null,
                                 company_address: onboardingMode === 'company' ? companyAddressVal : null,
+                                company_code: generatedCode,
                                 consent_at: consentTimestamp
                             }, { onConflict: 'email' });
 
@@ -3110,9 +3139,13 @@
                         if (onboardingMode === 'company') {
                             localStorage.setItem('prosync_company_name', companyNameVal);
                             localStorage.setItem('prosync_company_address', companyAddressVal);
+                            if (generatedCode) {
+                                localStorage.setItem('prosync_company_code', generatedCode);
+                            }
                         } else {
                             localStorage.removeItem('prosync_company_name');
                             localStorage.removeItem('prosync_company_address');
+                            localStorage.removeItem('prosync_company_code');
                         }
 
                         // Clean profile cache
@@ -3175,14 +3208,16 @@
                 const companyNameVal = convertCompanyName.value.trim();
                 const companyAddressVal = convertCompanyAddress.value.trim();
 
-                if (convertError) {
-                    convertError.classList.add('hidden');
-                    convertError.textContent = '';
-                }
-
-                if (!companyNameVal || !companyAddressVal) {
+                if (!companyNameVal || companyNameVal.length < 3) {
                     if (convertError) {
-                        convertError.textContent = '⚠️ Please enter both Company Name and Address.';
+                        convertError.textContent = '⚠️ Company Name must be at least 3 characters.';
+                        convertError.classList.remove('hidden');
+                    }
+                    return;
+                }
+                if (!companyAddressVal || companyAddressVal.length < 3) {
+                    if (convertError) {
+                        convertError.textContent = '⚠️ Company Address must be at least 3 characters.';
                         convertError.classList.remove('hidden');
                     }
                     return;
@@ -3212,13 +3247,16 @@
                             return;
                         }
 
+                        const generatedCode = generateCompanyCode(companyNameVal);
+
                         // Perform update on web_users
                         const { error } = await supabaseClient
                             .from('web_users')
                             .update({
                                 type: 'company',
                                 company_name: companyNameVal,
-                                company_address: companyAddressVal
+                                company_address: companyAddressVal,
+                                company_code: generatedCode
                             })
                             .eq('email', email);
 
@@ -3228,6 +3266,9 @@
                         localStorage.setItem('prosync_account_type', 'company');
                         localStorage.setItem('prosync_company_name', companyNameVal);
                         localStorage.setItem('prosync_company_address', companyAddressVal);
+                        if (generatedCode) {
+                            localStorage.setItem('prosync_company_code', generatedCode);
+                        }
 
                         // Clear profile cache
                         cachedProfileData = null;
