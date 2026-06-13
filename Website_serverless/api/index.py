@@ -265,21 +265,16 @@ def auth_verify_otp():
             if str(pending["otp_code"]).strip() != str(otp_code).strip():
                 return jsonify({"success": False, "error": "Invalid OTP code"}), 401
 
-            # Verification successful -> Insert new user into DB
-            print(f"Creating verified user account for: {email}", flush=True)
-            supabase.table("web_users").insert({
-                "email": email,
-                "password": pending["password"],
-                "name": pending["name"]
-            }).execute()
+            # Verification successful -> Return success and the password hash so the client can save it after onboarding/consent
+            password_hash = pending["password"]
 
             # Clean up memory
             del temp_signups[email]
 
             return jsonify({
                 "success": True,
-                "message": "Registration successful! Welcome to ProSync.",
-                "name": pending["name"]
+                "message": "OTP verified successfully.",
+                "password_hash": password_hash
             })
 
         # Check Case 2: Existing User Passwordless Login Verification
