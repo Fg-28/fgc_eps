@@ -1514,6 +1514,9 @@
                     </div>
                 </div>
 
+                <!-- Company Duplicate Name Error Message -->
+                <div id="checkout-company-error" class="hidden text-[13px] p-3 rounded-lg text-center font-medium msg-error"></div>
+
                 <button id="btn-company-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px]">Confirm & Pay</button>
             </div>
 
@@ -1768,10 +1771,16 @@
     </footer>
 
     <!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') 
             ? (window.location.port === '5601' ? '' : 'http://127.0.0.1:5601') 
             : '';
+
+        // Initialize Supabase Client
+        const supabaseUrl = 'https://iqmgtfzpsjinihytxjri.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxbWd0Znpwc2ppbmloeXR4anJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjU1NjAsImV4cCI6MjA5MjAwMTU2MH0.6odmmOPNXzBBb1dfeLN5CSuzS5uttyZZz1KIbD2pxpM';
+        const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
         // ── Pricing Logic (fully preserved) ──
         const btnMonthly = document.getElementById('btn-monthly');
@@ -2487,6 +2496,13 @@
             if (paymentStepCompany) paymentStepCompany.classList.add('hidden');
             paymentStepQr.classList.add('hidden');
             if (paymentTimerInterval) clearInterval(paymentTimerInterval);
+
+            // Reset company duplicate error message
+            const companyError = document.getElementById('checkout-company-error');
+            if (companyError) {
+                companyError.classList.add('hidden');
+                companyError.textContent = '';
+            }
             
             checkoutRangeUsers.value = 5;
             checkoutRangeMonths.value = 4; // 12 months (step 4)
@@ -2638,14 +2654,66 @@
         }
 
         if (btnCompanySubmit) {
-            btnCompanySubmit.addEventListener('click', () => {
+            btnCompanySubmit.addEventListener('click', async () => {
                 const compName = checkoutCompanyName.value.trim();
                 const compAddr = checkoutCompanyAddress.value.trim();
+                const companyError = document.getElementById('checkout-company-error');
+                
+                if (companyError) {
+                    companyError.classList.add('hidden');
+                    companyError.textContent = '';
+                }
                 
                 if (!compName || !compAddr) {
                     alert('Please enter both Company Name and Address.');
                     return;
                 }
+
+                const originalText = btnCompanySubmit.textContent;
+                btnCompanySubmit.disabled = true;
+                btnCompanySubmit.textContent = 'Verifying company...';
+
+                try {
+                    if (supabaseClient) {
+                        const { data, error } = await supabaseClient
+                            .from('company_teams')
+                            .select('company_name')
+                            .ilike('company_name', compName);
+
+                        if (error) {
+                            console.error('Supabase query error:', error);
+                            if (companyError) {
+                                companyError.textContent = '⚠️ Error verifying company name. Please try again.';
+                                companyError.classList.remove('hidden');
+                            }
+                            btnCompanySubmit.disabled = false;
+                            btnCompanySubmit.textContent = originalText;
+                            return;
+                        }
+
+                        if (data && data.length > 0) {
+                            if (companyError) {
+                                companyError.textContent = '⚠️ This company name is already registered. Please choose a different name.';
+                                companyError.classList.remove('hidden');
+                            }
+                            btnCompanySubmit.disabled = false;
+                            btnCompanySubmit.textContent = originalText;
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.error('Database connection error:', err);
+                    if (companyError) {
+                        companyError.textContent = '⚠️ Connection error. Please try again.';
+                        companyError.classList.remove('hidden');
+                    }
+                    btnCompanySubmit.disabled = false;
+                    btnCompanySubmit.textContent = originalText;
+                    return;
+                }
+
+                btnCompanySubmit.disabled = false;
+                btnCompanySubmit.textContent = originalText;
                 
                 localStorage.setItem('prosync_company_name', compName);
                 localStorage.setItem('prosync_company_address', compAddr);
