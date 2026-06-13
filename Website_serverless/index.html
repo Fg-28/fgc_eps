@@ -1708,8 +1708,8 @@
                 <div class="flex items-start gap-2.5">
                     <input type="checkbox" id="onboarding-dpdp-check" class="rounded w-4 h-4 mt-0.5 cursor-pointer" style="accent-color:var(--accent-1);" />
                     <label for="onboarding-dpdp-check" class="text-[12px] leading-relaxed cursor-pointer select-none text-slate-300">
-                        I acknowledge and consent to the collection and processing of my personal data for setting up my workspace under the 
-                        <a href="https://drive.google.com/file/d/1yIWP1Og37y6BVvL-accLolesoA7puPUy/view" target="_blank" class="text-teal-400 hover:underline inline-flex items-center gap-0.5 font-medium">
+                        I acknowledge and consent to the collection and processing of productivity-related data, including active application names, window titles, blurred screenshots, and activity metrics (excluding keystrokes, URLs, biometrics, or personal files) as described in the Privacy Policy and in accordance with the 
+                        <a href="https://www.indiacode.nic.in/handle/123456789/22037" target="_blank" class="text-teal-400 hover:underline inline-flex items-center gap-0.5 font-medium">
                             India DPDP Act, 2023 <span class="material-symbols-outlined text-[12px] mt-0.5">open_in_new</span>
                         </a>.
                     </label>
@@ -1887,6 +1887,7 @@
         const supabaseUrl = 'https://iqmgtfzpsjinihytxjri.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxbWd0Znpwc2ppbmloeXR4anJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjU1NjAsImV4cCI6MjA5MjAwMTU2MH0.6odmmOPNXzBBb1dfeLN5CSuzS5uttyZZz1KIbD2pxpM';
         const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+        let tempPasswordHash = '';
 
         // ── Pricing Logic (fully preserved) ──
         const btnMonthly = document.getElementById('btn-monthly');
@@ -2250,6 +2251,9 @@
                     if (currentAuthMode === 'signup') {
                         // Close credentials modal
                         if (loginModal) loginModal.classList.add('hidden');
+
+                        // Temporarily buffer the hashed password for insertion on onboarding submit
+                        tempPasswordHash = result.password_hash || '';
                         
                         // Open onboarding modal
                         const onboardingModalEl = document.getElementById('onboarding-modal');
@@ -3084,20 +3088,21 @@
                             }
                         }
 
-                        // Update user details on Supabase
+                        // Insert new user record on Supabase (creation happens only after consent and details are provided)
                         const consentTimestamp = new Date().toISOString();
-                        const { error: userUpdateErr } = await supabaseClient
+                        const { error: userInsertErr } = await supabaseClient
                             .from('web_users')
-                            .update({
+                            .insert({
+                                email: email,
+                                password: tempPasswordHash,
                                 name: userNameVal,
                                 type: onboardingMode,
                                 company_name: onboardingMode === 'company' ? companyNameVal : null,
                                 company_address: onboardingMode === 'company' ? companyAddressVal : null,
                                 consent_at: consentTimestamp
-                            })
-                            .eq('email', email);
+                            });
 
-                        if (userUpdateErr) throw userUpdateErr;
+                        if (userInsertErr) throw userInsertErr;
 
                         // Store in localStorage
                         localStorage.setItem('prosync_name', userNameVal);
