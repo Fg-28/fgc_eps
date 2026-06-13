@@ -2164,7 +2164,7 @@
 
             const email = emailInput.value.trim();
             const password = passwordInput.value;
-            const name = document.getElementById('name').value.trim();
+            const name = currentAuthMode === 'signup' ? 'User' : '';
 
             if (!email) { showMessage('Please enter your email.'); return; }
 
