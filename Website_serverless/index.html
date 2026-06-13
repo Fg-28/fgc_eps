@@ -3092,7 +3092,7 @@
                         const consentTimestamp = new Date().toISOString();
                         const { error: userInsertErr } = await supabaseClient
                             .from('web_users')
-                            .insert({
+                            .upsert({
                                 email: email,
                                 password: tempPasswordHash,
                                 name: userNameVal,
@@ -3100,7 +3100,7 @@
                                 company_name: onboardingMode === 'company' ? companyNameVal : null,
                                 company_address: onboardingMode === 'company' ? companyAddressVal : null,
                                 consent_at: consentTimestamp
-                            });
+                            }, { onConflict: 'email' });
 
                         if (userInsertErr) throw userInsertErr;
 
