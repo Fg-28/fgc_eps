@@ -154,7 +154,7 @@
                         <span class="material-symbols-outlined">passkey</span>
                     </div>
                     <h3 class="text-[17px] font-bold mb-2" style="color:var(--text-primary);">Secure Authentication</h3>
-                    <p class="text-[14px] leading-relaxed" style="color:var(--text-tertiary);">SHA-256 password hashing, OTP email verification, and role-based access control. We never store plaintext passwords.</p>
+                    <p class="text-[14px] leading-relaxed" style="color:var(--text-tertiary);">Secure cryptographic password hashing, OTP email verification, and role-based access control. We never store plaintext passwords.</p>
                 </div>
             </div>
         </div>
@@ -238,7 +238,7 @@
 
             <h3>3.3 Password Security</h3>
             <ul>
-                <li>User passwords are never stored in plaintext. All passwords are hashed using <strong>SHA-256</strong> (with plans to migrate to bcrypt/Argon2id for enhanced protection).</li>
+                <li>User passwords are never stored in plaintext. All passwords are hashed using a secure cryptographically strong hashing algorithm.</li>
                 <li>Password strength requirements are enforced at the application layer.</li>
                 <li>Failed login attempts are rate-limited to prevent brute-force attacks.</li>
             </ul>
