@@ -680,6 +680,7 @@
                         </div>
                         <a id="dropdown-profile" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Profile Details</a>
                         <a id="dropdown-tx" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Transactions</a>
+                        <a id="dropdown-convert" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5 hidden" style="color:var(--text-primary);">Convert Account</a>
                         <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
                     </div>
                 </div>
@@ -1650,6 +1651,111 @@
         </div>
     </div>
 
+    <!-- ═══════════════════ ONBOARDING MODAL ═══════════════════ -->
+    <div id="onboarding-modal" class="fixed inset-0 z-[110] flex items-center justify-center modal-overlay hidden">
+        <div class="w-full max-w-[460px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+            <div class="text-center">
+                <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Onboarding</div>
+                <h2 class="text-[22px] font-bold" style="color:var(--text-primary);">Complete Your Profile</h2>
+                <p class="text-[14px]" style="color:var(--text-tertiary);">Please provide the details below to finalize your registration.</p>
+            </div>
+
+            <!-- Onboarding Error Banner -->
+            <div id="onboarding-error" class="hidden text-[13px] p-3 rounded-lg text-center font-medium msg-error"></div>
+
+            <!-- Toggle: Personal vs Company -->
+            <div class="flex justify-center gap-2 p-1 rounded-xl bg-slate-950/40 border border-slate-800/40">
+                <button id="onboarding-btn-company" type="button" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-teal-500 text-slate-950">Company Use</button>
+                <button id="onboarding-btn-personal" type="button" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400">Personal Use</button>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <!-- Person's Name -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[13px] font-semibold text-slate-300">Your Full Name</label>
+                    <input type="text" id="onboarding-name" placeholder="e.g. John Doe" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required />
+                </div>
+
+                <!-- Company Fields Wrapper -->
+                <div id="onboarding-company-fields" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold text-slate-300">Company Name</label>
+                        <input type="text" id="onboarding-company-name" placeholder="e.g. Acme Corporation" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" />
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-semibold text-slate-300">Company Address</label>
+                        <textarea id="onboarding-company-address" placeholder="e.g. 123 Business Rd, Suite 100, City, Country" rows="2" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500"></textarea>
+                    </div>
+                </div>
+
+                <!-- Notice regarding Personal account purchase restriction -->
+                <div class="text-[12px] p-3 rounded-lg border border-slate-800 bg-slate-950/40 text-slate-400 leading-relaxed">
+                    <strong>Note:</strong> Personal accounts are for viewing the website and exploring products only. A Company account is required to purchase services and subscribe to plans.
+                </div>
+
+                <!-- Checkbox 1: Policies Consent (Unchecked by default) -->
+                <div class="flex items-start gap-2.5 mt-1">
+                    <input type="checkbox" id="onboarding-policies-check" class="rounded w-4 h-4 mt-0.5 cursor-pointer" style="accent-color:var(--accent-1);" />
+                    <label for="onboarding-policies-check" class="text-[12px] leading-relaxed cursor-pointer select-none text-slate-300">
+                        I agree to the 
+                        <a href="privacy.html" target="_blank" class="text-teal-400 hover:underline inline-flex items-center gap-0.5 font-medium">Privacy Policy</a> 
+                        and 
+                        <a href="security.html" target="_blank" class="text-teal-400 hover:underline inline-flex items-center gap-0.5 font-medium">Security Policy</a>.
+                    </label>
+                </div>
+
+                <!-- Checkbox 2: DPDP Consent (Unchecked by default) -->
+                <div class="flex items-start gap-2.5">
+                    <input type="checkbox" id="onboarding-dpdp-check" class="rounded w-4 h-4 mt-0.5 cursor-pointer" style="accent-color:var(--accent-1);" />
+                    <label for="onboarding-dpdp-check" class="text-[12px] leading-relaxed cursor-pointer select-none text-slate-300">
+                        I acknowledge and consent to the collection and processing of my personal data for setting up my workspace under the 
+                        <a href="https://drive.google.com/file/d/1yIWP1Og37y6BVvL-accLolesoA7puPUy/view" target="_blank" class="text-teal-400 hover:underline inline-flex items-center gap-0.5 font-medium">
+                            India DPDP Act, 2023 <span class="material-symbols-outlined text-[12px] mt-0.5">open_in_new</span>
+                        </a>.
+                    </label>
+                </div>
+            </div>
+
+            <button id="btn-onboarding-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px] mt-1">Complete Registration</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════ CONVERT ACCOUNT MODAL ═══════════════════ -->
+    <div id="convert-account-modal" class="fixed inset-0 z-[120] flex items-center justify-center modal-overlay hidden">
+        <div class="w-full max-w-[420px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+            <!-- Close Button -->
+            <button id="btn-close-convert" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);border:none;">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+            
+            <div class="text-center">
+                <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Account settings</div>
+                <h2 class="text-[22px] font-bold" style="color:var(--text-primary);">Convert Account</h2>
+                <p class="text-[14px]" style="color:var(--text-tertiary);">Upgrade your account to a Company Account to unlock package purchasing.</p>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="convert-error" class="hidden text-[13px] p-3 rounded-lg text-center font-medium msg-error"></div>
+
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[13px] font-semibold text-slate-400">Account Email</label>
+                    <input type="text" id="convert-email-display" class="w-full px-4 py-3 rounded-xl bg-slate-950/40 border border-slate-800/40 text-[14px] text-slate-400 cursor-not-allowed" readonly />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[13px] font-semibold text-slate-300">Company Name</label>
+                    <input type="text" id="convert-company-name" placeholder="e.g. Acme Corporation" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-[13px] font-semibold text-slate-300">Company Address</label>
+                    <textarea id="convert-company-address" placeholder="e.g. 123 Business Rd, Suite 100, City, Country" rows="2" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required></textarea>
+                </div>
+            </div>
+
+            <button id="btn-convert-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px] mt-1">Convert to Company Account</button>
+        </div>
+    </div>
+
     <!-- ═══════════════════ USER PROFILE & TRANSACTIONS MODAL ═══════════════════ -->
     <div id="profile-modal" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden" style="background:rgba(10,11,16,0.6); backdrop-filter:blur(8px);">
         <div class="w-full max-w-[750px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
@@ -1989,14 +2095,15 @@
             extraLoginActions.classList.add('hidden');
             passwordInput.placeholder = '•••••••• (Required)';
             passwordInput.required = true;
-            document.getElementById('name-group').classList.remove('hidden');
-            document.getElementById('name').required = true;
+            document.getElementById('name-group').classList.add('hidden');
+            document.getElementById('name').required = false;
         });
 
         // Navbar session state
         function updateNavbarSessionState() {
             const savedSession = localStorage.getItem('prosync_session');
             const savedName = localStorage.getItem('prosync_name') || '';
+            const accountType = localStorage.getItem('prosync_account_type') || 'company';
             const navDashboard = document.getElementById('nav-dashboard');
             const navLogin = document.getElementById('nav-login');
             const navProfile = document.getElementById('nav-profile');
@@ -2013,6 +2120,16 @@
                     if (profileBtn) profileBtn.textContent = displayName.charAt(0).toUpperCase();
                     if (dropdownName) dropdownName.textContent = displayName;
                     if (dropdownEmail) dropdownEmail.textContent = savedSession;
+                }
+                
+                // Show/hide 'Convert Account' dropdown option
+                const dropdownConvert = document.getElementById('dropdown-convert');
+                if (dropdownConvert) {
+                    if (accountType === 'personal') {
+                        dropdownConvert.classList.remove('hidden');
+                    } else {
+                        dropdownConvert.classList.add('hidden');
+                    }
                 }
             } else {
                 if (navDashboard) navDashboard.classList.add('hidden');
@@ -2127,11 +2244,46 @@
                 });
                 const result = await response.json();
                 if (response.ok && result.success) {
-                    showMessage(result.message || 'Verification successful! Redirecting...', 'success');
                     localStorage.setItem('prosync_session', email);
-                    if (result.name) localStorage.setItem('prosync_name', result.name);
                     updateNavbarSessionState();
-                    setTimeout(() => { window.location.hash = '#product'; }, 1500);
+
+                    if (currentAuthMode === 'signup') {
+                        // Close credentials modal
+                        if (loginModal) loginModal.classList.add('hidden');
+                        
+                        // Open onboarding modal
+                        const onboardingModalEl = document.getElementById('onboarding-modal');
+                        const onboardingErrorEl = document.getElementById('onboarding-error');
+                        if (onboardingErrorEl) onboardingErrorEl.classList.add('hidden');
+                        
+                        if (onboardingModalEl) onboardingModalEl.classList.remove('hidden');
+                    } else {
+                        showMessage(result.message || 'Verification successful! Redirecting...', 'success');
+                        if (result.name) localStorage.setItem('prosync_name', result.name);
+                        
+                        // Fetch account details from Supabase on Login to cache type
+                        try {
+                            if (supabaseClient) {
+                                supabaseClient.from('web_users').select('type, name, company_name, company_address').eq('email', email)
+                                .then(({ data }) => {
+                                    if (data && data.length > 0) {
+                                        const usr = data[0];
+                                        localStorage.setItem('prosync_name', usr.name || 'User');
+                                        localStorage.setItem('prosync_account_type', usr.type || 'company');
+                                        if (usr.company_name) localStorage.setItem('prosync_company_name', usr.company_name);
+                                        else localStorage.removeItem('prosync_company_name');
+                                        if (usr.company_address) localStorage.setItem('prosync_company_address', usr.company_address);
+                                        else localStorage.removeItem('prosync_company_address');
+                                        updateNavbarSessionState();
+                                    }
+                                });
+                            }
+                        } catch (fetchErr) {
+                            console.error('Error caching user details on login:', fetchErr);
+                        }
+                        
+                        setTimeout(() => { window.location.hash = '#home'; }, 1500);
+                    }
                 } else {
                     showMessage(result.error || 'Verification failed. Try again.');
                 }
@@ -2199,6 +2351,9 @@
                 e.preventDefault();
                 localStorage.removeItem('prosync_session');
                 localStorage.removeItem('prosync_name');
+                localStorage.removeItem('prosync_account_type');
+                localStorage.removeItem('prosync_company_name');
+                localStorage.removeItem('prosync_company_address');
                 updateNavbarSessionState();
                 otpGroup.classList.add('hidden');
                 credentialsGroup.classList.remove('hidden');
@@ -2324,8 +2479,22 @@
             document.getElementById('profile-modal-address').value = result.company_address || '—';
 
             // Cache in localStorage to keep in sync
-            if (result.company_name) localStorage.setItem('prosync_company_name', result.company_name);
-            if (result.company_address) localStorage.setItem('prosync_company_address', result.company_address);
+            if (result.name) localStorage.setItem('prosync_name', result.name);
+            if (result.type) localStorage.setItem('prosync_account_type', result.type);
+            
+            if (result.company_name) {
+                localStorage.setItem('prosync_company_name', result.company_name);
+            } else {
+                localStorage.removeItem('prosync_company_name');
+            }
+            
+            if (result.company_address) {
+                localStorage.setItem('prosync_company_address', result.company_address);
+            } else {
+                localStorage.removeItem('prosync_company_address');
+            }
+            
+            updateNavbarSessionState();
 
             // Render Transactions
             if (tbody) {
@@ -2804,7 +2973,277 @@
                 window.location.hash = '#login';
                 return;
             }
+            
+            const accountType = localStorage.getItem('prosync_account_type') || 'company';
+            if (accountType === 'personal') {
+                alert('⚠️ Purchase restricted. Please convert your Personal account to a Company account in the settings dropdown menu (top-right) in order to buy packages.');
+                return;
+            }
+            
             openPaymentCheckoutModal(plan);
+        }
+
+        // ── Onboarding Modal Logic ──
+        const onboardingModal = document.getElementById('onboarding-modal');
+        const onboardingBtnCompany = document.getElementById('onboarding-btn-company');
+        const onboardingBtnPersonal = document.getElementById('onboarding-btn-personal');
+        const onboardingCompanyFields = document.getElementById('onboarding-company-fields');
+        const btnOnboardingSubmit = document.getElementById('btn-onboarding-submit');
+        const onboardingName = document.getElementById('onboarding-name');
+        const onboardingCompanyName = document.getElementById('onboarding-company-name');
+        const onboardingCompanyAddress = document.getElementById('onboarding-company-address');
+        const onboardingDpdpCheck = document.getElementById('onboarding-dpdp-check');
+        const onboardingPoliciesCheck = document.getElementById('onboarding-policies-check');
+        const onboardingError = document.getElementById('onboarding-error');
+        
+        let onboardingMode = 'company'; // default
+
+        if (onboardingBtnCompany && onboardingBtnPersonal) {
+            onboardingBtnCompany.addEventListener('click', () => {
+                onboardingMode = 'company';
+                onboardingBtnCompany.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-teal-500 text-slate-950";
+                onboardingBtnPersonal.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400";
+                if (onboardingCompanyFields) onboardingCompanyFields.classList.remove('hidden');
+            });
+
+            onboardingBtnPersonal.addEventListener('click', () => {
+                onboardingMode = 'personal';
+                onboardingBtnPersonal.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-teal-500 text-slate-950";
+                onboardingBtnCompany.className = "flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400";
+                if (onboardingCompanyFields) onboardingCompanyFields.classList.add('hidden');
+            });
+        }
+
+        if (btnOnboardingSubmit) {
+            btnOnboardingSubmit.addEventListener('click', async () => {
+                const userNameVal = onboardingName.value.trim();
+                const companyNameVal = onboardingCompanyName.value.trim();
+                const companyAddressVal = onboardingCompanyAddress.value.trim();
+                const email = localStorage.getItem('prosync_session') || '';
+
+                if (onboardingError) {
+                    onboardingError.classList.add('hidden');
+                    onboardingError.textContent = '';
+                }
+
+                if (!userNameVal) {
+                    if (onboardingError) {
+                        onboardingError.textContent = '⚠️ Please enter your full name.';
+                        onboardingError.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (onboardingMode === 'company' && (!companyNameVal || !companyAddressVal)) {
+                    if (onboardingError) {
+                        onboardingError.textContent = '⚠️ Please enter both Company Name and Address.';
+                        onboardingError.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (!onboardingPoliciesCheck || !onboardingPoliciesCheck.checked) {
+                    if (onboardingError) {
+                        onboardingError.textContent = '⚠️ You must agree to the Privacy Policy and Security Policy.';
+                        onboardingError.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (!onboardingDpdpCheck || !onboardingDpdpCheck.checked) {
+                    if (onboardingError) {
+                        onboardingError.textContent = '⚠️ You must consent to the processing of personal data under the India DPDP Act, 2023.';
+                        onboardingError.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                const originalBtnText = btnOnboardingSubmit.textContent;
+                btnOnboardingSubmit.disabled = true;
+                btnOnboardingSubmit.textContent = 'Completing setup...';
+
+                try {
+                    if (supabaseClient) {
+                        if (onboardingMode === 'company') {
+                            // Verify duplicate company name first
+                            const { data: duplicateData, error: duplicateErr } = await supabaseClient
+                                .from('company_teams')
+                                .select('company_name')
+                                .ilike('company_name', companyNameVal);
+
+                            if (duplicateErr) throw duplicateErr;
+
+                            if (duplicateData && duplicateData.length > 0) {
+                                if (onboardingError) {
+                                    onboardingError.textContent = '⚠️ This company name is already registered. Please choose a different name.';
+                                    onboardingError.classList.remove('hidden');
+                                }
+                                btnOnboardingSubmit.disabled = false;
+                                btnOnboardingSubmit.textContent = originalBtnText;
+                                return;
+                            }
+                        }
+
+                        // Update user details on Supabase
+                        const consentTimestamp = new Date().toISOString();
+                        const { error: userUpdateErr } = await supabaseClient
+                            .from('web_users')
+                            .update({
+                                name: userNameVal,
+                                type: onboardingMode,
+                                company_name: onboardingMode === 'company' ? companyNameVal : null,
+                                company_address: onboardingMode === 'company' ? companyAddressVal : null,
+                                consent_at: consentTimestamp
+                            })
+                            .eq('email', email);
+
+                        if (userUpdateErr) throw userUpdateErr;
+
+                        // Store in localStorage
+                        localStorage.setItem('prosync_name', userNameVal);
+                        localStorage.setItem('prosync_account_type', onboardingMode);
+                        if (onboardingMode === 'company') {
+                            localStorage.setItem('prosync_company_name', companyNameVal);
+                            localStorage.setItem('prosync_company_address', companyAddressVal);
+                        } else {
+                            localStorage.removeItem('prosync_company_name');
+                            localStorage.removeItem('prosync_company_address');
+                        }
+
+                        // Clean profile cache
+                        cachedProfileData = null;
+                        profileCacheTimestamp = 0;
+
+                        // Refresh session header display
+                        updateNavbarSessionState();
+
+                        if (onboardingModal) onboardingModal.classList.add('hidden');
+                        setTimeout(() => { window.location.hash = '#product'; }, 300);
+                    }
+                } catch (dbErr) {
+                    console.error('Error completing onboarding:', dbErr);
+                    if (onboardingError) {
+                        onboardingError.textContent = '⚠️ Database connection error. Please try again.';
+                        onboardingError.classList.remove('hidden');
+                    }
+                } finally {
+                    btnOnboardingSubmit.disabled = false;
+                    btnOnboardingSubmit.textContent = originalBtnText;
+                }
+            });
+        }
+
+        // ── Convert Account Modal Logic ──
+        const convertModal = document.getElementById('convert-account-modal');
+        const btnCloseConvert = document.getElementById('btn-close-convert');
+        const dropdownConvert = document.getElementById('dropdown-convert');
+        const btnConvertSubmit = document.getElementById('btn-convert-submit');
+        const convertEmailDisplay = document.getElementById('convert-email-display');
+        const convertCompanyName = document.getElementById('convert-company-name');
+        const convertCompanyAddress = document.getElementById('convert-company-address');
+        const convertError = document.getElementById('convert-error');
+
+        if (dropdownConvert) {
+            dropdownConvert.addEventListener('click', () => {
+                if (convertError) {
+                    convertError.classList.add('hidden');
+                    convertError.textContent = '';
+                }
+                if (convertEmailDisplay) {
+                    convertEmailDisplay.value = localStorage.getItem('prosync_session') || '';
+                }
+                if (convertCompanyName) convertCompanyName.value = '';
+                if (convertCompanyAddress) convertCompanyAddress.value = '';
+                if (convertModal) convertModal.classList.remove('hidden');
+            });
+        }
+
+        if (btnCloseConvert) {
+            btnCloseConvert.addEventListener('click', () => {
+                if (convertModal) convertModal.classList.add('hidden');
+            });
+        }
+
+        if (btnConvertSubmit) {
+            btnConvertSubmit.addEventListener('click', async () => {
+                const email = localStorage.getItem('prosync_session') || '';
+                const companyNameVal = convertCompanyName.value.trim();
+                const companyAddressVal = convertCompanyAddress.value.trim();
+
+                if (convertError) {
+                    convertError.classList.add('hidden');
+                    convertError.textContent = '';
+                }
+
+                if (!companyNameVal || !companyAddressVal) {
+                    if (convertError) {
+                        convertError.textContent = '⚠️ Please enter both Company Name and Address.';
+                        convertError.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                const originalBtnText = btnConvertSubmit.textContent;
+                btnConvertSubmit.disabled = true;
+                btnConvertSubmit.textContent = 'Converting...';
+
+                try {
+                    if (supabaseClient) {
+                        // Check duplicate first!
+                        const { data: duplicateData, error: duplicateErr } = await supabaseClient
+                            .from('company_teams')
+                            .select('company_name')
+                            .ilike('company_name', companyNameVal);
+
+                        if (duplicateErr) throw duplicateErr;
+
+                        if (duplicateData && duplicateData.length > 0) {
+                            if (convertError) {
+                                convertError.textContent = '⚠️ This company name is already registered. Please choose a different name.';
+                                convertError.classList.remove('hidden');
+                            }
+                            btnConvertSubmit.disabled = false;
+                            btnConvertSubmit.textContent = originalBtnText;
+                            return;
+                        }
+
+                        // Perform update on web_users
+                        const { error } = await supabaseClient
+                            .from('web_users')
+                            .update({
+                                type: 'company',
+                                company_name: companyNameVal,
+                                company_address: companyAddressVal
+                            })
+                            .eq('email', email);
+
+                        if (error) throw error;
+
+                        // Success! Update local storage
+                        localStorage.setItem('prosync_account_type', 'company');
+                        localStorage.setItem('prosync_company_name', companyNameVal);
+                        localStorage.setItem('prosync_company_address', companyAddressVal);
+
+                        // Clear profile cache
+                        cachedProfileData = null;
+                        profileCacheTimestamp = 0;
+
+                        updateNavbarSessionState();
+
+                        if (convertModal) convertModal.classList.add('hidden');
+                        alert('Your account has been successfully converted to a Company Account!');
+                    }
+                } catch (err) {
+                    console.error('Error converting account:', err);
+                    if (convertError) {
+                        convertError.textContent = '⚠️ Error converting account. Please try again.';
+                        convertError.classList.remove('hidden');
+                    }
+                } finally {
+                    btnConvertSubmit.disabled = false;
+                    btnConvertSubmit.textContent = originalBtnText;
+                }
+            });
         }
 
         const btnGetLite = document.getElementById('btn-get-lite');
