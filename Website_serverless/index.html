@@ -99,7 +99,8 @@
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
         /* Gradient Text Utility */
         .gradient-text {
@@ -1664,7 +1665,7 @@
     <div id="onboarding-modal" class="fixed inset-0 z-[110] flex items-center justify-center modal-overlay hidden">
         <div class="w-full max-w-[510px] mx-4 rounded-2xl relative flex flex-col max-h-[85vh]" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
             <!-- Scrollable content area -->
-            <div class="overflow-y-auto flex-1 p-8 pb-8 flex flex-col gap-5">
+            <div class="overflow-y-auto flex-1 p-5 pb-6 flex flex-col gap-3.5">
                 <div class="text-center">
                     <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Onboarding</div>
                     <h2 class="text-[22px] font-bold" style="color:var(--text-primary);">Complete Your Profile</h2>
@@ -1680,22 +1681,22 @@
                     <button id="onboarding-btn-personal" type="button" class="flex-1 py-2 rounded-lg text-[13px] font-bold transition-all duration-200 bg-transparent text-slate-400">Personal Use</button>
                 </div>
 
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3">
                     <!-- Person's Name -->
-                    <div class="flex flex-col gap-1.5">
+                    <div class="flex flex-col gap-1">
                         <label class="text-[13px] font-semibold text-slate-300">Your Full Name</label>
-                        <input type="text" id="onboarding-name" placeholder="e.g. John Doe" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required />
+                        <input type="text" id="onboarding-name" placeholder="e.g. John Doe" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" required />
                     </div>
 
                     <!-- Company Fields Wrapper -->
-                    <div id="onboarding-company-fields" class="flex flex-col gap-4">
-                        <div class="flex flex-col gap-1.5">
+                    <div id="onboarding-company-fields" class="flex flex-col gap-3">
+                        <div class="flex flex-col gap-1">
                             <label class="text-[13px] font-semibold text-slate-300">Company Name</label>
-                            <input type="text" id="onboarding-company-name" placeholder="e.g. Acme Corporation" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" />
+                            <input type="text" id="onboarding-company-name" placeholder="e.g. Acme Corporation" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500" />
                         </div>
-                        <div class="flex flex-col gap-1.5">
+                        <div class="flex flex-col gap-1">
                             <label class="text-[13px] font-semibold text-slate-300">Company Address</label>
-                            <textarea id="onboarding-company-address" placeholder="e.g. 123 Business Rd, Suite 100, City, Country" rows="2" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500"></textarea>
+                            <textarea id="onboarding-company-address" placeholder="e.g. 123 Business Rd, Suite 100, City, Country" rows="2" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[14px] text-white focus:outline-none focus:border-teal-500"></textarea>
                         </div>
                     </div>
 
@@ -1705,7 +1706,7 @@
                     </div>
 
                     <!-- Checkbox 1: Policies Consent (Unchecked by default) -->
-                    <div class="flex items-start gap-2.5 mt-1">
+                    <div class="flex items-start gap-2.5 mt-0.5">
                         <input type="checkbox" id="onboarding-policies-check" class="rounded w-4 h-4 mt-0.5 cursor-pointer" style="accent-color:var(--accent-1);" />
                         <label for="onboarding-policies-check" class="text-[12px] leading-relaxed cursor-pointer select-none text-slate-300">
                             I agree to the 
@@ -1727,7 +1728,7 @@
                     </div>
                 </div>
 
-                <button id="btn-onboarding-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px] mt-2 mb-2">Complete Registration</button>
+                <button id="btn-onboarding-submit" class="btn-primary w-full !rounded-xl !py-2.5 !text-[15px] mt-1 mb-1">Complete Registration</button>
             </div>
         </div>
     </div>
