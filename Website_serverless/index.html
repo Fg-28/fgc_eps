@@ -1776,7 +1776,7 @@
 
     <!-- ═══════════════════ USER PROFILE & TRANSACTIONS MODAL ═══════════════════ -->
     <div id="profile-modal" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden" style="background:rgba(10,11,16,0.6); backdrop-filter:blur(8px);">
-        <div class="w-full max-w-[750px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
+        <div class="w-full max-w-[900px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
             <!-- Close Button -->
             <button id="btn-close-profile" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);border:none;">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -2129,6 +2129,31 @@
                     resendBtn.textContent = `Resend Email in ${timeLeft}s`;
                 }
             }, 1000);
+        }
+
+        // Floating glassmorphism toast notification
+        function showToast(msg) {
+            let toast = document.getElementById('global-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'global-toast';
+                toast.className = 'fixed bottom-5 right-5 z-[200] px-4 py-2.5 rounded-xl border text-sm font-semibold transition-all duration-300 transform translate-y-10 opacity-0 flex items-center gap-2';
+                toast.style.background = 'rgba(255,255,255,0.03)';
+                toast.style.backdropFilter = 'blur(16px)';
+                toast.style.borderColor = 'rgba(255,255,255,0.08)';
+                toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+                toast.style.color = 'var(--text-primary)';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px] text-teal-400">check_circle</span> <span>${msg}</span>`;
+            toast.classList.remove('translate-y-10', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            if (window.toastTimer) clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-10', 'opacity-0');
+            }, 3000);
         }
 
         // Auto-hide message banner after 6 seconds
@@ -2630,9 +2655,18 @@
                 }
 
                 codeDisplay.innerHTML = `
-                    <p class="text-[13px] mb-2" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
-                    <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 select-all">
-                        ${companyCode}
+                    <p class="text-[13px] mb-3" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
+                    <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 mb-4 select-all">
+                        <span>${companyCode}</span>
+                        <button onclick="event.stopPropagation(); navigator.clipboard.writeText('${companyCode}').then(() => showToast('Company code copied!'))" class="hover:text-white text-teal-400/80 transition-colors cursor-pointer flex items-center justify-center" type="button" title="Copy Company Code" style="background:none; border:none; padding: 0;">
+                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                        </button>
+                    </div>
+                    <div class="mt-2 text-left p-3 rounded-lg border border-red-500/20 bg-red-500/5 max-w-[480px] mx-auto flex items-start gap-2.5">
+                        <span class="material-symbols-outlined text-red-400 text-[18px] shrink-0 mt-0.5">warning</span>
+                        <p class="text-[12px] leading-relaxed text-red-200">
+                            <strong>Confidentiality Warning:</strong> This company code is highly confidential and grants access to link devices under your organization. Do not share it with unauthorized persons.
+                        </p>
                     </div>
                 `;
             } else {
@@ -2743,7 +2777,12 @@
                 tr.className = 'border-b';
 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-sm font-mono" style="color:var(--text-secondary);">${dev.device_id || '—'}</td>
+                    <td class="px-4 py-3 text-sm font-mono flex items-center gap-2" style="color:var(--text-secondary);">
+                        <button onclick="navigator.clipboard.writeText('${dev.device_id || ''}').then(() => showToast('Device ID copied!'))" class="hover:text-teal-400 text-teal-400/60 p-0.5 flex items-center justify-center transition-colors cursor-pointer" type="button" title="Copy Device ID" style="background:none; border:none; padding:0; display:inline-flex;">
+                            <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                        </button>
+                        <span>${dev.device_id || '—'}</span>
+                    </td>
                     <td class="px-4 py-3 text-sm">${dev.name || '—'}</td>
                     <td class="px-4 py-3 text-sm capitalize">${planDisplay}</td>
                     <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${activeStart}</td>
