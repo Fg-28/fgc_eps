@@ -2663,7 +2663,7 @@
                 await fetchProfileDataDirectly(email);
             }
 
-            let companyCode = cachedProfileData ? cachedProfileData.company_code : localStorage.getItem('prosync_company_code');
+            let companyCode = (cachedProfileData && cachedProfileData.company_code) ? cachedProfileData.company_code : localStorage.getItem('prosync_company_code');
 
             if (!companyCode) {
                 tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
