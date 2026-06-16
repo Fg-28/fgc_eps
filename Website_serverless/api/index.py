@@ -464,9 +464,15 @@ def get_user_profile():
         return jsonify({"success": False, "error": "Email is required"}), 400
 
     try:
-        # 1. Fetch user name from web_users
-        user_res = supabase.table("web_users").select("name").eq("email", email).execute()
-        name = user_res.data[0].get("name", "User") if user_res.data else "User"
+        # 1. Fetch user name, type, and company_code from web_users
+        user_res = supabase.table("web_users").select("name, type, company_code").eq("email", email).execute()
+        name = "User"
+        user_type = "company"
+        company_code = None
+        if user_res.data:
+            name = user_res.data[0].get("name", "User")
+            user_type = user_res.data[0].get("type", "company")
+            company_code = user_res.data[0].get("company_code")
 
         # 2. Fetch all transactions for this user
         tx_res = supabase.table("billing_transactions").select("*").eq("user_email", email).order("created_at", desc=True).execute()
@@ -483,6 +489,8 @@ def get_user_profile():
             "success": True,
             "name": name,
             "email": email,
+            "type": user_type,
+            "company_code": company_code,
             "company_name": company_name,
             "company_address": company_address,
             "transactions": transactions
