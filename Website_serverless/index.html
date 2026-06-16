@@ -2190,7 +2190,7 @@
                     .from('web_users')
                     .select('name, type, company_name, company_address')
                     .eq('email', email)
-                    .single();
+                    .maybeSingle();
 
                 if (!data) return;
 
