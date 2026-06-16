@@ -2192,18 +2192,18 @@
                     .eq('email', email)
                     .maybeSingle();
 
-                if (!data) return;
-
-                // Cache to localStorage
-                localStorage.setItem('prosync_name', data.name || 'User');
-                localStorage.setItem('prosync_account_type', data.type || 'company');
-                if (data.company_name) localStorage.setItem('prosync_company_name', data.company_name);
-                if (data.company_address) localStorage.setItem('prosync_company_address', data.company_address);
-                updateNavbarSessionState();
+                // Cache to localStorage if data is found
+                if (data) {
+                    localStorage.setItem('prosync_name', data.name || 'User');
+                    localStorage.setItem('prosync_account_type', data.type || 'company');
+                    if (data.company_name) localStorage.setItem('prosync_company_name', data.company_name);
+                    if (data.company_address) localStorage.setItem('prosync_company_address', data.company_address);
+                    updateNavbarSessionState();
+                }
 
                 // Detect incomplete profile:
-                // name is still the default 'User' placeholder = onboarding was never finished
-                const nameIncomplete = (!data.name || data.name.trim() === '' || data.name.trim().toLowerCase() === 'user');
+                // name is still the default 'User' placeholder or user record is missing = onboarding was never finished
+                const nameIncomplete = !data || !data.name || data.name.trim() === '' || data.name.trim().toLowerCase() === 'user';
 
                 if (nameIncomplete) {
                     // Re-open the onboarding modal so user can complete their profile
