@@ -2180,10 +2180,57 @@
             document.addEventListener('click', () => profileDropdownMenu.classList.add('hidden'));
         }
 
-        // Auto-login check
+        // ── Incomplete onboarding detection ──
+        // Checks Supabase profile: if name='User' or company fields empty (for company accounts),
+        // it means onboarding was never finished → re-open the onboarding modal.
+        async function checkAndTriggerOnboarding(email) {
+            if (!supabaseClient || !email) return;
+            try {
+                const { data } = await supabaseClient
+                    .from('web_users')
+                    .select('name, type, company_name, company_address')
+                    .eq('email', email)
+                    .single();
+
+                if (!data) return;
+
+                // Cache to localStorage
+                localStorage.setItem('prosync_name', data.name || 'User');
+                localStorage.setItem('prosync_account_type', data.type || 'company');
+                if (data.company_name) localStorage.setItem('prosync_company_name', data.company_name);
+                if (data.company_address) localStorage.setItem('prosync_company_address', data.company_address);
+                updateNavbarSessionState();
+
+                // Detect incomplete profile:
+                // name is still the default 'User' placeholder = onboarding was never finished
+                const nameIncomplete = (!data.name || data.name.trim() === '' || data.name.trim().toLowerCase() === 'user');
+
+                if (nameIncomplete) {
+                    // Re-open the onboarding modal so user can complete their profile
+                    const onboardingModalEl = document.getElementById('onboarding-modal');
+                    const onboardingErrorEl = document.getElementById('onboarding-error');
+                    const loginModal = document.getElementById('login');
+
+                    if (loginModal) loginModal.classList.add('hidden');
+                    if (onboardingErrorEl) {
+                        onboardingErrorEl.classList.remove('hidden');
+                        onboardingErrorEl.textContent = '⚠️ Please complete your profile to continue.';
+                    }
+                    if (onboardingModalEl) onboardingModalEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error('Onboarding check failed:', err);
+            }
+        }
+
+        // Auto-login check — also re-triggers onboarding if profile is incomplete
         function checkAutoLogin() {
             const savedSession = localStorage.getItem('prosync_session');
-            if (savedSession) updateNavbarSessionState();
+            if (savedSession) {
+                updateNavbarSessionState();
+                // Give the page 800ms to render, then check onboarding status
+                setTimeout(() => checkAndTriggerOnboarding(savedSession), 800);
+            }
         }
         checkAutoLogin();
         updatePricing();
@@ -2217,7 +2264,10 @@
                         localStorage.setItem('prosync_session', email);
                         if (result.name) localStorage.setItem('prosync_name', result.name);
                         updateNavbarSessionState();
-                        setTimeout(() => { window.location.hash = '#home'; }, 1500);
+                        // Check if onboarding was skipped — will auto-open modal if incomplete
+                        await checkAndTriggerOnboarding(email);
+                        const onboardingOpen = !document.getElementById('onboarding-modal').classList.contains('hidden');
+                        if (!onboardingOpen) setTimeout(() => { window.location.hash = '#home'; }, 1500);
                     } else if (response.status === 404 || (result.error && result.error.toLowerCase().includes('user not found'))) {
                         // ✨ New user detected — seamlessly switch to registration mode
                         setSignUpMode();
