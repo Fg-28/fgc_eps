@@ -1776,7 +1776,7 @@
 
     <!-- ═══════════════════ USER PROFILE & TRANSACTIONS MODAL ═══════════════════ -->
     <div id="profile-modal" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden" style="background:rgba(10,11,16,0.6); backdrop-filter:blur(8px);">
-        <div class="w-full max-w-[900px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
+        <div class="w-full max-w-[930px] mx-4 rounded-2xl p-6 relative flex flex-col max-h-[90vh]" style="background:var(--bg-card);border:1px solid var(--border-glass);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
             <!-- Close Button -->
             <button id="btn-close-profile" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);border:none;">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -1820,6 +1820,36 @@
                             <textarea class="form-input opacity-75 cursor-not-allowed min-h-[80px]" id="profile-modal-address" readonly style="background:rgba(0,0,0,0.2); resize: none;"></textarea>
                         </div>
                     </div>
+
+                    <!-- Divider -->
+                    <div class="border-t my-2" style="border-color:var(--border-glass);"></div>
+                    
+                    <!-- Change Password Header -->
+                    <div>
+                        <h3 class="text-[15px] font-bold" style="color:var(--text-primary);">Change Password</h3>
+                        <p class="text-[12px]" style="color:var(--text-tertiary);">Password must be at least 6 characters, with at least 1 letter and 1 number.</p>
+                    </div>
+
+                    <!-- Change Password Fields -->
+                    <form id="profile-change-password-form" class="flex flex-col gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[13px] font-semibold" style="color:var(--text-secondary);">Current Password</label>
+                                <input class="form-input" id="change-pw-current" type="password" required placeholder="••••••••" style="background:rgba(0,0,0,0.1);"/>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[13px] font-semibold" style="color:var(--text-secondary);">New Password</label>
+                                <input class="form-input" id="change-pw-new" type="password" required placeholder="••••••••" style="background:rgba(0,0,0,0.1);"/>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[13px] font-semibold" style="color:var(--text-secondary);">Re-enter New Password</label>
+                                <input class="form-input" id="change-pw-confirm" type="password" required placeholder="••••••••" style="background:rgba(0,0,0,0.1);"/>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" id="btn-change-password" class="btn-primary !py-2 !px-6 !text-[13px] !rounded-lg w-full md:w-auto">Update Password</button>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Panel 2: Transactions -->
@@ -1862,6 +1892,7 @@
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="border-b" style="border-color:var(--border-glass);">
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider w-[50px]" style="color:var(--text-tertiary);">#</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Device ID</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Device Name</th>
                                     <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Plan</th>
@@ -1871,7 +1902,7 @@
                             </thead>
                             <tbody id="profile-modal-devices-tbody">
                                 <tr>
-                                    <td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts can manage devices.</td>
+                                    <td colspan="6" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts can manage devices.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2340,6 +2371,15 @@
                     if (!onboardingOpen) setTimeout(() => { window.location.hash = '#home'; }, 1500);
 
                 } else if (loginResp.status === 404 || (loginResult.error && loginResult.error.toLowerCase().includes('user not found'))) {
+                    // Validate new password before registration
+                    const pwError = validatePassword(password);
+                    if (pwError) {
+                        showMessage(pwError + ' (Required for new accounts)');
+                        btnSubmit.disabled = false;
+                        btnSubmit.textContent = 'Get Started';
+                        return;
+                    }
+
                     // 🆕 New user — auto-register in this same click (no second click needed)
                     showMessage('Creating your account...', 'success');
                     const regResp = await fetch(`${API_BASE}/api/auth/register`, {
@@ -2654,21 +2694,59 @@
                     companyCode = localStorage.getItem('prosync_company_code') || '—';
                 }
 
-                codeDisplay.innerHTML = `
-                    <p class="text-[13px] mb-3" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
-                    <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 mb-4 select-all">
-                        <span>${companyCode}</span>
-                        <button onclick="event.stopPropagation(); navigator.clipboard.writeText('${companyCode}').then(() => showToast('Company code copied!'))" class="hover:text-white text-teal-400/80 transition-colors cursor-pointer flex items-center justify-center" type="button" title="Copy Company Code" style="background:none; border:none; padding: 0;">
-                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
-                        </button>
-                    </div>
-                    <div class="mt-2 text-left p-3 rounded-lg border border-red-500/20 bg-red-500/5 max-w-[480px] mx-auto flex items-start gap-2.5">
-                        <span class="material-symbols-outlined text-red-400 text-[18px] shrink-0 mt-0.5">warning</span>
-                        <p class="text-[12px] leading-relaxed text-red-200">
-                            <strong>Confidentiality Warning:</strong> This company code is highly confidential and grants access to link devices under your organization. Do not share it with unauthorized persons.
-                        </p>
-                    </div>
-                `;
+                window.isCompanyCodeVisible = false;
+                if (window.companyCodeTimer) {
+                    clearTimeout(window.companyCodeTimer);
+                    window.companyCodeTimer = null;
+                }
+
+                const renderCodeArea = () => {
+                    const displayCode = window.isCompanyCodeVisible ? companyCode : '••••••••••••';
+                    const eyeIcon = window.isCompanyCodeVisible ? 'visibility_off' : 'visibility';
+                    const eyeTitle = window.isCompanyCodeVisible ? 'Hide Company Code' : 'Show Company Code';
+
+                    codeDisplay.innerHTML = `
+                        <p class="text-[13px] mb-3" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
+                        <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 mb-4 select-all">
+                            <span>${displayCode}</span>
+                            <button id="btn-toggle-company-code" class="hover:text-white text-teal-400/80 transition-colors cursor-pointer flex items-center justify-center" type="button" title="${eyeTitle}" style="background:none; border:none; padding: 0;">
+                                <span class="material-symbols-outlined text-[18px]">${eyeIcon}</span>
+                            </button>
+                            <button id="btn-copy-company-code" class="hover:text-white text-teal-400/80 transition-colors cursor-pointer flex items-center justify-center" type="button" title="Copy Company Code" style="background:none; border:none; padding: 0;">
+                                <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                            </button>
+                        </div>
+                        <div class="mt-2 text-left p-3 rounded-lg border border-red-500/20 bg-red-500/5 max-w-[480px] mx-auto flex items-start gap-2.5">
+                            <span class="material-symbols-outlined text-red-400 text-[18px] shrink-0 mt-0.5">warning</span>
+                            <p class="text-[12px] leading-relaxed text-red-200">
+                                <strong>Confidentiality Warning:</strong> This company code is highly confidential and grants access to link devices under your organization. Do not share it with unauthorized persons.
+                            </p>
+                        </div>
+                    `;
+
+                    document.getElementById('btn-toggle-company-code').addEventListener('click', () => {
+                        window.isCompanyCodeVisible = !window.isCompanyCodeVisible;
+                        if (window.companyCodeTimer) {
+                            clearTimeout(window.companyCodeTimer);
+                            window.companyCodeTimer = null;
+                        }
+                        if (window.isCompanyCodeVisible) {
+                            window.companyCodeTimer = setTimeout(() => {
+                                window.isCompanyCodeVisible = false;
+                                window.companyCodeTimer = null;
+                                renderCodeArea();
+                                showToast('Company code hidden automatically.');
+                            }, 30000);
+                        }
+                        renderCodeArea();
+                    });
+
+                    document.getElementById('btn-copy-company-code').addEventListener('click', () => {
+                        navigator.clipboard.writeText(companyCode).then(() => showToast('Company code copied!'));
+                    });
+                };
+
+                renderCodeArea();
             } else {
                 codeDisplay.innerHTML = `
                     <p class="text-sm text-red-400 font-semibold mb-2">⚠️ Payment Not Approved</p>
@@ -2700,7 +2778,7 @@
             let companyCode = (cachedProfileData && cachedProfileData.company_code) ? cachedProfileData.company_code : localStorage.getItem('prosync_company_code');
 
             if (!companyCode) {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
                 return;
             }
 
@@ -2714,7 +2792,7 @@
                 return;
             }
 
-            tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading connected devices...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading connected devices...</td></tr>`;
 
             try {
                 if (supabaseClient) {
@@ -2729,18 +2807,18 @@
                     devicesCacheTimestamp = now;
                     renderDevicesData(cachedDevicesData, tbody);
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm text-red-400">Database connection not available.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-4 text-center text-sm text-red-400">Database connection not available.</td></tr>`;
                 }
             } catch (err) {
                 console.error("Error fetching devices:", err);
-                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm text-red-400">Failed to load devices list.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-4 text-center text-sm text-red-400">Failed to load devices list.</td></tr>`;
             }
         }
 
         function renderDevicesData(devices, tbody) {
             tbody.innerHTML = '';
             if (devices.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No connected devices found for this company code.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No connected devices found for this company code.</td></tr>`;
                 return;
             }
 
@@ -2771,12 +2849,22 @@
                 planDisplay = activePlan.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
             }
 
-            devices.forEach(dev => {
+            // Sort devices alphabetically by name (handling empty/null names gracefully)
+            const sortedDevices = [...devices].sort((a, b) => {
+                const nameA = (a.name || '').toLowerCase().trim();
+                const nameB = (b.name || '').toLowerCase().trim();
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0;
+            });
+
+            sortedDevices.forEach((dev, index) => {
                 const tr = document.createElement('tr');
                 tr.style.borderColor = 'var(--border-glass)';
                 tr.className = 'border-b';
 
                 tr.innerHTML = `
+                    <td class="px-4 py-3 text-sm" style="color:var(--text-tertiary); font-weight: bold;">${index + 1}</td>
                     <td class="px-4 py-3 text-sm font-mono flex items-center gap-2" style="color:var(--text-secondary);">
                         <button onclick="navigator.clipboard.writeText('${dev.device_id || ''}').then(() => showToast('Device ID copied!'))" class="hover:text-teal-400 text-teal-400/60 p-0.5 flex items-center justify-center transition-colors cursor-pointer" type="button" title="Copy Device ID" style="background:none; border:none; padding:0; display:inline-flex;">
                             <span class="material-symbols-outlined text-[16px]">content_copy</span>
@@ -2905,6 +2993,70 @@
                 }
             }
         }
+
+        // Password criteria validator
+        function validatePassword(password) {
+            if (password.length < 6) {
+                return 'Password must be at least 6 characters long.';
+            }
+            if (!/[a-zA-Z]/.test(password)) {
+                return 'Password must contain at least one letter.';
+            }
+            if (!/\d/.test(password)) {
+                return 'Password must contain at least one digit.';
+            }
+            return null;
+        }
+
+        // Change Password Form listener
+        document.addEventListener('DOMContentLoaded', () => {
+            const changePwForm = document.getElementById('profile-change-password-form');
+            if (changePwForm) {
+                changePwForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const currentPassword = document.getElementById('change-pw-current').value;
+                    const newPassword = document.getElementById('change-pw-new').value;
+                    const confirmPassword = document.getElementById('change-pw-confirm').value;
+                    const email = localStorage.getItem('prosync_session') || '';
+                    const btn = document.getElementById('btn-change-password');
+
+                    if (newPassword !== confirmPassword) {
+                        alert('New passwords do not match!');
+                        return;
+                    }
+
+                    const pwError = validatePassword(newPassword);
+                    if (pwError) {
+                        alert(pwError);
+                        return;
+                    }
+
+                    btn.disabled = true;
+                    btn.textContent = 'Updating...';
+
+                    try {
+                        const response = await fetch(`${API_BASE}/api/user/change-password`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, current_password: currentPassword, new_password: newPassword })
+                        });
+                        const result = await response.json();
+                        if (response.ok && result.success) {
+                            showToast('Password updated successfully!');
+                            changePwForm.reset();
+                        } else {
+                            alert(result.error || 'Failed to update password.');
+                        }
+                    } catch (err) {
+                        console.error('Error changing password:', err);
+                        alert('Network error updating password.');
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = 'Update Password';
+                    }
+                });
+            }
+        });
 
         // Renamed price helper call to avoid reference errors if it is different
         function calculateProfileProfilePaymentPrice(plan, users, months) {
