@@ -200,6 +200,15 @@ def auth_login():
 
 
 
+def validate_password_strength(password):
+    if len(password) < 6:
+        return "Password must be at least 6 characters long."
+    if not any(c.isalpha() for c in password):
+        return "Password must contain at least one letter."
+    if not any(c.isdigit() for c in password):
+        return "Password must contain at least one digit."
+    return None
+
 # 2. Register Endpoint (For new users)
 @app.route("/api/auth/register", methods=["POST"])
 def auth_register():
@@ -210,6 +219,10 @@ def auth_register():
 
     if not email or not password or not name:
         return jsonify({"success": False, "error": "Name, email and password are required to register"}), 400
+
+    pw_err = validate_password_strength(password)
+    if pw_err:
+        return jsonify({"success": False, "error": pw_err}), 400
 
     try:
         # Check if user already exists
@@ -497,6 +510,44 @@ def get_user_profile():
         })
     except Exception as e:
         print("GET PROFILE ERROR:", e, flush=True)
+        return jsonify({"success": False, "error": "Internal server error"}), 500
+
+# 7. Change Password Endpoint
+@app.route("/api/user/change-password", methods=["POST"])
+def change_password():
+    data = request.get_json(silent=True) or {}
+    email = data.get("email")
+    current_password = data.get("current_password")
+    new_password = data.get("new_password")
+
+    if not email or not current_password or not new_password:
+        return jsonify({"success": False, "error": "All fields are required"}), 400
+
+    try:
+        # Fetch user
+        res = supabase.table("web_users").select("*").eq("email", email).execute()
+        if not res.data:
+            return jsonify({"success": False, "error": "User not found"}), 404
+        
+        user = res.data[0]
+        db_password = user.get("password")
+
+        # Verify current password
+        if not check_password(current_password, db_password):
+            return jsonify({"success": False, "error": "Incorrect current password"}), 401
+
+        # Validate strength of new password
+        pw_err = validate_password_strength(new_password)
+        if pw_err:
+            return jsonify({"success": False, "error": pw_err}), 400
+
+        # Update password in DB (using SHA-256 for enhanced security)
+        new_password_hash = hashlib.sha256(new_password.encode()).hexdigest()
+        supabase.table("web_users").update({"password": new_password_hash}).eq("email", email).execute()
+        
+        return jsonify({"success": True, "message": "Password updated successfully!"})
+    except Exception as e:
+        print("CHANGE PASSWORD ERROR:", e, flush=True)
         return jsonify({"success": False, "error": "Internal server error"}), 500
 
 if __name__ == "__main__":
