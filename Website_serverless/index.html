@@ -681,6 +681,8 @@
                         </div>
                         <a id="dropdown-profile" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Profile Details</a>
                         <a id="dropdown-tx" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Transactions</a>
+                        <a id="dropdown-code" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Company Code</a>
+                        <a id="dropdown-devices" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Device Management</a>
                         <a id="dropdown-convert" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5 hidden" style="color:var(--text-primary);">Convert Account</a>
                         <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
                     </div>
@@ -2522,6 +2524,8 @@
         const panelProfileDevices = document.getElementById('panel-profile-devices');
         const dropdownProfile = document.getElementById('dropdown-profile');
         const dropdownTx = document.getElementById('dropdown-tx');
+        const dropdownCode = document.getElementById('dropdown-code');
+        const dropdownDevices = document.getElementById('dropdown-devices');
 
         function switchProfileModalTab(tab) {
             const tabs = {
@@ -2645,15 +2649,23 @@
             const tbody = document.getElementById('profile-modal-devices-tbody');
             if (!tbody) return;
 
+            const email = localStorage.getItem('prosync_session') || '';
             const accountType = localStorage.getItem('prosync_account_type') || 'personal';
-            let companyCode = null;
-            if (cachedProfileData && cachedProfileData.company_code) {
-                companyCode = cachedProfileData.company_code;
-            } else {
-                companyCode = localStorage.getItem('prosync_company_code');
+
+            if (accountType !== 'company') {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
+                return;
             }
 
-            if (accountType !== 'company' || !companyCode) {
+            // Ensure profile/transaction data is loaded
+            if (!cachedProfileData) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading account details...</td></tr>`;
+                await fetchProfileDataDirectly(email);
+            }
+
+            let companyCode = cachedProfileData ? cachedProfileData.company_code : localStorage.getItem('prosync_company_code');
+
+            if (!companyCode) {
                 tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
                 return;
             }
@@ -2674,7 +2686,7 @@
                 if (supabaseClient) {
                     const { data, error } = await supabaseClient
                         .from('devices')
-                        .select('device_id, name, plan, start_date, end_date')
+                        .select('device_id, name, package_start, valid_days')
                         .eq('company_code', companyCode);
 
                     if (error) throw error;
@@ -2698,21 +2710,44 @@
                 return;
             }
 
+            // Find active approved transaction to get Plan, Start Date, and End Date
+            let activePlan = '—';
+            let activeStart = '—';
+            let activeEnd = '—';
+
+            if (cachedProfileData && cachedProfileData.transactions) {
+                const approvedTx = cachedProfileData.transactions.find(tx => {
+                    const status = (tx.Approved || tx.approved || 'pending').toLowerCase();
+                    return status === 'approved' || status === 'yes';
+                });
+
+                if (approvedTx) {
+                    activePlan = approvedTx.plan || 'ProSync Pro';
+                    if (approvedTx.start_date) {
+                        activeStart = formatDateDDMMYYYY(approvedTx.start_date);
+                    }
+                    if (approvedTx.end_date) {
+                        activeEnd = formatDateDDMMYYYY(approvedTx.end_date);
+                    }
+                }
+            }
+
+            let planDisplay = activePlan;
+            if (activePlan !== '—') {
+                planDisplay = activePlan.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+
             devices.forEach(dev => {
                 const tr = document.createElement('tr');
                 tr.style.borderColor = 'var(--border-glass)';
                 tr.className = 'border-b';
 
-                const startStr = formatDateDDMMYYYY(dev.start_date);
-                const endStr = formatDateDDMMYYYY(dev.end_date);
-                const planName = dev.plan || 'prosync_lite';
-
                 tr.innerHTML = `
                     <td class="px-4 py-3 text-sm font-mono" style="color:var(--text-secondary);">${dev.device_id || '—'}</td>
                     <td class="px-4 py-3 text-sm">${dev.name || '—'}</td>
-                    <td class="px-4 py-3 text-sm capitalize">${planName.replace('_', ' ')}</td>
-                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${startStr}</td>
-                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${endStr}</td>
+                    <td class="px-4 py-3 text-sm capitalize">${planDisplay}</td>
+                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${activeStart}</td>
+                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${activeEnd}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -2847,6 +2882,18 @@
             dropdownTx.addEventListener('click', (e) => {
                 e.preventDefault();
                 openProfileModal('tx');
+            });
+        }
+        if (dropdownCode) {
+            dropdownCode.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal('code');
+            });
+        }
+        if (dropdownDevices) {
+            dropdownDevices.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal('devices');
             });
         }
         if (btnCloseProfile) {
