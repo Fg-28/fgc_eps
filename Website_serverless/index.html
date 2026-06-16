@@ -1789,11 +1789,13 @@
             </div>
 
             <!-- Tab Switcher -->
-            <div class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
-                <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Profile Info</button>
-                <button id="tab-profile-tx" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Transactions</button>
+            <div class="flex justify-center flex-wrap gap-4 md:gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
+                <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Profile Details</button>
+                <button id="tab-profile-tx" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">My Transaction</button>
                 <button id="tab-profile-code" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Company Code</button>
                 <button id="tab-profile-devices" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Device Management</button>
+                <button id="tab-profile-password" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Change Password</button>
+                <button id="tab-profile-logout" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200 hover:text-red-400" style="color:var(--text-tertiary);">Logout</button>
             </div>
 
             <!-- Content Area -->
@@ -1820,17 +1822,15 @@
                             <textarea class="form-input opacity-75 cursor-not-allowed min-h-[80px]" id="profile-modal-address" readonly style="background:rgba(0,0,0,0.2); resize: none;"></textarea>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Divider -->
-                    <div class="border-t my-2" style="border-color:var(--border-glass);"></div>
-                    
-                    <!-- Change Password Header -->
+                <!-- Panel 5: Change Password -->
+                <div id="panel-profile-password" class="hidden flex flex-col gap-4">
                     <div>
                         <h3 class="text-[15px] font-bold" style="color:var(--text-primary);">Change Password</h3>
                         <p class="text-[12px]" style="color:var(--text-tertiary);">Password must be at least 6 characters, with at least 1 letter and 1 number.</p>
                     </div>
 
-                    <!-- Change Password Fields -->
                     <form id="profile-change-password-form" class="flex flex-col gap-4">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="flex flex-col gap-1.5">
@@ -2583,10 +2583,15 @@
         const tabProfileTx = document.getElementById('tab-profile-tx');
         const tabProfileCode = document.getElementById('tab-profile-code');
         const tabProfileDevices = document.getElementById('tab-profile-devices');
+        const tabProfilePassword = document.getElementById('tab-profile-password');
+        const tabProfileLogout = document.getElementById('tab-profile-logout');
+
         const panelProfileInfo = document.getElementById('panel-profile-info');
         const panelProfileTx = document.getElementById('panel-profile-tx');
         const panelProfileCode = document.getElementById('panel-profile-code');
         const panelProfileDevices = document.getElementById('panel-profile-devices');
+        const panelProfilePassword = document.getElementById('panel-profile-password');
+
         const dropdownProfile = document.getElementById('dropdown-profile');
         const dropdownTx = document.getElementById('dropdown-tx');
         const dropdownCode = document.getElementById('dropdown-code');
@@ -2597,7 +2602,8 @@
                 info: { tab: tabProfileInfo, panel: panelProfileInfo },
                 tx: { tab: tabProfileTx, panel: panelProfileTx },
                 code: { tab: tabProfileCode, panel: panelProfileCode },
-                devices: { tab: tabProfileDevices, panel: panelProfileDevices }
+                devices: { tab: tabProfileDevices, panel: panelProfileDevices },
+                password: { tab: tabProfilePassword, panel: panelProfilePassword }
             };
 
             Object.keys(tabs).forEach(t => {
@@ -2636,6 +2642,31 @@
         }
         if (tabProfileDevices) {
             tabProfileDevices.addEventListener('click', () => switchProfileModalTab('devices'));
+        }
+        if (tabProfilePassword) {
+            tabProfilePassword.addEventListener('click', () => switchProfileModalTab('password'));
+        }
+        if (tabProfileLogout) {
+            tabProfileLogout.addEventListener('click', () => {
+                if (confirm('Are you sure you want to log out?')) {
+                    // Trigger logout
+                    const dropdownLogout = document.getElementById('dropdown-logout');
+                    if (dropdownLogout) {
+                        dropdownLogout.click();
+                    } else {
+                        // Direct logout fallback
+                        localStorage.removeItem('prosync_session');
+                        localStorage.removeItem('prosync_name');
+                        localStorage.removeItem('prosync_account_type');
+                        localStorage.removeItem('prosync_company_name');
+                        localStorage.removeItem('prosync_company_address');
+                        localStorage.removeItem('prosync_company_code');
+                        updateNavbarSessionState();
+                        location.reload();
+                    }
+                    if (profileModal) profileModal.classList.add('hidden');
+                }
+            });
         }
 
         async function fetchProfileDataDirectly(email) {
@@ -2707,8 +2738,8 @@
 
                     codeDisplay.innerHTML = `
                         <p class="text-[13px] mb-3" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
-                        <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 mb-4 select-all">
-                            <span>${displayCode}</span>
+                        <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 mb-4">
+                            <span class="select-all">${displayCode}</span>
                             <button id="btn-toggle-company-code" class="hover:text-white text-teal-400/80 transition-colors cursor-pointer flex items-center justify-center" type="button" title="${eyeTitle}" style="background:none; border:none; padding: 0;">
                                 <span class="material-symbols-outlined text-[18px]">${eyeIcon}</span>
                             </button>
@@ -2799,7 +2830,8 @@
                     const { data, error } = await supabaseClient
                         .from('devices')
                         .select('device_id, name, package_start, valid_days')
-                        .eq('company_code', companyCode);
+                        .eq('company_code', companyCode)
+                        .eq('status', 'allowed');
 
                     if (error) throw error;
 
