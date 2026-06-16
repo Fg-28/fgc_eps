@@ -1790,6 +1790,8 @@
             <div class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
                 <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Profile Info</button>
                 <button id="tab-profile-tx" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Transactions</button>
+                <button id="tab-profile-code" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Company Code</button>
+                <button id="tab-profile-devices" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Device Management</button>
             </div>
 
             <!-- Content Area -->
@@ -1836,6 +1838,38 @@
                             <tbody id="profile-modal-tx-tbody">
                                 <tr>
                                     <td colspan="7" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading transactions...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Panel 3: Company Code -->
+                <div id="panel-profile-code" class="hidden flex flex-col gap-4 py-4">
+                    <div class="glass-card p-6 rounded-xl text-center border" style="border-color:var(--border-glass); background:rgba(0,0,0,0.15);">
+                        <h3 class="text-sm font-semibold mb-2" style="color:var(--text-secondary);">Your Unique Company Code</h3>
+                        <div id="company-code-display-area" class="py-4">
+                            <p class="text-sm text-yellow-400 font-medium">Checking billing status...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 4: Device Management -->
+                <div id="panel-profile-devices" class="hidden flex flex-col gap-4 py-4">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b" style="border-color:var(--border-glass);">
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Device ID</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Device Name</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Plan</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">Start Date</th>
+                                    <th class="px-4 py-2 text-xs font-semibold uppercase tracking-wider" style="color:var(--text-tertiary);">End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profile-modal-devices-tbody">
+                                <tr>
+                                    <td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts can manage devices.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2069,6 +2103,8 @@
         let resendTimer = null;
         let cachedProfileData = null;
         let profileCacheTimestamp = 0;
+        let cachedDevicesData = null;
+        let devicesCacheTimestamp = 0;
 
         function startResendCountdown(seconds) {
             const resendBtn = document.getElementById('btn-resend-otp');
@@ -2455,6 +2491,8 @@
                 }
                 cachedProfileData = null;
                 profileCacheTimestamp = 0;
+                cachedDevicesData = null;
+                devicesCacheTimestamp = 0;
                 loginMessage.classList.add('hidden');
                 emailInput.value = '';
                 passwordInput.value = '';
@@ -2476,38 +2514,45 @@
         const btnCloseProfile = document.getElementById('btn-close-profile');
         const tabProfileInfo = document.getElementById('tab-profile-info');
         const tabProfileTx = document.getElementById('tab-profile-tx');
+        const tabProfileCode = document.getElementById('tab-profile-code');
+        const tabProfileDevices = document.getElementById('tab-profile-devices');
         const panelProfileInfo = document.getElementById('panel-profile-info');
         const panelProfileTx = document.getElementById('panel-profile-tx');
+        const panelProfileCode = document.getElementById('panel-profile-code');
+        const panelProfileDevices = document.getElementById('panel-profile-devices');
         const dropdownProfile = document.getElementById('dropdown-profile');
         const dropdownTx = document.getElementById('dropdown-tx');
 
         function switchProfileModalTab(tab) {
-            if (tab === 'info') {
-                tabProfileInfo.classList.add('border-b-2', 'font-bold');
-                tabProfileInfo.classList.remove('border-transparent', 'font-medium');
-                tabProfileInfo.style.color = 'var(--accent-1)';
-                tabProfileInfo.style.borderColor = 'var(--accent-1)';
+            const tabs = {
+                info: { tab: tabProfileInfo, panel: panelProfileInfo },
+                tx: { tab: tabProfileTx, panel: panelProfileTx },
+                code: { tab: tabProfileCode, panel: panelProfileCode },
+                devices: { tab: tabProfileDevices, panel: panelProfileDevices }
+            };
 
-                tabProfileTx.classList.remove('border-b-2', 'font-bold');
-                tabProfileTx.classList.add('border-transparent', 'font-medium');
-                tabProfileTx.style.color = 'var(--text-tertiary)';
-                tabProfileTx.style.borderColor = 'transparent';
+            Object.keys(tabs).forEach(t => {
+                const item = tabs[t];
+                if (!item.tab || !item.panel) return;
+                if (t === tab) {
+                    item.tab.classList.add('border-b-2', 'font-bold');
+                    item.tab.classList.remove('border-transparent', 'font-medium');
+                    item.tab.style.color = 'var(--accent-1)';
+                    item.tab.style.borderColor = 'var(--accent-1)';
+                    item.panel.classList.remove('hidden');
+                } else {
+                    item.tab.classList.remove('border-b-2', 'font-bold');
+                    item.tab.classList.add('border-transparent', 'font-medium');
+                    item.tab.style.color = 'var(--text-tertiary)';
+                    item.tab.style.borderColor = 'transparent';
+                    item.panel.classList.add('hidden');
+                }
+            });
 
-                panelProfileInfo.classList.remove('hidden');
-                panelProfileTx.classList.add('hidden');
-            } else {
-                tabProfileTx.classList.add('border-b-2', 'font-bold');
-                tabProfileTx.classList.remove('border-transparent', 'font-medium');
-                tabProfileTx.style.color = 'var(--accent-1)';
-                tabProfileTx.style.borderColor = 'var(--accent-1)';
-
-                tabProfileInfo.classList.remove('border-b-2', 'font-bold');
-                tabProfileInfo.classList.add('border-transparent', 'font-medium');
-                tabProfileInfo.style.color = 'var(--text-tertiary)';
-                tabProfileInfo.style.borderColor = 'transparent';
-
-                panelProfileTx.classList.remove('hidden');
-                panelProfileInfo.classList.add('hidden');
+            if (tab === 'code') {
+                updateCompanyCodeTab();
+            } else if (tab === 'devices') {
+                updateDevicesTab();
             }
         }
 
@@ -2516,6 +2561,161 @@
         }
         if (tabProfileTx) {
             tabProfileTx.addEventListener('click', () => switchProfileModalTab('tx'));
+        }
+        if (tabProfileCode) {
+            tabProfileCode.addEventListener('click', () => switchProfileModalTab('code'));
+        }
+        if (tabProfileDevices) {
+            tabProfileDevices.addEventListener('click', () => switchProfileModalTab('devices'));
+        }
+
+        async function fetchProfileDataDirectly(email) {
+            if (!email) return;
+            try {
+                const response = await fetch(`${API_BASE}/api/user/profile`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    cachedProfileData = result;
+                    profileCacheTimestamp = Date.now();
+                }
+            } catch (err) {
+                console.error("Direct profile fetch failed:", err);
+            }
+        }
+
+        async function updateCompanyCodeTab() {
+            const codeDisplay = document.getElementById('company-code-display-area');
+            if (!codeDisplay) return;
+
+            const email = localStorage.getItem('prosync_session') || '';
+            const accountType = localStorage.getItem('prosync_account_type') || 'personal';
+
+            if (accountType !== 'company') {
+                codeDisplay.innerHTML = `<p class="text-sm text-yellow-400 font-medium">⚠️ Company code is only available for Company accounts.</p>`;
+                return;
+            }
+
+            // Ensure profile/transaction data is loaded
+            let txs = [];
+            if (cachedProfileData && cachedProfileData.transactions) {
+                txs = cachedProfileData.transactions;
+            } else {
+                codeDisplay.innerHTML = `<p class="text-sm" style="color:var(--text-tertiary);">Loading transactions status...</p>`;
+                await fetchProfileDataDirectly(email);
+                if (cachedProfileData && cachedProfileData.transactions) {
+                    txs = cachedProfileData.transactions;
+                }
+            }
+
+            // Check if there is at least one transaction approved/yes
+            const hasApprovedTx = txs.some(tx => {
+                const status = (tx.Approved || tx.approved || 'pending').toLowerCase();
+                return status === 'approved' || status === 'yes';
+            });
+
+            if (hasApprovedTx) {
+                let companyCode = '—';
+                if (cachedProfileData && cachedProfileData.company_code) {
+                    companyCode = cachedProfileData.company_code;
+                } else {
+                    companyCode = localStorage.getItem('prosync_company_code') || '—';
+                }
+
+                codeDisplay.innerHTML = `
+                    <p class="text-[13px] mb-2" style="color:var(--text-tertiary);">Share this code with your team to link their devices:</p>
+                    <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg font-mono text-[16px] font-bold text-teal-400 select-all">
+                        ${companyCode}
+                    </div>
+                `;
+            } else {
+                codeDisplay.innerHTML = `
+                    <p class="text-sm text-red-400 font-semibold mb-2">⚠️ Payment Not Approved</p>
+                    <p class="text-[13px] leading-relaxed" style="color:var(--text-tertiary);">
+                        Plz check your transaction is pending or approved in the "My Transaction".
+                    </p>
+                `;
+            }
+        }
+
+        async function updateDevicesTab() {
+            const tbody = document.getElementById('profile-modal-devices-tbody');
+            if (!tbody) return;
+
+            const accountType = localStorage.getItem('prosync_account_type') || 'personal';
+            let companyCode = null;
+            if (cachedProfileData && cachedProfileData.company_code) {
+                companyCode = cachedProfileData.company_code;
+            } else {
+                companyCode = localStorage.getItem('prosync_company_code');
+            }
+
+            if (accountType !== 'company' || !companyCode) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Only company accounts with an active company code can manage devices.</td></tr>`;
+                return;
+            }
+
+            const now = Date.now();
+            const cacheDuration = 5 * 60 * 1000; // 5 minutes
+            const isCacheValid = cachedDevicesData && (now - devicesCacheTimestamp < cacheDuration);
+
+            if (isCacheValid) {
+                console.log("⚡ Loading devices from RAM cache");
+                renderDevicesData(cachedDevicesData, tbody);
+                return;
+            }
+
+            tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">Loading connected devices...</td></tr>`;
+
+            try {
+                if (supabaseClient) {
+                    const { data, error } = await supabaseClient
+                        .from('devices')
+                        .select('device_id, name, plan, start_date, end_date')
+                        .eq('company_code', companyCode);
+
+                    if (error) throw error;
+
+                    cachedDevicesData = data || [];
+                    devicesCacheTimestamp = now;
+                    renderDevicesData(cachedDevicesData, tbody);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm text-red-400">Database connection not available.</td></tr>`;
+                }
+            } catch (err) {
+                console.error("Error fetching devices:", err);
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm text-red-400">Failed to load devices list.</td></tr>`;
+            }
+        }
+
+        function renderDevicesData(devices, tbody) {
+            tbody.innerHTML = '';
+            if (devices.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-sm" style="color:var(--text-tertiary);">No connected devices found for this company code.</td></tr>`;
+                return;
+            }
+
+            devices.forEach(dev => {
+                const tr = document.createElement('tr');
+                tr.style.borderColor = 'var(--border-glass)';
+                tr.className = 'border-b';
+
+                const startStr = formatDateDDMMYYYY(dev.start_date);
+                const endStr = formatDateDDMMYYYY(dev.end_date);
+                const planName = dev.plan || 'prosync_lite';
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-sm font-mono" style="color:var(--text-secondary);">${dev.device_id || '—'}</td>
+                    <td class="px-4 py-3 text-sm">${dev.name || '—'}</td>
+                    <td class="px-4 py-3 text-sm capitalize">${planName.replace('_', ' ')}</td>
+                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${startStr}</td>
+                    <td class="px-4 py-3 text-sm" style="color:var(--text-secondary);">${endStr}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
         async function openProfileModal(initialTab = 'info') {
@@ -2976,6 +3176,8 @@
                     // Clear RAM Cache so the new transaction loads on next profile modal open
                     cachedProfileData = null;
                     profileCacheTimestamp = 0;
+                    cachedDevicesData = null;
+                    devicesCacheTimestamp = 0;
                 })
                 .catch(err => {
                     console.error('Failed to record payment:', err);
@@ -3163,6 +3365,8 @@
                         // Clean profile cache
                         cachedProfileData = null;
                         profileCacheTimestamp = 0;
+                        cachedDevicesData = null;
+                        devicesCacheTimestamp = 0;
 
                         // Refresh navbar
                         updateNavbarSessionState();
@@ -3267,6 +3471,8 @@
                         // Clear profile cache
                         cachedProfileData = null;
                         profileCacheTimestamp = 0;
+                        cachedDevicesData = null;
+                        devicesCacheTimestamp = 0;
 
                         updateNavbarSessionState();
 
