@@ -1582,78 +1582,87 @@
 
     <!-- ═══════════════════ LOGIN MODAL ═══════════════════ -->
     <div id="login" class="fixed inset-0 z-[100] flex items-center justify-center modal-overlay hidden">
-        <div class="w-full max-w-[420px] mx-4 rounded-2xl p-8 relative" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
-            <!-- Close Button -->
-            <button id="btn-close-login" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);">
+        <div class="w-full max-w-[462px] mx-4 rounded-2xl relative flex flex-col max-h-[82vh]" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.20);">
+            <!-- Close Button (fixed inside modal, not scrolling) -->
+            <button id="btn-close-login" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer z-10" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);">
                 <span class="material-symbols-outlined text-[20px]">close</span>
             </button>
-            <div class="text-center mb-5">
-                <div class="font-display text-[20px] font-extrabold gradient-text mb-2">ProSync</div>
-                <h2 id="login-title" class="text-[22px] font-bold" style="color:var(--text-primary);">Welcome Back</h2>
-                <p id="login-subtitle" class="text-[14px] mt-1" style="color:var(--text-tertiary);">Sign in to your ProSync account.</p>
-            </div>
 
-            <!-- Tab Switcher -->
-            <div id="auth-tabs" class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-primary);">
-                <button id="tab-signin" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Sign In</button>
-                <button id="tab-signup" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Sign Up</button>
-            </div>
-
-            <form id="login-form" class="flex flex-col gap-4">
-                <!-- Message Banner -->
-                <div id="login-message" class="hidden text-[13px] p-3 rounded-lg text-center font-medium"></div>
-
-                <!-- Step 1: Credentials -->
-                <div id="credentials-group" class="flex flex-col gap-4">
-                    <div id="name-group" class="hidden flex flex-col gap-1.5">
-                        <label class="text-[13px] font-semibold" for="name" style="color:var(--text-tertiary);">Name</label>
-                        <input class="form-input" id="name" placeholder="John Doe" type="text"/>
-                    </div>
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-[13px] font-semibold" for="email" style="color:var(--text-tertiary);">Email</label>
-                        <input class="form-input" id="email" placeholder="name@company.com" required type="email"/>
-                    </div>
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-[13px] font-semibold" for="password" style="color:var(--text-tertiary);">Password</label>
-                        <input class="form-input" id="password" placeholder="••••••••" required type="password"/>
-                    </div>
-                    <div id="extra-login-actions" class="flex justify-between items-center">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input id="remember-me" class="rounded w-4 h-4 cursor-pointer" type="checkbox" style="accent-color:var(--accent-1);"/>
-                            <span class="text-[13px]" style="color:var(--text-tertiary);">Remember me</span>
-                        </label>
-                        <a class="text-[13px] font-medium transition-colors" href="#" style="color:var(--accent-1);">Forgot password?</a>
-                    </div>
-                    <button class="btn-primary w-full !rounded-xl mt-1" type="submit" id="btn-submit">Sign In</button>
+            <!-- Scrollable content area -->
+            <div class="overflow-y-auto flex-1 p-8 pb-6">
+                <div class="text-center mb-5">
+                    <div class="font-display text-[20px] font-extrabold gradient-text mb-2">ProSync</div>
+                    <h2 id="login-title" class="text-[22px] font-bold" style="color:var(--text-primary);">Get Started</h2>
+                    <p id="login-subtitle" class="text-[14px] mt-1" style="color:var(--text-tertiary);">Enter your email to sign in or create an account.</p>
                 </div>
 
-                <!-- Step 2: OTP Verification -->
-                <div id="otp-group" class="hidden flex flex-col gap-4">
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-[13px] font-semibold" for="otp-code" style="color:var(--text-tertiary);">Enter 6-Digit OTP</label>
-                        <input class="form-input text-center tracking-[0.3em] font-bold text-[20px]" id="otp-code" placeholder="000000" maxlength="6" type="text"/>
-                    </div>
-                    <button class="btn-primary w-full !rounded-xl" type="button" id="btn-verify">Verify OTP</button>
-
-                    <!-- Spam check notice & resend button -->
-                    <div class="text-center mt-1 flex flex-col gap-1">
-                        <span class="text-[12px] font-medium" style="color:var(--text-secondary);">
-                            Check your <strong>Spam/Junk</strong> folder if you don't see it.
-                        </span>
-                        <button id="btn-resend-otp" class="text-[13px] font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:underline" type="button" style="color:var(--accent-1);background:none;border:none;" disabled>
-                            Resend Email in 60s
-                        </button>
-                    </div>
-
-                    <button class="text-[13px] font-medium py-2 transition-colors cursor-pointer" type="button" id="btn-back" style="color:var(--text-tertiary);background:none;border:none;">← Back to Login</button>
+                <!-- Hidden legacy tab buttons (kept for JS compatibility) -->
+                <div id="auth-tabs" class="hidden">
+                    <button id="tab-signin" type="button"></button>
+                    <button id="tab-signup" type="button"></button>
                 </div>
-            </form>
+
+                <form id="login-form" class="flex flex-col gap-4">
+                    <!-- Message Banner -->
+                    <div id="login-message" class="hidden text-[13px] p-3 rounded-lg text-center font-medium"></div>
+
+                    <!-- Step 1: Credentials -->
+                    <div id="credentials-group" class="flex flex-col gap-4">
+                        <div id="name-group" class="hidden flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" for="name" style="color:var(--text-tertiary);">Name</label>
+                            <input class="form-input" id="name" placeholder="John Doe" type="text"/>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" for="email" style="color:var(--text-tertiary);">Email</label>
+                            <input class="form-input" id="email" placeholder="name@company.com" required type="email"/>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" for="password" style="color:var(--text-tertiary);">Password</label>
+                            <input class="form-input" id="password" placeholder="••••••••" required type="password"/>
+                        </div>
+                        <div id="extra-login-actions" class="flex justify-between items-center">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input id="remember-me" class="rounded w-4 h-4 cursor-pointer" type="checkbox" style="accent-color:var(--accent-1);"/>
+                                <span class="text-[13px]" style="color:var(--text-tertiary);">Remember me</span>
+                            </label>
+                            <a class="text-[13px] font-medium transition-colors" href="#" style="color:var(--accent-1);">Forgot password?</a>
+                        </div>
+                        <!-- Mode hint label -->
+                        <p id="auth-mode-hint" class="text-[12px] text-center" style="color:var(--text-tertiary);">New here? We'll create your account automatically.</p>
+                        <button class="btn-primary w-full !rounded-xl mt-1" type="submit" id="btn-submit">Get Started</button>
+                    </div>
+
+                    <!-- Step 2: OTP Verification -->
+                    <div id="otp-group" class="hidden flex flex-col gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[13px] font-semibold" for="otp-code" style="color:var(--text-tertiary);">Enter 6-Digit OTP</label>
+                            <input class="form-input text-center tracking-[0.3em] font-bold text-[20px]" id="otp-code" placeholder="000000" maxlength="6" type="text"/>
+                        </div>
+                        <button class="btn-primary w-full !rounded-xl" type="button" id="btn-verify">Verify OTP</button>
+
+                        <!-- Spam check notice & resend button -->
+                        <div class="text-center mt-1 flex flex-col gap-1">
+                            <span class="text-[12px] font-medium" style="color:var(--text-secondary);">
+                                Check your <strong>Spam/Junk</strong> folder if you don't see it.
+                            </span>
+                            <button id="btn-resend-otp" class="text-[13px] font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:underline" type="button" style="color:var(--accent-1);background:none;border:none;" disabled>
+                                Resend Email in 60s
+                            </button>
+                        </div>
+
+                        <button class="text-[13px] font-medium py-2 transition-colors cursor-pointer" type="button" id="btn-back" style="color:var(--text-tertiary);background:none;border:none;">← Back</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bottom breathing space strip -->
+            <div class="h-4 shrink-0 rounded-b-2xl" style="background:var(--bg-card);"></div>
         </div>
     </div>
 
     <!-- ═══════════════════ ONBOARDING MODAL ═══════════════════ -->
     <div id="onboarding-modal" class="fixed inset-0 z-[110] flex items-center justify-center modal-overlay hidden">
-        <div class="w-full max-w-[460px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+        <div class="w-full max-w-[460px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5 max-h-[90vh] overflow-y-auto" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
             <div class="text-center">
                 <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Onboarding</div>
                 <h2 class="text-[22px] font-bold" style="color:var(--text-primary);">Complete Your Profile</h2>
@@ -1722,7 +1731,7 @@
 
     <!-- ═══════════════════ CONVERT ACCOUNT MODAL ═══════════════════ -->
     <div id="convert-account-modal" class="fixed inset-0 z-[120] flex items-center justify-center modal-overlay hidden">
-        <div class="w-full max-w-[420px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+        <div class="w-full max-w-[420px] mx-4 rounded-2xl p-8 relative flex flex-col gap-5 max-h-[90vh] overflow-y-auto" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
             <!-- Close Button -->
             <button id="btn-close-convert" class="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer" type="button" style="color:var(--text-tertiary);background:var(--bg-tertiary);border:none;">
                 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -2077,45 +2086,49 @@
             }, 1000);
         }
 
+        // Auto-hide message banner after 6 seconds
+        let msgAutoHideTimer = null;
         function showMessage(text, type = 'error') {
             loginMessage.classList.remove('hidden', 'msg-error', 'msg-success');
             loginMessage.classList.add(type === 'error' ? 'msg-error' : 'msg-success');
             loginMessage.textContent = text;
+            // Clear any previous auto-hide timer
+            if (msgAutoHideTimer) clearTimeout(msgAutoHideTimer);
+            msgAutoHideTimer = setTimeout(() => {
+                loginMessage.classList.add('hidden');
+                msgAutoHideTimer = null;
+            }, 6000);
         }
 
-        tabSignin.addEventListener('click', () => {
-            if (isOtpState) return;
+        // Helper to switch into sign-in mode (no UI tabs shown, just internal)
+        function setSignInMode() {
             currentAuthMode = 'signin';
-            tabSignin.style.color = 'var(--accent-1)';
-            tabSignin.style.borderColor = 'var(--accent-1)';
-            tabSignup.style.color = 'var(--text-tertiary)';
-            tabSignup.style.borderColor = 'transparent';
             loginTitle.textContent = 'Welcome Back';
-            loginSubtitle.textContent = 'Sign in to your ProSync account.';
+            loginSubtitle.textContent = 'Enter your password to sign in.';
             btnSubmit.textContent = 'Sign In';
             extraLoginActions.classList.remove('hidden');
-            passwordInput.placeholder = '••••••••';
-            passwordInput.required = true;
+            const modeHint = document.getElementById('auth-mode-hint');
+            if (modeHint) modeHint.textContent = 'Existing account detected. Enter your password.';
             document.getElementById('name-group').classList.add('hidden');
             document.getElementById('name').required = false;
-        });
+        }
 
-        tabSignup.addEventListener('click', () => {
-            if (isOtpState) return;
+        // Helper to switch into sign-up mode
+        function setSignUpMode() {
             currentAuthMode = 'signup';
-            tabSignup.style.color = 'var(--accent-1)';
-            tabSignup.style.borderColor = 'var(--accent-1)';
-            tabSignin.style.color = 'var(--text-tertiary)';
-            tabSignin.style.borderColor = 'transparent';
             loginTitle.textContent = 'Create Account';
             loginSubtitle.textContent = 'Start your journey with ProSync.';
-            btnSubmit.textContent = 'Sign Up';
+            btnSubmit.textContent = 'Create Account & Continue';
             extraLoginActions.classList.add('hidden');
-            passwordInput.placeholder = '•••••••• (Required)';
-            passwordInput.required = true;
+            const modeHint = document.getElementById('auth-mode-hint');
+            if (modeHint) modeHint.textContent = 'No account found — we\'ll set you up now!';
             document.getElementById('name-group').classList.add('hidden');
             document.getElementById('name').required = false;
-        });
+        }
+
+        // Hidden tab buttons are no-op (kept for any external reference)
+        tabSignin.addEventListener('click', () => { if (!isOtpState) setSignInMode(); });
+        tabSignup.addEventListener('click', () => { if (!isOtpState) setSignUpMode(); });
 
         // Navbar session state
         function updateNavbarSessionState() {
@@ -2192,6 +2205,7 @@
 
             try {
                 if (currentAuthMode === 'signin') {
+                    // Try login first
                     const response = await fetch(`${API_BASE}/api/auth/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2204,21 +2218,15 @@
                         if (result.name) localStorage.setItem('prosync_name', result.name);
                         updateNavbarSessionState();
                         setTimeout(() => { window.location.hash = '#home'; }, 1500);
+                    } else if (response.status === 404 || (result.error && result.error.toLowerCase().includes('user not found'))) {
+                        // ✨ New user detected — seamlessly switch to registration mode
+                        setSignUpMode();
+                        showMessage('No account found for this email. Fill in your details to register!', 'error');
                     } else {
-                        showMessage(result.error || 'Login failed. Please check credentials.');
-                        if (response.status === 404 || (result.error && result.error.toLowerCase().includes('user not found'))) {
-                            showMessage('Account not found. Redirecting to Sign Up...', 'error');
-                            setTimeout(() => {
-                                tabSignup.click();
-                                emailInput.value = email;
-                                // Hide the error message after 5 seconds
-                                setTimeout(() => {
-                                    loginMessage.classList.add('hidden');
-                                }, 5000);
-                            }, 1200);
-                        }
+                        showMessage(result.error || 'Login failed. Please check your credentials.');
                     }
                 } else {
+                    // Register new user
                     const response = await fetch(`${API_BASE}/api/auth/register`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2231,6 +2239,10 @@
                         isOtpState = true;
                         showMessage(result.message || 'Verification OTP code sent to email.', 'success');
                         startResendCountdown(60);
+                    } else if (response.status === 409 || (result.error && result.error.toLowerCase().includes('already'))) {
+                        // Account already exists — switch to sign-in mode
+                        setSignInMode();
+                        showMessage('Account already exists. Please enter your password to sign in.', 'error');
                     } else {
                         showMessage(result.error || 'Sign up failed. Try again.');
                     }
@@ -2240,8 +2252,7 @@
                 console.error(err);
             } finally {
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = currentAuthMode === 'signin' ? 'Sign In' : 'Sign Up';
-            }
+                btnSubmit.textContent = currentAuthMode === 'signin' ? 'Sign In' : 'Create Account & Continue';
         });
 
         // OTP verify
@@ -2391,8 +2402,12 @@
                 passwordInput.value = '';
                 document.getElementById('name').value = '';
                 otpInput.value = '';
-                loginTitle.textContent = 'Welcome Back';
-                loginSubtitle.textContent = 'Sign in to your ProSync account.';
+                loginTitle.textContent = 'Get Started';
+                loginSubtitle.textContent = 'Enter your email to sign in or create an account.';
+                const modeHint = document.getElementById('auth-mode-hint');
+                if (modeHint) modeHint.textContent = 'New here? We\'ll create your account automatically.';
+                btnSubmit.textContent = 'Get Started';
+                currentAuthMode = 'signin';
                 showMessage('Logged out successfully.', 'success');
                 window.location.hash = '#home';
             });
