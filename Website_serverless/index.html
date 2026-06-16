@@ -679,12 +679,13 @@
                             <span id="dropdown-name" class="font-bold text-sm truncate" style="color:var(--text-primary);">User Name</span>
                             <span id="dropdown-email" class="text-xs truncate" style="color:var(--text-tertiary);">user@example.com</span>
                         </div>
-                        <a id="dropdown-profile" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Profile Details</a>
-                        <a id="dropdown-tx" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Transactions</a>
+                        <a id="dropdown-profile" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Info</a>
+                        <a id="dropdown-tx" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">My Transaction</a>
                         <a id="dropdown-code" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Company Code</a>
                         <a id="dropdown-devices" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Device Management</a>
+                        <a id="dropdown-password" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5" style="color:var(--text-primary);">Change Password</a>
                         <a id="dropdown-convert" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer hover:bg-white/5 hidden" style="color:var(--text-primary);">Convert Account</a>
-                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Sign Out</a>
+                        <a id="dropdown-logout" class="block w-full text-left px-4 py-2.5 text-sm rounded-lg mt-1 transition-colors cursor-pointer" href="#logout" style="color:#ef4444;">Logout</a>
                     </div>
                 </div>
             </div>
@@ -1789,13 +1790,11 @@
             </div>
 
             <!-- Tab Switcher -->
-            <div class="flex justify-center flex-wrap gap-4 md:gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
-                <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">Profile Details</button>
+            <div class="flex justify-center gap-6 mb-6 pb-3 border-b" style="border-color:var(--border-glass);">
+                <button id="tab-profile-info" type="button" class="text-[14px] font-bold pb-1 border-b-2 focus:outline-none transition-all duration-200" style="color:var(--accent-1);border-color:var(--accent-1);">My Info</button>
                 <button id="tab-profile-tx" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">My Transaction</button>
                 <button id="tab-profile-code" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Company Code</button>
                 <button id="tab-profile-devices" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Device Management</button>
-                <button id="tab-profile-password" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200" style="color:var(--text-tertiary);">Change Password</button>
-                <button id="tab-profile-logout" type="button" class="text-[14px] font-medium pb-1 border-b-2 border-transparent focus:outline-none transition-all duration-200 hover:text-red-400" style="color:var(--text-tertiary);">Logout</button>
             </div>
 
             <!-- Content Area -->
@@ -2583,8 +2582,6 @@
         const tabProfileTx = document.getElementById('tab-profile-tx');
         const tabProfileCode = document.getElementById('tab-profile-code');
         const tabProfileDevices = document.getElementById('tab-profile-devices');
-        const tabProfilePassword = document.getElementById('tab-profile-password');
-        const tabProfileLogout = document.getElementById('tab-profile-logout');
 
         const panelProfileInfo = document.getElementById('panel-profile-info');
         const panelProfileTx = document.getElementById('panel-profile-tx');
@@ -2596,6 +2593,7 @@
         const dropdownTx = document.getElementById('dropdown-tx');
         const dropdownCode = document.getElementById('dropdown-code');
         const dropdownDevices = document.getElementById('dropdown-devices');
+        const dropdownPassword = document.getElementById('dropdown-password');
 
         function switchProfileModalTab(tab) {
             const tabs = {
@@ -2603,23 +2601,27 @@
                 tx: { tab: tabProfileTx, panel: panelProfileTx },
                 code: { tab: tabProfileCode, panel: panelProfileCode },
                 devices: { tab: tabProfileDevices, panel: panelProfileDevices },
-                password: { tab: tabProfilePassword, panel: panelProfilePassword }
+                password: { tab: null, panel: panelProfilePassword }
             };
 
             Object.keys(tabs).forEach(t => {
                 const item = tabs[t];
-                if (!item.tab || !item.panel) return;
+                if (!item.panel) return;
                 if (t === tab) {
-                    item.tab.classList.add('border-b-2', 'font-bold');
-                    item.tab.classList.remove('border-transparent', 'font-medium');
-                    item.tab.style.color = 'var(--accent-1)';
-                    item.tab.style.borderColor = 'var(--accent-1)';
+                    if (item.tab) {
+                        item.tab.classList.add('border-b-2', 'font-bold');
+                        item.tab.classList.remove('border-transparent', 'font-medium');
+                        item.tab.style.color = 'var(--accent-1)';
+                        item.tab.style.borderColor = 'var(--accent-1)';
+                    }
                     item.panel.classList.remove('hidden');
                 } else {
-                    item.tab.classList.remove('border-b-2', 'font-bold');
-                    item.tab.classList.add('border-transparent', 'font-medium');
-                    item.tab.style.color = 'var(--text-tertiary)';
-                    item.tab.style.borderColor = 'transparent';
+                    if (item.tab) {
+                        item.tab.classList.remove('border-b-2', 'font-bold');
+                        item.tab.classList.add('border-transparent', 'font-medium');
+                        item.tab.style.color = 'var(--text-tertiary)';
+                        item.tab.style.borderColor = 'transparent';
+                    }
                     item.panel.classList.add('hidden');
                 }
             });
@@ -2642,31 +2644,6 @@
         }
         if (tabProfileDevices) {
             tabProfileDevices.addEventListener('click', () => switchProfileModalTab('devices'));
-        }
-        if (tabProfilePassword) {
-            tabProfilePassword.addEventListener('click', () => switchProfileModalTab('password'));
-        }
-        if (tabProfileLogout) {
-            tabProfileLogout.addEventListener('click', () => {
-                if (confirm('Are you sure you want to log out?')) {
-                    // Trigger logout
-                    const dropdownLogout = document.getElementById('dropdown-logout');
-                    if (dropdownLogout) {
-                        dropdownLogout.click();
-                    } else {
-                        // Direct logout fallback
-                        localStorage.removeItem('prosync_session');
-                        localStorage.removeItem('prosync_name');
-                        localStorage.removeItem('prosync_account_type');
-                        localStorage.removeItem('prosync_company_name');
-                        localStorage.removeItem('prosync_company_address');
-                        localStorage.removeItem('prosync_company_code');
-                        updateNavbarSessionState();
-                        location.reload();
-                    }
-                    if (profileModal) profileModal.classList.add('hidden');
-                }
-            });
         }
 
         async function fetchProfileDataDirectly(email) {
@@ -3117,6 +3094,12 @@
             dropdownDevices.addEventListener('click', (e) => {
                 e.preventDefault();
                 openProfileModal('devices');
+            });
+        }
+        if (dropdownPassword) {
+            dropdownPassword.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal('password');
             });
         }
         if (btnCloseProfile) {
