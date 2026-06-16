@@ -1663,9 +1663,9 @@
 
     <!-- ═══════════════════ ONBOARDING MODAL ═══════════════════ -->
     <div id="onboarding-modal" class="fixed inset-0 z-[110] flex items-center justify-center modal-overlay hidden">
-        <div class="w-full max-w-[510px] mx-4 rounded-2xl relative flex flex-col max-h-[92vh]" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
+        <div class="w-full max-w-[510px] mx-4 rounded-2xl relative flex flex-col max-h-[92vh] overflow-hidden" style="background:var(--bg-card);border:1px solid var(--border-primary);box-shadow:0 24px 64px rgba(0,0,0,0.30);">
             <!-- Scrollable content area -->
-            <div class="overflow-y-auto flex-1 p-5 pb-6 flex flex-col gap-3.5">
+            <div class="overflow-y-auto flex-1 p-5 pb-6 flex flex-col gap-3.5 min-h-0">
                 <div class="text-center">
                     <div class="font-display text-[14px] font-bold text-teal-400 uppercase tracking-wider mb-1">Onboarding</div>
                     <h2 class="text-[22px] font-bold" style="color:var(--text-primary);">Complete Your Profile</h2>
@@ -1728,7 +1728,7 @@
                     </div>
                 </div>
 
-                <button id="btn-onboarding-submit" class="btn-primary w-full !rounded-xl !py-2.5 !text-[15px] mt-1 mb-1">Complete Registration</button>
+                <button id="btn-onboarding-submit" class="btn-primary w-full !rounded-xl !py-3 !text-[15px] mt-1 mb-1">Complete Registration</button>
             </div>
         </div>
     </div>
