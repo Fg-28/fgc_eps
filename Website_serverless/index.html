@@ -2242,67 +2242,67 @@
 
             const email = emailInput.value.trim();
             const password = passwordInput.value;
-            const name = currentAuthMode === 'signup' ? 'User' : '';
 
             if (!email) { showMessage('Please enter your email.'); return; }
+            if (!password) { showMessage('Please enter your password.'); return; }
 
             btnSubmit.disabled = true;
-            btnSubmit.textContent = 'Processing...';
+            btnSubmit.textContent = 'Please wait...';
             loginMessage.classList.add('hidden');
 
             try {
-                if (currentAuthMode === 'signin') {
-                    // Try login first
-                    const response = await fetch(`${API_BASE}/api/auth/login`, {
+                // ── Step 1: Always try login first ──
+                const loginResp = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const loginResult = await loginResp.json();
+
+                if (loginResp.ok) {
+                    // ✅ Existing user — logged in successfully
+                    showMessage('Welcome back! Redirecting...', 'success');
+                    localStorage.setItem('prosync_session', email);
+                    if (loginResult.name) localStorage.setItem('prosync_name', loginResult.name);
+                    updateNavbarSessionState();
+                    await checkAndTriggerOnboarding(email);
+                    const onboardingOpen = !document.getElementById('onboarding-modal').classList.contains('hidden');
+                    if (!onboardingOpen) setTimeout(() => { window.location.hash = '#home'; }, 1500);
+
+                } else if (loginResp.status === 404 || (loginResult.error && loginResult.error.toLowerCase().includes('user not found'))) {
+                    // 🆕 New user — auto-register in this same click (no second click needed)
+                    showMessage('Creating your account...', 'success');
+                    const regResp = await fetch(`${API_BASE}/api/auth/register`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
+                        body: JSON.stringify({ email, password, name: 'User' })
                     });
-                    const result = await response.json();
-                    if (response.ok) {
-                        showMessage('Login successful! Redirecting...', 'success');
-                        localStorage.setItem('prosync_session', email);
-                        if (result.name) localStorage.setItem('prosync_name', result.name);
-                        updateNavbarSessionState();
-                        // Check if onboarding was skipped — will auto-open modal if incomplete
-                        await checkAndTriggerOnboarding(email);
-                        const onboardingOpen = !document.getElementById('onboarding-modal').classList.contains('hidden');
-                        if (!onboardingOpen) setTimeout(() => { window.location.hash = '#home'; }, 1500);
-                    } else if (response.status === 404 || (result.error && result.error.toLowerCase().includes('user not found'))) {
-                        // ✨ New user detected — seamlessly switch to registration mode
-                        setSignUpMode();
-                        showMessage('No account found for this email. Fill in your details to register!', 'error');
-                    } else {
-                        showMessage(result.error || 'Login failed. Please check your credentials.');
-                    }
-                } else {
-                    // Register new user
-                    const response = await fetch(`${API_BASE}/api/auth/register`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password, name })
-                    });
-                    const result = await response.json();
-                    if (response.ok && result.otp_required) {
+                    const regResult = await regResp.json();
+
+                    if (regResp.ok && regResult.otp_required) {
+                        currentAuthMode = 'signup';
                         credentialsGroup.classList.add('hidden');
                         otpGroup.classList.remove('hidden');
                         isOtpState = true;
-                        showMessage(result.message || 'Verification OTP code sent to email.', 'success');
+                        loginTitle.textContent = 'Verify Your Email';
+                        loginSubtitle.textContent = 'Enter the 6-digit code sent to your inbox.';
+                        showMessage(regResult.message || 'OTP sent! Check your inbox (and spam folder).', 'success');
                         startResendCountdown(60);
-                    } else if (response.status === 409 || (result.error && result.error.toLowerCase().includes('already'))) {
-                        // Account already exists — switch to sign-in mode
-                        setSignInMode();
-                        showMessage('Account already exists. Please enter your password to sign in.', 'error');
                     } else {
-                        showMessage(result.error || 'Sign up failed. Try again.');
+                        showMessage(regResult.error || 'Could not create account. Try again.');
                     }
+
+                } else {
+                    // ❌ Wrong password or other error
+                    showMessage(loginResult.error || 'Incorrect password. Please try again.');
                 }
+
             } catch (err) {
-                showMessage('Network error. Check connection or backend server.');
+                showMessage('Network error. Check your connection.');
                 console.error(err);
             } finally {
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = currentAuthMode === 'signin' ? 'Sign In' : 'Create Account & Continue';
+                btnSubmit.textContent = 'Get Started';
             }
         });
 
