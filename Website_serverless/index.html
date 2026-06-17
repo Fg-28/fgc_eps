@@ -1606,7 +1606,7 @@
                     <button id="tab-signup" type="button"></button>
                 </div>
 
-                <form id="login-form" class="flex flex-col gap-4">
+                <form id="login-form" class="flex flex-col gap-4" novalidate>
                     <!-- Message Banner -->
                     <div id="login-message" class="hidden text-[13px] p-3 rounded-lg text-center font-medium"></div>
 
@@ -1831,6 +1831,7 @@
                     </div>
 
                     <form id="profile-change-password-form" class="flex flex-col gap-4">
+                        <div id="change-pw-message" class="hidden text-[13px] p-3 rounded-lg text-center font-medium"></div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="flex flex-col gap-1.5">
                                 <label class="text-[13px] font-semibold" style="color:var(--text-secondary);">Current Password</label>
@@ -2343,7 +2344,11 @@
             const email = emailInput.value.trim();
             const password = passwordInput.value;
 
-            if (!email) { showMessage('Please enter your email.'); return; }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                showMessage('Please enter a valid email ID.');
+                return;
+            }
             if (!password) { showMessage('Please enter your password.'); return; }
 
             btnSubmit.disabled = true;
@@ -3003,18 +3008,43 @@
             }
         }
 
-        // Password criteria validator
+        // Password criteria validator (returns all failing criteria together)
         function validatePassword(password) {
+            const errors = [];
             if (password.length < 6) {
-                return 'Password must be at least 6 characters long.';
+                errors.push('be at least 6 characters long');
             }
             if (!/[a-zA-Z]/.test(password)) {
-                return 'Password must contain at least one letter.';
+                errors.push('contain at least one letter');
             }
             if (!/\d/.test(password)) {
-                return 'Password must contain at least one digit.';
+                errors.push('contain at least one digit');
+            }
+            if (errors.length > 0) {
+                if (errors.length === 1) {
+                    return 'Password must ' + errors[0] + '.';
+                } else if (errors.length === 2) {
+                    return 'Password must ' + errors[0] + ' and ' + errors[1] + '.';
+                } else {
+                    return 'Password must ' + errors.slice(0, -1).join(', ') + ', and ' + errors[errors.length - 1] + '.';
+                }
             }
             return null;
+        }
+
+        // Helper to show error messages in the change password panel
+        let changePwMsgTimer = null;
+        function showChangePwMessage(text, type = 'error') {
+            const banner = document.getElementById('change-pw-message');
+            if (!banner) return;
+            banner.classList.remove('hidden', 'msg-error', 'msg-success');
+            banner.classList.add(type === 'error' ? 'msg-error' : 'msg-success');
+            banner.textContent = text;
+            if (changePwMsgTimer) clearTimeout(changePwMsgTimer);
+            changePwMsgTimer = setTimeout(() => {
+                banner.classList.add('hidden');
+                changePwMsgTimer = null;
+            }, 6000);
         }
 
         // Change Password Form listener
@@ -3028,15 +3058,17 @@
                     const confirmPassword = document.getElementById('change-pw-confirm').value;
                     const email = localStorage.getItem('prosync_session') || '';
                     const btn = document.getElementById('btn-change-password');
+                    const banner = document.getElementById('change-pw-message');
+                    if (banner) banner.classList.add('hidden');
 
                     if (newPassword !== confirmPassword) {
-                        alert('New passwords do not match!');
+                        showChangePwMessage('New passwords do not match!');
                         return;
                     }
 
                     const pwError = validatePassword(newPassword);
                     if (pwError) {
-                        alert(pwError);
+                        showChangePwMessage(pwError);
                         return;
                     }
 
@@ -3051,14 +3083,14 @@
                         });
                         const result = await response.json();
                         if (response.ok && result.success) {
-                            showToast('Password updated successfully!');
+                            showChangePwMessage('Password updated successfully!', 'success');
                             changePwForm.reset();
                         } else {
-                            alert(result.error || 'Failed to update password.');
+                            showChangePwMessage(result.error || 'Failed to update password.');
                         }
                     } catch (err) {
                         console.error('Error changing password:', err);
-                        alert('Network error updating password.');
+                        showChangePwMessage('Network error updating password.');
                     } finally {
                         btn.disabled = false;
                         btn.textContent = 'Update Password';
