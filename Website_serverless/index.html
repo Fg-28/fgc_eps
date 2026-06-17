@@ -2336,20 +2336,36 @@
         checkAutoLogin();
         updatePricing();
 
+        // Clear custom validation errors
+        if (emailInput) {
+            emailInput.addEventListener('input', () => emailInput.setCustomValidity(''));
+        }
+        if (passwordInput) {
+            passwordInput.addEventListener('input', () => passwordInput.setCustomValidity(''));
+        }
+
         // Login form submit
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (isOtpState) return;
+
+            emailInput.setCustomValidity('');
+            passwordInput.setCustomValidity('');
 
             const email = emailInput.value.trim();
             const password = passwordInput.value;
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email || !emailRegex.test(email)) {
-                showMessage('Please enter a valid email ID.');
+                emailInput.setCustomValidity('Please enter a valid email ID.');
+                emailInput.reportValidity();
                 return;
             }
-            if (!password) { showMessage('Please enter your password.'); return; }
+            if (!password) {
+                passwordInput.setCustomValidity('Please enter your password.');
+                passwordInput.reportValidity();
+                return;
+            }
 
             btnSubmit.disabled = true;
             btnSubmit.textContent = 'Please wait...';
@@ -2378,7 +2394,8 @@
                     // Validate new password before registration
                     const pwError = validatePassword(password);
                     if (pwError) {
-                        showMessage(pwError + ' (Required for new accounts)');
+                        passwordInput.setCustomValidity(pwError + ' (Required for new accounts)');
+                        passwordInput.reportValidity();
                         btnSubmit.disabled = false;
                         btnSubmit.textContent = 'Get Started';
                         return;
@@ -3051,24 +3068,45 @@
         document.addEventListener('DOMContentLoaded', () => {
             const changePwForm = document.getElementById('profile-change-password-form');
             if (changePwForm) {
+                const currentPwEl = document.getElementById('change-pw-current');
+                const newPwEl = document.getElementById('change-pw-new');
+                const confirmPwEl = document.getElementById('change-pw-confirm');
+
+                if (newPwEl) {
+                    newPwEl.addEventListener('input', () => newPwEl.setCustomValidity(''));
+                }
+                if (confirmPwEl) {
+                    confirmPwEl.addEventListener('input', () => confirmPwEl.setCustomValidity(''));
+                }
+
                 changePwForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const currentPassword = document.getElementById('change-pw-current').value;
-                    const newPassword = document.getElementById('change-pw-new').value;
-                    const confirmPassword = document.getElementById('change-pw-confirm').value;
+                    
+                    if (newPwEl) newPwEl.setCustomValidity('');
+                    if (confirmPwEl) confirmPwEl.setCustomValidity('');
+
+                    const currentPassword = currentPwEl.value;
+                    const newPassword = newPwEl.value;
+                    const confirmPassword = confirmPwEl.value;
                     const email = localStorage.getItem('prosync_session') || '';
                     const btn = document.getElementById('btn-change-password');
                     const banner = document.getElementById('change-pw-message');
                     if (banner) banner.classList.add('hidden');
 
                     if (newPassword !== confirmPassword) {
-                        showChangePwMessage('New passwords do not match!');
+                        if (confirmPwEl) {
+                            confirmPwEl.setCustomValidity('New passwords do not match!');
+                            confirmPwEl.reportValidity();
+                        }
                         return;
                     }
 
                     const pwError = validatePassword(newPassword);
                     if (pwError) {
-                        showChangePwMessage(pwError);
+                        if (newPwEl) {
+                            newPwEl.setCustomValidity(pwError);
+                            newPwEl.reportValidity();
+                        }
                         return;
                     }
 
