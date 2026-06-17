@@ -286,8 +286,21 @@ def auth_verify_otp():
             if str(pending["otp_code"]).strip() != str(otp_code).strip():
                 return jsonify({"success": False, "error": "Invalid OTP code"}), 401
 
-            # Verification successful -> Return success and the password hash so the client can save it after onboarding/consent
+            # Verification successful -> save to web_users immediately
             password_hash = pending["password"]
+            name = pending.get("name", "User")
+
+            try:
+                supabase.table("web_users").insert({
+                    "email": email,
+                    "password": password_hash,
+                    "name": name,
+                    "type": None,
+                    "consent_at": None
+                }).execute()
+            except Exception as insert_err:
+                print("Failed to auto-insert verified user:", insert_err, flush=True)
+                return jsonify({"success": False, "error": "Failed to create user profile in database"}), 500
 
             # Clean up memory
             del temp_signups[email]
