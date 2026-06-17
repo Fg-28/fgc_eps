@@ -2282,14 +2282,13 @@
         }
 
         // ── Incomplete onboarding detection ──
-        // Checks Supabase profile: if name='User' or company fields empty (for company accounts),
-        // it means onboarding was never finished → re-open the onboarding modal.
+        // Checks Supabase profile: if consent_at or type is missing, onboarding is incomplete.
         async function checkAndTriggerOnboarding(email) {
             if (!supabaseClient || !email) return;
             try {
                 const { data } = await supabaseClient
                     .from('web_users')
-                    .select('name, type, company_name, company_address')
+                    .select('name, type, company_name, company_address, consent_at')
                     .eq('email', email)
                     .maybeSingle();
 
@@ -2303,10 +2302,10 @@
                 }
 
                 // Detect incomplete profile:
-                // name is still the default 'User' placeholder or user record is missing = onboarding was never finished
-                const nameIncomplete = !data || !data.name || data.name.trim() === '' || data.name.trim().toLowerCase() === 'user';
+                // onboarding is incomplete if there's no data, or if consent_at or account type is missing
+                const onboardingIncomplete = !data || !data.consent_at || !data.type;
 
-                if (nameIncomplete) {
+                if (onboardingIncomplete) {
                     // Re-open the onboarding modal so user can complete their profile
                     const onboardingModalEl = document.getElementById('onboarding-modal');
                     const onboardingErrorEl = document.getElementById('onboarding-error');
@@ -2461,9 +2460,6 @@
                     if (currentAuthMode === 'signup') {
                         // Close credentials modal
                         if (loginModal) loginModal.classList.add('hidden');
-
-                        // Temporarily buffer the hashed password for insertion on onboarding submit
-                        tempPasswordHash = result.password_hash || '';
                         
                         // Open onboarding modal
                         const onboardingModalEl = document.getElementById('onboarding-modal');
@@ -3659,16 +3655,15 @@
                         // Save to web_users only (no company_teams table)
                         const { error: userInsertErr } = await supabaseClient
                             .from('web_users')
-                            .upsert({
-                                email: email,
-                                password: tempPasswordHash,
+                            .update({
                                 name: userNameVal,
                                 type: onboardingMode,
                                 company_name: onboardingMode === 'company' ? companyNameVal : null,
                                 company_address: onboardingMode === 'company' ? companyAddressVal : null,
                                 company_code: generatedCode,
                                 consent_at: consentTimestamp
-                            }, { onConflict: 'email' });
+                            })
+                            .eq('email', email);
 
                         if (userInsertErr) throw userInsertErr;
 
