@@ -201,12 +201,20 @@ def auth_login():
 
 
 def validate_password_strength(password):
+    errors = []
     if len(password) < 6:
-        return "Password must be at least 6 characters long."
+        errors.append("be at least 6 characters long")
     if not any(c.isalpha() for c in password):
-        return "Password must contain at least one letter."
+        errors.append("contain at least one letter")
     if not any(c.isdigit() for c in password):
-        return "Password must contain at least one digit."
+        errors.append("contain at least one digit")
+    if errors:
+        if len(errors) == 1:
+            return "Password must " + errors[0] + "."
+        elif len(errors) == 2:
+            return "Password must " + errors[0] + " and " + errors[1] + "."
+        else:
+            return "Password must " + ", ".join(errors[:-1]) + ", and " + errors[-1] + "."
     return None
 
 # 2. Register Endpoint (For new users)
